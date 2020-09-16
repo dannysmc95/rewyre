@@ -1,9 +1,7 @@
 import * as packageJson from '../../package.json';
 import * as express from 'express';
-import * as expressWs from 'express-ws';
 import * as cookieParser from 'cookie-parser';
 import * as bodyParser from 'body-parser';
-import * as ws from 'ws';
 import { MongoClient, MongoError } from 'mongodb';
 
 import { IOptions } from '../interface/options';
@@ -72,12 +70,14 @@ export class Server {
 		// We need to process the models.
 		await this.processModels();
 
+		// Initialise WebSocket server.
+		this.wsserver = new WSServer(this.options, this.server, this.userModel);
+
 		// Then we need to process controllers.
 		await this.processControllers();
 
-		// Then we need to process the websocket.
-		this.wsserver = new WSServer(this.options, this.server, this.controllerRefs, this.userModel);
-		await this.wsserver.prepare();
+		// Then we need to prepare the websocket.
+		await this.wsserver.prepare(this.controllerRefs);
 
 		// Once the server is listening.
 		this.server.listen(this.options.port, () => {
@@ -128,6 +128,9 @@ export class Server {
 			const prefix: string = Reflect.getMetadata('prefix', controller);
 			const routes: Array<IRoute> = Reflect.getMetadata('routes', controller);
 			const models: Array<any> = Reflect.getMetadata('models', controller);
+
+			// Assign HTTP and WS server to it.
+			instance.setup(this.wsserver);
 
 			// Now instantiate all required models.
 			for (const index in models) {

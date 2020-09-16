@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import * as ws from 'ws';
 
 export interface IContext {
 	httpVersion: string,
@@ -23,5 +24,6 @@ interface IKVArray {
 
 interface IContextRaw {
 	request: Request,
-	response: Response,
+	response?: Response,
+	socket?: ws,
 }
