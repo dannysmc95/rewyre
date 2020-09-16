@@ -1,6 +1,6 @@
 {
   "name": "rewyre",
-  "version": "0.2.9",
+  "version": "0.2.10",
   "description": "A fast and flexible wiring tool for developing RESTful APIs and more, using TypeScript decorators.",
   "main": "lib/index.js",
   "publishConfig": {
@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/rewyre-team/core.git"
+    "url": "git+ssh://git@github.com/dannysmc95/rewyre.git"
   },
   "keywords": [
     "rewyre",
@@ -30,9 +30,9 @@
   "author": "Danny SMc <danny.smc95@gmail.com> (https://dannysmc.com/)",
   "license": "CC-BY-ND-4.0",
   "bugs": {
-    "url": "https://github.com/rewyre-team/core/issues"
+    "url": "https://github.com/dannysmc95/rewyre/issues"
   },
-  "homepage": "https://github.com/rewyre-team/core#readme",
+  "homepage": "https://github.com/dannysmc95/rewyre#readme",
   "dependencies": {
     "body-parser": "^1.19.0",
     "colors": "^1.4.0",

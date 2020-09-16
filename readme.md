@@ -62,7 +62,7 @@ Below lists features that will be implemented in time.
 
 Visit here for a full example you can download.
 
-[https://github.com/rewyre-team/core](https://github.com/rewyre-team/core)
+[https://github.com/dannysmc95/rewyre](https://github.com/dannysmc95/rewyre)
 
 ---
 
