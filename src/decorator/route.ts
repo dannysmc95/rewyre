@@ -1,4 +1,4 @@
-export function Route(method: string, path: string, allowWebsocket = false): any {
+export function Route(method: string, path: string, allow_websocket = false): any {
 	return (target: any, propertyKey: string): void => {
 
 		// Read the route meta data.
@@ -14,7 +14,7 @@ export function Route(method: string, path: string, allowWebsocket = false): any
 			requestMethod: method.toLowerCase(),
 			path: path,
 			methodName: propertyKey,
-			websocketAllowed: allowWebsocket,
+			allow_websocket: allow_websocket,
 		});
 
 		// Re-assign the route meta.

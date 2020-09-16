@@ -3,7 +3,7 @@ import { render as Render } from 'mustache';
 import { promises as fs } from 'fs';
 import { resolve as Resolve } from 'path';
 
-@Controller('/people')
+@Controller('/people', 'people')
 @InjectModel('people')
 export class PeopleController extends AbstractController {
 
@@ -18,7 +18,7 @@ export class PeopleController extends AbstractController {
 		});
 	}
 
-	@Route('GET', '/')
+	@Route('GET', '/', true)
 	public async list(): Promise<IReturn> {
 		const page_html: string = (await fs.readFile(Resolve(__dirname, '../view/people/list.html'))).toString();
 		const people: Array<any> = await this.models.people.find({});

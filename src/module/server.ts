@@ -22,7 +22,7 @@ export class Server {
 	protected database: any;
 	protected userModel: any = false;
 	protected wsserver?: WSServer;
-	protected controllerRefs: Array<AbstractController> = [];
+	protected wsControllers: any = {};
 
 	constructor(options: IOptions) {
 		this.server = express();
@@ -70,14 +70,15 @@ export class Server {
 		// We need to process the models.
 		await this.processModels();
 
-		// Initialise WebSocket server.
-		this.wsserver = new WSServer(this.options, this.server, this.userModel);
+		// Setup the websocket namespace and methods.
+		this.wsserver = new WSServer(this.options, this.server);
+		if (this.options.websocket) {
+			await this.processWebsocketRoutes();
+			this.wsserver.prepare(this.wsControllers);
+		}
 
 		// Then we need to process controllers.
 		await this.processControllers();
-
-		// Then we need to prepare the websocket.
-		await this.wsserver.prepare(this.controllerRefs);
 
 		// Once the server is listening.
 		this.server.listen(this.options.port, () => {
@@ -120,17 +121,18 @@ export class Server {
 		}
 	}
 
-	private async processControllers(): Promise<void> {
+	private async processWebsocketRoutes(): Promise<void> {
 		this.controllers.forEach((controller: any) => {
 
 			// Get the controller information and meta.
 			const instance: AbstractController = new controller();
-			const prefix: string = Reflect.getMetadata('prefix', controller);
+			const namespace: any = Reflect.getMetadata('namespace', controller);
+			const allowWS: boolean = Reflect.getMetadata('allow_websocket', controller) || false;
 			const routes: Array<IRoute> = Reflect.getMetadata('routes', controller);
 			const models: Array<any> = Reflect.getMetadata('models', controller);
 
-			// Assign HTTP and WS server to it.
-			instance.setup(this.wsserver);
+			// Check for WebSocket access.
+			if (!allowWS) return;
 
 			// Now instantiate all required models.
 			for (const index in models) {
@@ -147,8 +149,49 @@ export class Server {
 				}
 			}
 
-			// Add the setup controller to a reference list.
-			this.controllerRefs.push(instance);
+			// Define which methods are allowed.
+			const methods: Array<string> = [];
+			for (const index in routes) {
+				if (routes[index].allow_websocket) {
+					methods.push(routes[index].methodName);
+				}
+			}
+
+			// Create a WebSocket controller instance.
+			this.wsControllers[namespace] = {
+				instance: instance,
+				namespace: namespace,
+				methods: methods,
+			}
+		});
+	}
+
+	private async processControllers(): Promise<void> {
+		this.controllers.forEach((controller: any) => {
+
+			// Get the controller information and meta.
+			const instance: AbstractController = new controller();
+			const prefix: string = Reflect.getMetadata('prefix', controller);
+			const routes: Array<IRoute> = Reflect.getMetadata('routes', controller);
+			const models: Array<any> = Reflect.getMetadata('models', controller);
+
+			// Apply the websocket server.
+			instance.setup(this.wsserver);
+
+			// Now instantiate all required models.
+			for (const index in models) {
+				if (typeof this.availableModels[models[index]] !== 'undefined') {
+					instance.models[models[index]] = this.availableModels[models[index]];
+				}
+			}
+
+			// Now we need to verify that any core models are included by default (i.e. users).
+			if (this.userModel !== false) {
+				if (typeof instance.models[this.userModel.collection] === 'undefined') {
+					instance.models[this.userModel.collection] = this.userModel.instance;
+					instance.coreUserModel = this.userModel.collection;
+				}
+			}
 
 			// Loop the routes and setup the events.
 			routes.forEach((route: any) => {
@@ -185,7 +228,6 @@ export class Server {
 
 						// Create the context object.
 						const context: IContext = {
-							httpVersion: request.httpVersion,
 							headers: headers,
 							requestedUrl: request.url,
 							httpMethod: request.method,
@@ -196,6 +238,7 @@ export class Server {
 							body: request.body,
 							auth_token: auth_token,
 							isWebSocket: false,
+							socket: request.socket,
 							session: {
 								logged_in: false,
 								role: false,

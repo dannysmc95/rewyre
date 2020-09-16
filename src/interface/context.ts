@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import * as ws from 'ws';
+import { IPacket } from './packet';
 
 export interface IContext {
-	httpVersion: string,
 	headers: Array<string>,
 	requestedUrl: string,
 	httpMethod: string,
@@ -11,6 +11,8 @@ export interface IContext {
 	query: IKVArray,
 	cookies: IKVArray,
 	body: any,
+	packet?: IPacket,
+	socket: any,
 	auth_token: string,
 	session: IKVArray,
 	raw: IContextRaw,
