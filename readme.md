@@ -10,6 +10,12 @@ _**NOTE**: Please note this framework is for my own learning and is heavily base
 
 ---
 
+## Availabe Boilerplates
+
+The `rewyre-vue` project has now been created to support rewyre as a backend platform with the Vue 3 frontend, [Visit it here](https://github.com/dannysmc95/rewyre-vue).
+
+---
+
 ## Installation
 
 To install, you can install from NPM with:
