@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v0.2.5](https://github.com/rewyre-team/core/compare/v0.2.4...v0.2.5) - 2020-09-10
+
+### Commits
+
+- Added current state of changes [`3d85782`](https://github.com/rewyre-team/core/commit/3d857820baa2503817666d9ce4fbe2c4de636fd0)
+- Added updates to readme [`238c4dc`](https://github.com/rewyre-team/core/commit/238c4dc13fc17b1dec3231915175b527a26722c7)
+- Updated Changelog [`cce93ac`](https://github.com/rewyre-team/core/commit/cce93ac2a0ff63291ac27c7f45671f66394109ca)
+- Added changes [`ab0341c`](https://github.com/rewyre-team/core/commit/ab0341ca795a975425f7c50c0627b83290016817)
+
 ## [v0.2.4](https://github.com/rewyre-team/core/compare/v0.2.3...v0.2.4) - 2020-07-26
 
 ### Commits
