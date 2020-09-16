@@ -1,0 +1,20 @@
+{
+	"compilerOptions": {
+		"target": "es5",
+		"module": "commonjs",
+		"outDir": "./lib",
+		"declaration": true,
+		"sourceMap": true,
+		"noImplicitAny": false,
+		"noImplicitThis": false,
+		"moduleResolution": "node",
+		"strict": true,
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true,
+		"removeComments": true,
+		"types": ["node"],
+		"typeRoots": [
+			"node_modules/@types"
+		],
+	}
+}
