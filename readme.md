@@ -38,8 +38,8 @@ Below lists features that are currently implemented.
 | Middleware | This relates to implementing a function for applying Express middleware functions. | `Beta` |
 | Controller Decorator | This decorator implements a prefixed path for all child methods. | `Beta` |
 | Route Decorator | Defines the HTTP method and the path (after the prefix) for that method. | `Beta` |
-| Inject Decorator | The inject method will allow you to inject provided classes, these can be helpers etc. | `Alpha (May Change)` |
-| Provide Decorator | The provide decorator will allow other methods to inject and resolve the provided class. | `Alpha (May Change)` |
+| Inject Decorator | The inject method will allow you to inject provided classes, these can be helpers etc. | `Removed` |
+| Provide Decorator | The provide decorator will allow other methods to inject and resolve the provided class. | `Removed` |
 | Model Decorator | The model decorator allows you to define a class as a model and use the built in ORM to map data. | `Beta` |
 | InjectModel Decorator | This decorator will allow you to inject one or many models into a controller. | `Beta` |
 

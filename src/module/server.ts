@@ -1,6 +1,9 @@
+import * as packageJson from '../../package.json';
 import * as express from 'express';
+import * as expressWs from 'express-ws';
 import * as cookieParser from 'cookie-parser';
 import * as bodyParser from 'body-parser';
+import * as ws from 'ws';
 import { MongoClient, MongoError } from 'mongodb';
 
 import { IOptions } from '../interface/options';
@@ -8,9 +11,11 @@ import { IReturn } from '../interface/return';
 import { IRoute } from '../interface/route';
 import { IContext } from '../interface/context';
 import { AbstractController } from '../abstract/controller';
+import { WSServer } from './ws-server';
 
 export class Server {
 
+	protected options: IOptions;
 	protected server: any;
 	protected controllers: Array<any> = [];
 	protected models: Array<any> = [];
@@ -18,18 +23,21 @@ export class Server {
 	protected client: any;
 	protected database: any;
 	protected userModel: any = false;
+	protected wsserver?: WSServer;
+	protected controllerRefs: Array<AbstractController> = [];
 
-	constructor(protected options: IOptions) {
+	constructor(options: IOptions) {
 		this.server = express();
 		this.server.use(cookieParser());
 		this.server.use(bodyParser.urlencoded({ extended: true }));
 		this.server.use(bodyParser.json());
+		this.options = this.mergeOptions(options);
 	}
 
 	public async init(): Promise<any> {
 
 		// Prepare and initialise database.
-		if (this.options.database && this.options.db_port && this.options.hostname) {
+		if (this.options.database) {
 			if (this.options.username && this.options.password) {
 				await this.setupDatabase(true);
 			} else {
@@ -67,9 +75,34 @@ export class Server {
 		// Then we need to process controllers.
 		await this.processControllers();
 
+		// Then we need to process the websocket.
+		this.wsserver = new WSServer(this.options, this.server, this.controllerRefs, this.userModel);
+		await this.wsserver.prepare();
+
+		// Once the server is listening.
 		this.server.listen(this.options.port, () => {
-			console.log('Rewyre Server, listening on port: ' + this.options.port);
+			console.log(`Rewyre Framework v${packageJson.version}, listening at http://${this.options.hostname}:${this.options.port}/.`);
+			if (this.options.websocket) console.log(`WebSocket server active, listening at ws://${this.options.hostname}:${this.options.port}${this.options.websocket_path}.`);
+			console.log(`There are ${this.controllers.length} controller(s), ${this.models.length} model(s) registered.`);
 		});
+	}
+
+	private mergeOptions(options: IOptions): IOptions {
+		const opts: IOptions = Object.assign({
+
+			// Framework Generic.
+			port: 3000,
+
+			// Database Specific.
+			db_port: 27017,
+			hostname: 'localhost',
+
+			// WebSocket Specific.
+			websocket: false,
+			websocket_path: '/ws',
+			websocket_access: 'full', // Full = Everything is available, Partial = Use controller method to define access for WS.
+		}, options);
+		return opts;
 	}
 
 	private async processModels(): Promise<void> {
@@ -110,6 +143,9 @@ export class Server {
 					instance.coreUserModel = this.userModel.collection;
 				}
 			}
+
+			// Add the setup controller to a reference list.
+			this.controllerRefs.push(instance);
 
 			// Loop the routes and setup the events.
 			routes.forEach((route: any) => {
@@ -156,6 +192,7 @@ export class Server {
 							cookies: cookies,
 							body: request.body,
 							auth_token: auth_token,
+							isWebSocket: false,
 							session: {
 								logged_in: false,
 								role: false,

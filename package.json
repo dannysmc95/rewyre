@@ -11,7 +11,7 @@
     "build:watch": "rm -rf lib/ && node_modules/.bin/tsc --watch",
     "lint": "node_modules/.bin/eslint . --ext .ts",
     "updateChangelog": "node_modules/.bin/auto-changelog --template keepachangelog --commit-limit false --hide-credit",
-    "test": "npm run lint",
+    "test": "node -r ts-node/register --max_old_space_size=2048 ./test/application.ts",
     "preprepareOnly": "npm run lint && npm run build"
   },
   "repository": {
@@ -34,18 +34,22 @@
   },
   "homepage": "https://github.com/dannysmc95/rewyre#readme",
   "dependencies": {
+    "@types/mustache": "^4.0.1",
     "body-parser": "^1.19.0",
     "colors": "^1.4.0",
     "cookie-parser": "^1.4.5",
     "express": "^4.17.1",
+    "express-ws": "^4.0.0",
     "moment-timezone": "^0.5.31",
     "mongodb": "^3.6.1",
+    "mustache": "^4.0.1",
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
     "@types/body-parser": "^1.19.0",
     "@types/cookie-parser": "^1.4.2",
     "@types/express": "^4.17.8",
+    "@types/express-ws": "^3.0.0",
     "@types/moment-timezone": "^0.5.30",
     "@types/mongodb": "^3.5.27",
     "@types/node": "^14.6.4",

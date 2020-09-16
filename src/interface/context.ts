@@ -13,6 +13,7 @@ export interface IContext {
 	auth_token: string,
 	session: IKVArray,
 	raw: IContextRaw,
+	isWebSocket: boolean,
 	setCookie: (name: string, value: string, maxAge?: number, httpOnly?: boolean, secure?: boolean) => boolean,
 }
 

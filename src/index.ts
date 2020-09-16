@@ -5,8 +5,6 @@ import { ObjectID as ModelRecordID } from 'mongodb';
 
 import { Controller } from './decorator/controller';
 import { Route } from './decorator/route';
-import { Provide } from './decorator/provide';
-import { Inject } from './decorator/inject';
 import { Model } from './decorator/model';
 import { InjectModel } from './decorator/inject-model';
 import { Authenticated } from './decorator/authenticated';
@@ -30,8 +28,6 @@ export {
 
 	// Decorators
 	Controller,
-	Provide,
-	Inject,
 	Route,
 	Model,
 	InjectModel,
