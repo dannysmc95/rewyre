@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v0.3.1](https://github.com/dannysmc95/rewyre/compare/v0.3.0...v0.3.1) - 2020-09-17
+
+### Commits
+
+- Added latest changelog update [`b16eb46`](https://github.com/dannysmc95/rewyre/commit/b16eb462d307114cdd6f2f6067e322c6283b14de)
+- Added patch to fix broken typings [`dceedd2`](https://github.com/dannysmc95/rewyre/commit/dceedd21ef2567ac6af9c8491d819c51bad83700)
+
 ## [v0.3.0](https://github.com/dannysmc95/rewyre/compare/v0.2.10...v0.3.0) - 2020-09-17
 
 ### Commits
