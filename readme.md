@@ -28,7 +28,7 @@ Depending on what you want to get out of it, you can look at the quick start gui
 
 The below table lists all included features, please note the status of each feature, during the course of developing this, the API may change many times, including breaking changes.
 
-* **HTTP SERVER** - We use express as the backbone HTTP server.
+* **HTTP Server** - We use express as the backbone HTTP server.
 * **WS Server** - We have opted to use `express-ws` for the WebSocket server.
 * **Middleware Support** - All standard middleware for express is supported normally, see docs.
 * **Static Assets** - You can still define static assets via express, see docs.
