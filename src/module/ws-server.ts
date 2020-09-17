@@ -7,7 +7,6 @@ import { IPacket } from '../interface/packet';
 import { IContext, IReturn } from '..';
 import { Packet } from '../helper/packet';
 import { Errors } from '../enum/errors';
-import { Method } from '../decorator/method';
 
 export class WSServer {
 

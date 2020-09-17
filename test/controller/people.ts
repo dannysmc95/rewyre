@@ -18,7 +18,7 @@ export class PeopleController extends AbstractController {
 		});
 	}
 
-	@Route('GET', '/', true)
+	@Route('GET', '/')
 	public async list(): Promise<IReturn> {
 		const page_html: string = (await fs.readFile(Resolve(__dirname, '../view/people/list.html'))).toString();
 		const people: Array<any> = await this.models.people.find({});
@@ -57,5 +57,11 @@ export class PeopleController extends AbstractController {
 		const page_html: string = (await fs.readFile(Resolve(__dirname, '../view/people/redirect.html'))).toString();
 		this.ws.broadcast('people/audit', {entry: 'API: Deletion from people collection.'});
 		return { status: 200, content: page_html };
+	}
+
+	@Route('GET', '/json', true)
+	public async list_json(): Promise<IReturn> {
+		const people: Array<any> = await this.models.people.find({});
+		return { status: 200, content: people };
 	}
 }
