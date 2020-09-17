@@ -12,6 +12,11 @@ import { IContext } from '../interface/context';
 import { AbstractController } from '../abstract/controller';
 import { WSServer } from './ws-server';
 
+/**
+ * The server is the main HTTP server class and is used to manage the
+ * whole HTTP server part of the framework, and contains various functionality
+ * to support this.
+ */
 export class Server {
 
 	protected options: IOptions;
@@ -35,11 +40,19 @@ export class Server {
 		this.readPackageJson();
 	}
 
+	/**
+	 * Reads the package JSON object so we can use
+	 * specific properties from the package.
+	 */
 	private readPackageJson(): void {
 		const package_path: string = resolve(__dirname, '../../package.json');
 		this.package = JSON.parse(readFileSync(package_path, 'utf-8'));
 	}
 
+	/**
+	 * Used to init any required code, this at the
+	 * moment initalises the database if enabled.
+	 */
 	public async init(): Promise<any> {
 
 		// Prepare and initialise database.
@@ -52,6 +65,12 @@ export class Server {
 		}
 	}
 
+	/**
+	 * Used to setup the database connection and return a
+	 * client context back to the server instance.
+	 * 
+	 * @param shouldAuth Whether to auth to the database.
+	 */
 	public async setupDatabase(shouldAuth = false): Promise<void> {
 		return new Promise((resolve: any, reject: any) => {
 			const context = this;
@@ -73,6 +92,11 @@ export class Server {
 		});
 	}
 
+	/**
+	 * Procedurally goes through the start processing
+	 * initialising the controllers, models, the WebSocket
+	 * server and sets the servers to listen.
+	 */
 	public async start(): Promise<void> {
 
 		// We need to process the models.
@@ -96,11 +120,17 @@ export class Server {
 		});
 	}
 
+	/**
+	 * Used to merge the default options with the user given options.
+	 * 
+	 * @param options The options passed to the server.
+	 */
 	private mergeOptions(options: IOptions): IOptions {
 		const opts: IOptions = Object.assign({
 
 			// Framework Generic.
 			port: 3000,
+			debug: false,
 
 			// Database Specific.
 			db_port: 27017,
@@ -114,6 +144,10 @@ export class Server {
 		return opts;
 	}
 
+	/**
+	 * Processes the models and creates instances of them ready
+	 * to be injected into controllers.
+	 */
 	private async processModels(): Promise<void> {
 		for (const index in this.models) {
 			const definition: any = Reflect.getMetadata('model', this.models[index]);
@@ -129,6 +163,11 @@ export class Server {
 		}
 	}
 
+	/**
+	 * Processes a series of routes specifically for WebSockets
+	 * and prepares them ready to be called upon from the WebSocket
+	 * server.
+	 */
 	private async processWebsocketRoutes(): Promise<void> {
 		this.controllers.forEach((controller: any) => {
 
@@ -174,6 +213,12 @@ export class Server {
 		});
 	}
 
+	/**
+	 * Processes all the controllers and prepares them ready
+	 * to be called from the HTTP server, this builds up the controller
+	 * instances and the required models, including injecting the WebSocket
+	 * server instance and generating all the given routes.
+	 */
 	private async processControllers(): Promise<void> {
 		this.controllers.forEach((controller: any) => {
 
@@ -280,26 +325,49 @@ export class Server {
 		});
 	}
 
+	/**
+	 * Used to register a static route through to express.
+	 * 
+	 * @param root The URL path.
+	 * @param path The path to the folder.
+	 */
 	public registerStatic(root: string, path: string): void {
 		this.server.use(root, express.static(path));
 	}
 
+	/**
+	 * Registers all user controllers to be instantiated and prepared.
+	 * 
+	 * @param controllers Array of controller classes (not instatiated).
+	 */
 	public registerControllers(controllers: Array<any>): void {
 		for (const index in controllers) {
 			this.controllers.push(controllers[index]);
 		}
 	}
 
+	/**
+	 * Registers all user models to be instantaited and prepared.
+	 */
 	public registerModels(models: Array<any>): void {
 		for (const index in models) {
 			this.models.push(models[index]);
 		}
 	}
 
+	/**
+	 * This function is a proxy to express.use, and should be a function specifically
+	 * for express middleware.
+	 * 
+	 * @param middleware The middleware function.
+	 */
 	public registerMiddleware(middleware: (request: express.Request, response: express.Response, next: express.NextFunction) => void): void {
 		this.server.use(middleware);
 	}
 
+	/**
+	 * Will return the underlying express server.
+	 */
 	public getExpressServer(): any {
 		return this.server;
 	}

@@ -1,3 +1,15 @@
+/**
+ * The Route decorator is used specifically to create routes to each method automatically,
+ * you would pass a method which is a HTTP method (the available methods for express): GET,
+ * POST, UPDATE, PATCH, DELETE, OPTIONS, PUT, etc. Then the path is the path you define to
+ * the method, this is appended after the controller prefix, and then whether to allow websocket
+ * access to the method. The websocket methods are called differently and ignore the method
+ * option and call it directly, and usually follows: <namespace>/<method_name>.
+ * 
+ * @param method The HTTP method as a string.
+ * @param path The path to that method, is appended after the controller prefix.
+ * @param allow_websocket Whether to allow websocket connections to the method, defaults to false.
+ */
 export function Route(method: string, path: string, allow_websocket = false): any {
 	return (target: any, propertyKey: string): void => {
 

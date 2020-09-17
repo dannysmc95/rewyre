@@ -1,3 +1,7 @@
+/**
+ * Errors contains a series of available error methods and their
+ * human description.
+ */
 export enum Errors {
 	METHOD_UNAVAILABLE = 'The requested method is not available.',
 	CONTROLLER_UNAVAILABLE = 'The requested controller is not found.',

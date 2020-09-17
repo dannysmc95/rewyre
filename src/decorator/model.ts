@@ -1,5 +1,20 @@
 import { IModelField } from '../interface/model-field';
 
+/**
+ * The Model decorator is used to define a class as a model, this injects a MongoDB collection
+ * instance based on the model name, the name is also used for the InjectModel decorator and
+ * used as a reference from inside a controller with the model available using the following:
+ * this.models.<model_name>. The fields definition is a simple object containing a key value
+ * object where the key is the name of the field, and the value is the standard JavaScript type.
+ * 
+ * As well you can make fields optional, by adding a question mark at the start of the value
+ * before the type is defined, example: name: '?string', which tells the validator that it is
+ * not a required field.
+ * 
+ * @param name The name of the model, used for injection.
+ * @param fields The fields definition.
+ * @param isUserModel [Optional] Whether is the core user model, you can only have one.
+ */
 export function Model(name: string, fields: IModelField, isUserModel?: boolean): any {
 	return (target: any): void => {
 		if (typeof isUserModel !== 'undefined' && isUserModel === true) {

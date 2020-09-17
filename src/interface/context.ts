@@ -2,6 +2,11 @@ import { Request, Response } from 'express';
 import * as ws from 'ws';
 import { IPacket } from './packet';
 
+/**
+ * The context interface is the definition of the data that gets
+ * given to each controller whether it being from the websocket
+ * or via the HTTP transport.
+ */
 export interface IContext {
 	headers: Array<string>,
 	requestedUrl: string,

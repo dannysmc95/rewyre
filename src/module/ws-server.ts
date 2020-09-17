@@ -8,6 +8,11 @@ import { IContext, IReturn } from '..';
 import { Packet } from '../helper/packet';
 import { Errors } from '../enum/errors';
 
+/**
+ * The underlying WebSocket server that is instantiated by the main
+ * server class, but manages the WebSocket controller routing from here,
+ * including various built in functionality.
+ */
 export class WSServer {
 
 	protected connections = {};
@@ -18,6 +23,12 @@ export class WSServer {
 		this.packet = new Packet();
 	}
 
+	/**
+	 * Prepares and passes the controllers to the instance, and then
+	 * calls the init function to set them up if websockets are enabled.
+	 * 
+	 * @param controllers The array of controllers.
+	 */
 	public async prepare(controllers: Array<any>): Promise<void> {
 		this.controllers = controllers;
 		if (this.options.websocket) {
@@ -25,23 +36,34 @@ export class WSServer {
 		}
 	}
 
-	public broadcast(packet: IPacket): boolean {
-		console.log(packet);
-		return true;
-	}
-
+	/**
+	 * Will return the number of active and connected connections.
+	 */
 	public getConnectionCount(): number {
 		return Object.keys(this.connections).length;
 	}
 
+	/**
+	 * Will return all available connections.
+	 */
 	public getConnections(): any {
 		return this.connections;
 	}
 
+	/**
+	 * The initialiser that sets up the underlying express server to support
+	 * WebSocket connections and also sets up the standard event listeners for
+	 * all stages of the WebSocket lifespan.
+	 */
 	private async init(): Promise<void> {
 
 		// Enable WebSocket support.
 		expressWs(this.server);
+
+		// Check for debugger support.
+		if (this.options.debug && this.options.debug === true) {
+			this.initDebugger();
+		}
 
 		// Define running class context.
 		const context = this;
@@ -69,6 +91,14 @@ export class WSServer {
 		});
 	}
 
+	/**
+	 * Used to build a context that can be given to the controllers, for them
+	 * to process and respond with.
+	 * 
+	 * @param socket The websocket instance.
+	 * @param request The express request.
+	 * @param packet The packet given.
+	 */
 	private buildContext(socket: ws, request: express.Request, packet: IPacket): IContext {
 
 		// Define headers
@@ -123,6 +153,12 @@ export class WSServer {
 		};
 	}
 
+	/**
+	 * On connection open.
+	 * 
+	 * @param socket The socket instance.
+	 * @param request The express request.
+	 */
 	private onOpen(socket: ws, request: express.Request): void {
 
 		// Add to the connections object.
@@ -138,6 +174,14 @@ export class WSServer {
 		console.log(`WSS: Information, connection count: ${this.getConnectionCount()}.`);
 	}
 
+	/**
+	 * On connection close.
+	 * 
+	 * @param socket The socket instance.
+	 * @param request The express request.
+	 * @param code The close code.
+	 * @param reason The reason for closure, can be empty.
+	 */
 	private async onClose(socket: ws, request: express.Request, code: number, reason: string): Promise<void> {
 		const uniqueId = String(request.headers['sec-websocket-key']);
 		delete this.connections[uniqueId];
@@ -145,6 +189,13 @@ export class WSServer {
 		console.log(`WSS: Information, connection count: ${this.getConnectionCount()}.`);
 	}
 
+	/**
+	 * On connection error.
+	 * 
+	 * @param socket The socket instance.
+	 * @param request The express request.
+	 * @param err The connection error.
+	 */
 	private async onError(socket: ws, request: express.Request, err: Error): Promise<void> {
 		const uniqueId = String(request.headers['sec-websocket-key']);
 		delete this.connections[uniqueId];
@@ -152,6 +203,13 @@ export class WSServer {
 		console.log(`WSS: Information, connection count: ${this.getConnectionCount()}.`);
 	}
 
+	/**
+	 * On connection message, send to handler.
+	 * 
+	 * @param socket The socket instance.
+	 * @param request The express request.
+	 * @param message The received message.
+	 */
 	private async onMessage(socket: ws, request: express.Request, message: string): Promise<void> {
 		try {
 			const packet: IPacket = this.packet.parse(message);
@@ -170,6 +228,15 @@ export class WSServer {
 		}
 	}
 
+	/**
+	 * Used to handle the request by routing and executing with error
+	 * catching methods and controls to make sure it's a smooth function call
+	 * with prevention of unintended consequences.
+	 * 
+	 * @param packet The received packet.
+	 * @param connection The socket connection.
+	 * @param context The context object.
+	 */
 	private async handleRequest(packet: IPacket, connection: any, context: IContext): Promise<void> {
 		try {
 
@@ -213,5 +280,14 @@ export class WSServer {
 				error: err.message,
 			}));
 		}
+	}
+
+	/**
+	 * [Not Developed]
+	 * Initialises the debugger instance, currently in development
+	 * and not in use.
+	 */
+	private async initDebugger(): Promise<void> {
+		
 	}
 }

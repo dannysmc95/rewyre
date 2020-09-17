@@ -1,6 +1,13 @@
 import { IContext } from '../interface/context';
 import { IReturn } from '../interface/return';
 
+/**
+ * The authentication decorator is used to authenticate connections against the core user model
+ * which should be created by yourself, the method can be left empty to verify just a logged in
+ * state or role/roles can be given to validate against specific roles.
+ * 
+ * @param roleItems [Optional] A single role, or an array of roles.
+ */
 export function Authenticated(roleItems?: Array<string> | string): any {
 	return (target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
 		const originalMethod = descriptor.value;
