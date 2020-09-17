@@ -3,6 +3,7 @@
 		"target": "es6",
 		"module": "commonjs",
 		"outDir": "./lib",
+		"rootDir": "./src",
 		"declaration": true,
 		"sourceMap": true,
 		"noImplicitAny": false,
@@ -14,8 +15,7 @@
 		"removeComments": true,
 		"resolveJsonModule": true,
 		"types": ["node"],
-		"typeRoots": [
-			"node_modules/@types"
-		],
-	}
+		"typeRoots": [ "node_modules/@types" ]
+	},
+	"exclude": [ "test" ],
 }

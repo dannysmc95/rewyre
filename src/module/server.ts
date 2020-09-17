@@ -1,8 +1,9 @@
-import * as packageJson from '../../package.json';
 import * as express from 'express';
 import * as cookieParser from 'cookie-parser';
 import * as bodyParser from 'body-parser';
 import { MongoClient, MongoError } from 'mongodb';
+import { resolve } from 'path';
+import { readFileSync } from 'fs';
 
 import { IOptions } from '../interface/options';
 import { IReturn } from '../interface/return';
@@ -23,6 +24,7 @@ export class Server {
 	protected userModel: any = false;
 	protected wsserver?: WSServer;
 	protected wsControllers: any = {};
+	protected package: any = {};
 
 	constructor(options: IOptions) {
 		this.server = express();
@@ -30,6 +32,12 @@ export class Server {
 		this.server.use(bodyParser.urlencoded({ extended: true }));
 		this.server.use(bodyParser.json());
 		this.options = this.mergeOptions(options);
+		this.readPackageJson();
+	}
+
+	private readPackageJson(): void {
+		const package_path: string = resolve(__dirname, '../../package.json');
+		this.package = JSON.parse(readFileSync(package_path, 'utf-8'));
 	}
 
 	public async init(): Promise<any> {
@@ -82,7 +90,7 @@ export class Server {
 
 		// Once the server is listening.
 		this.server.listen(this.options.port, () => {
-			console.log(`Rewyre Framework v${packageJson.version}, listening at http://${this.options.hostname}:${this.options.port}/.`);
+			console.log(`Rewyre Framework v${this.package.version}, listening at http://${this.options.hostname}:${this.options.port}/.`);
 			if (this.options.websocket) console.log(`WebSocket server active, listening at ws://${this.options.hostname}:${this.options.port}${this.options.websocket_path}.`);
 			console.log(`There are ${this.controllers.length} controller(s), ${this.models.length} model(s) registered.`);
 		});
