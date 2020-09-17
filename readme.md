@@ -46,4 +46,4 @@ There _is some_ functionality left to implement including:
 
 ## Future Plans
 
-The future for this library is short at the moment, but I plan to add lots of new features and more decorators to add additional support, originally the provide/inject methods existed on this project, but I have had to remove them because they caused to many issues, these may be re-added, but at the moment, I can't see a reason to use that instead of simply importing a helper.
+The future for this library is big, I have many plans to add lots of new features and more decorators to add additional support, originally the provide/inject methods existed on this project, but I have had to remove them because they caused to many issues, these may be re-added, but at the moment, I can't see a reason to use that instead of simply importing a helper.
