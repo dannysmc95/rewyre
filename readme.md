@@ -40,5 +40,5 @@ The below table lists all included features, please note the status of each feat
 
 There is some functionality left to implement including:
 
-* **Threaded Decorator** - To add support for controllers being run in a different thread, allowing you to create more intensive processes.
+* **Threaded Decorator** - To add support for controllers being run in a different thread, to long processes.
 * **Plugin Support** - There is a plan to add plugin support, but I am not sure what this will look like yet.
