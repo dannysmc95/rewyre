@@ -38,7 +38,12 @@ The below table lists all included features, please note the status of each feat
 * **InjectModel Decorator** - Used to add models to specific controllers, to limit what controllers can access.
 * **Authenticated Decorator** - Used to authenticate users either via just being logged in or by roles.
 
-There is some functionality left to implement including:
+There _is some_ functionality left to implement including:
 
 * **Threaded Decorator** - To add support for controllers being run in a different thread, to long processes.
+* **Service Decorator** - A service is a process that runs on a schedule and can be programmed to do anything.
 * **Plugin Support** - There is a plan to add plugin support, but I am not sure what this will look like yet.
+
+## Future Plans
+
+The future for this library is short at the moment, but I plan to add lots of new features and more decorators to add additional support, originally the provide/inject methods existed on this project, but I have had to remove them because they caused to many issues, these may be re-added, but at the moment, I can't see a reason to use that instead of simply importing a helper.
