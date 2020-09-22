@@ -31,6 +31,12 @@ export class Server {
 	protected wsControllers: any = {};
 	protected package: any = {};
 
+	/**
+	 * Create a new instance of the rewyre server, defining the
+	 * configuration you require for your application.
+	 * 
+	 * @param options Server configuration options.
+	 */
 	constructor(options: IOptions) {
 		this.server = express();
 		this.server.use(cookieParser());

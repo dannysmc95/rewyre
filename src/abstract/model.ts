@@ -12,6 +12,13 @@ import { IValidateResponse } from '../interface/validate-response';
  */
 export class AbstractModel {
 
+	/**
+	 * Expects the model definition and the collection object from MongoDB, where
+	 * all commands proxy to the collection object for managing model data.
+	 * 
+	 * @param definition The model definition.
+	 * @param collection The MongoDB collection object.
+	 */
 	constructor(public definition: IModelDefinition, public collection: Collection) {}
 
 	/**

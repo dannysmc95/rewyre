@@ -32,6 +32,9 @@ import { Errors } from './enum/errors';
 import { Server } from './module/server';
 import { WSServer } from './module/ws-server';
 
+/**
+ * The rewyre export, that exports all interfaces, classes, and more.
+ */
 export {
 
 	// External

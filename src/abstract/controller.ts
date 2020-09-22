@@ -14,6 +14,11 @@ export class AbstractController {
 	public coreUserModel = '';
 	public ws: WSHelper;
 
+	/**
+	 * Sets and creates all the available `this.ws` commands for
+	 * the user to work with, all of which is prepared and proxied
+	 * through to the WSServer module.
+	 */
 	constructor() {
 		this.ws = new WSHelper();
 	}

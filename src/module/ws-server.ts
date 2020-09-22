@@ -19,6 +19,13 @@ export class WSServer {
 	protected controllers?: Array<any> = [];
 	protected packet: Packet;
 
+	/**
+	 * Creates an instance of the WebSocket server that has access to
+	 * the express server instance.
+	 * 
+	 * @param options The server configuration options.
+	 * @param server The express server instance.
+	 */
 	constructor(protected options: IOptions, protected server: any) {
 		this.packet = new Packet();
 	}
