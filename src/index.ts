@@ -21,7 +21,6 @@ import { IOptions } from './interface/options';
 import { IPacket } from './interface/packet';
 import { IRecord } from './interface/record';
 import { IReturn } from './interface/return';
-import { IRoute } from './interface/route';
 
 import { Framework } from './module/framework';
 import { HTTPServer } from './module/http-server';
@@ -57,7 +56,6 @@ export {
 	IPacket,
 	IRecord,
 	IReturn,
-	IRoute,
 
 	// Module.
 	Framework,

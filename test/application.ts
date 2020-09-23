@@ -12,6 +12,4 @@ import { HomeController } from './controller/home';
 	// Start the server.
 	await application.start();
 
-	console.log(application);
-
 })();

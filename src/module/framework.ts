@@ -20,9 +20,9 @@ export class Framework {
 	protected options: IOptions;
 	protected helper: FrameworkHelper;
 	protected router: Router;
-	protected controllers: Array<AbstractController> = [];
-	protected models: Array<AbstractModel> = [];
-	protected services: Array<AbstractService> = [];
+	protected controllers: Array<any> = [];
+	protected models: Array<any> = [];
+	protected services: Array<any> = [];
 	protected http_server: HTTPServer;
 	protected ws_server: WSServer;
 
@@ -85,6 +85,39 @@ export class Framework {
 	 */
 	public async start(): Promise<void> {
 		console.log('Server is starting...');
+		this.process();
+	}
+
+	/**
+	 * This method will process the given controllers, models, services
+	 * and prepare them for use with the application, from here we will
+	 * create instances for the registered classes, then once we have done
+	 * that we shall then inject the required classes, once injection has
+	 * been completed, they are passed to the HTTP server and then the WS
+	 * server to be processed to have executors applied to them, from there
+	 * we shall start the HTTP and WS servers.
+	 */
+	protected process(): void {
+
+		// Initialise the model instances.
+		// To-do.
+
+		// Initialise the controller instances.
+		this.controllers.forEach((controller: any) => {
+			controller.instance = new controller.class();
+		});
+
+		// Now we need to check injections.
+		// To-do
+
+		// Process the controllers for HTTP.
+		this.http_server.process(this.controllers, this.models);
+
+		// Process the controllers for WS.
+		// To-do
+
+		// Now start the servers.
+		this.http_server.start();
 	}
 
 	/**
@@ -97,14 +130,18 @@ export class Framework {
 	protected registerController(class_item: AbstractController): void {
 		const controllerPrefix: string = Reflect.getMetadata('prefix', class_item);
 		const controllerNamespace: string = Reflect.getMetadata('namespace', class_item);
-		const controllerRoutes: Array<any> = Reflect.getMetadata('routes', class_item);
+		const controllerRoutes: any = Reflect.getMetadata('routes', class_item);
 		const controllerWSEnable: boolean = Reflect.getMetadata('websocket', class_item);
+		const controllerInjects: Array<any> = Reflect.getMetadata('injects', class_item);
+		const controllerThreaded: boolean = Reflect.getMetadata('threaded', class_item) || false;
 
 		this.controllers.push({
 			prefix: controllerPrefix,
 			namespace: controllerNamespace,
 			routes: controllerRoutes,
 			websocket: controllerWSEnable,
+			injects: controllerInjects,
+			threaded: controllerThreaded,
 			class: class_item,
 		});
 	}
@@ -119,7 +156,7 @@ export class Framework {
 	protected registerModel(class_item: AbstractModel): void {
 		const modelName: string = Reflect.getMetadata('name', class_item);
 		const modelFields: any = Reflect.getMetadata('fields', class_item);
-		const modelType: string = Reflect.getMetadata('type', class_item);
+		const modelType: 'general' | 'user' = Reflect.getMetadata('type', class_item);
 
 		this.models.push({
 			name: modelName,

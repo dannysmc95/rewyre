@@ -8,12 +8,12 @@
  * 
  * @param method The HTTP method as a string.
  * @param path The path to that method, is appended after the controller prefix.
- * @param allow_websocket Whether to allow websocket connections to the method, defaults to false.
+ * @param websocket Whether to allow websocket connections to the method, defaults to false.
  */
-export function Route(method: string, path: string, allow_websocket = false): any {
+export function Route(method: string, path: string, websocket = false): any {
 	return (target: any, propertyKey: string): void => {
 
-		// Read the route meta data.
+		// Check for empty routes, if they are undefined, define them.
 		if (!Reflect.hasMetadata('routes', target.constructor)) {
 			Reflect.defineMetadata('routes', [], target.constructor);
 		}
@@ -23,10 +23,10 @@ export function Route(method: string, path: string, allow_websocket = false): an
 
 		// Create a new route for this method.
 		routes.push({
+			methodName: propertyKey,
 			requestMethod: method.toLowerCase(),
 			path: path,
-			methodName: propertyKey,
-			allow_websocket: allow_websocket,
+			websocket: websocket,
 		});
 
 		// Re-assign the route meta.
