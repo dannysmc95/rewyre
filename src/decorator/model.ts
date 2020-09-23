@@ -1,5 +1,3 @@
-import { IModelField } from '../interface/model-field';
-
 /**
  * The Model decorator is used to define a class as a model, this injects a MongoDB collection
  * instance based on the model name, the name is also used for the InjectModel decorator and
@@ -15,7 +13,7 @@ import { IModelField } from '../interface/model-field';
  * @param fields The fields definition.
  * @param isUserModel [Optional] Whether is the core user model, you can only have one.
  */
-export function Model(name: string, fields: IModelField, isUserModel?: boolean): any {
+export function Model(name: string, fields: any, isUserModel?: boolean): any {
 	return (target: any): void => {
 		if (typeof isUserModel !== 'undefined' && isUserModel === true) {
 

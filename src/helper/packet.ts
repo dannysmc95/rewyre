@@ -6,7 +6,7 @@ import { IPacket } from '../interface/packet';
  * a standard structure for WebSocket packets to be send back and forth
  * across the WebSocket transport.
  */
-export class Packet {
+export class PacketHelper {
 
 	/**
 	 * This creates a new packet and automatically converts it to a string ready
