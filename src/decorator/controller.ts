@@ -6,25 +6,17 @@
  * allows you define a prefix for the command you will send over.
  * 
  * @param prefix The controller path prefix.
- * @param namespace [Optional] The namespace string for WebSocket.
+ * @param namespace The namespace string for the controller.
+ * @param websocket [Optional] Whether to allow WebSocket for this controller, only applicable when WebSocket is enabled.
  */
-export function Controller(prefix: string, namespace?: string): any {
+export function Controller(prefix: string, namespace: string, websocket = false): any {
 	return (target: any) => {
 
-		// Define the prefix for the controller.
+		// Define base class information.
+		Reflect.defineMetadata('class_type', 'controller', target);
 		Reflect.defineMetadata('prefix', prefix, target);
-
-		// Define the websocket namespace.
-		if (namespace) {
-			Reflect.defineMetadata('namespace', namespace, target);
-			Reflect.defineMetadata('allow_websocket', true, target);
-		} else {
-			Reflect.defineMetadata('allow_websocket', false, target);
-		}
-
-		// Check if routes object exists, if not, create an empty array.
-		if (!Reflect.hasMetadata('routes', target)) {
-			Reflect.defineMetadata('routes', [], target);
-		}
+		Reflect.defineMetadata('namespace', namespace, target);
+		Reflect.defineMetadata('websocket', websocket, target);
+		Reflect.defineMetadata('routes', [], target);
 	}
 }

@@ -36,9 +36,9 @@ export class Framework {
 	constructor(options?: IOptions) {
 		this.helper = new FrameworkHelper();
 		this.options = this.helper.mergeOptions(options);
-		this.router = new Router();
-		this.http_server = new HTTPServer();
-		this.ws_server = new WSServer();
+		this.http_server = new HTTPServer(this.options);
+		this.ws_server = new WSServer(this.options, this.http_server);
+		this.router = new Router(this.options, this.http_server, this.ws_server);
 	}
 
 	/**
@@ -63,7 +63,9 @@ export class Framework {
 	 * 
 	 * @param middleware The middleware function.
 	 */
-	public useMiddleware(middleware: (request: Request, response: Response, next: NextFunction) => void): void {}
+	public useMiddleware(middleware: (request: Request, response: Response, next: NextFunction) => void): void {
+		console.log('framework.useMiddleware', middleware);
+	}
 
 	/**
 	 * This method will create static routes and map them directly
@@ -72,14 +74,18 @@ export class Framework {
 	 * @param url_path The URL path to access the static folder.
 	 * @param folder_path The path to the folder you wish to be accessible.
 	 */
-	public useStatic(url_path: string, folder_path: string): void {}
+	public useStatic(url_path: string, folder_path: string): void {
+		console.log('framework.useStatic', url_path, folder_path);
+	}
 
 	/**
 	 * This will start the framework, including starting the HTTP
 	 * and WebSocket (if applicable) server and prepare the registered
 	 * classes, that being controllers, models, services, etc.
 	 */
-	public async start(): Promise<void> {}
+	public async start(): Promise<void> {
+		console.log('Server is starting...');
+	}
 
 	/**
 	 * Takes the uninstatiated controller class and prepares it for
@@ -91,13 +97,13 @@ export class Framework {
 	protected registerController(class_item: AbstractController): void {
 		const controllerPrefix: string = Reflect.getMetadata('prefix', class_item);
 		const controllerNamespace: string = Reflect.getMetadata('namespace', class_item);
-		const controllerMethods: Array<string> = Reflect.getMetadata('methods', class_item);
+		const controllerRoutes: Array<any> = Reflect.getMetadata('routes', class_item);
 		const controllerWSEnable: boolean = Reflect.getMetadata('websocket', class_item);
 
 		this.controllers.push({
 			prefix: controllerPrefix,
 			namespace: controllerNamespace,
-			methods: controllerMethods,
+			routes: controllerRoutes,
 			websocket: controllerWSEnable,
 			class: class_item,
 		});
