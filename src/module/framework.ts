@@ -5,6 +5,7 @@ import { ErrorMessages } from '../enum/error-messages';
 import { AbstractController } from '../abstract/controller';
 import { AbstractModel } from '../abstract/model';
 import { AbstractService } from '../abstract/service';
+import { AbstractProvider } from '../abstract/provider';
 import { Router } from './router';
 import { HTTPServer } from './http-server';
 import { WSServer } from './ws-server';
@@ -26,6 +27,7 @@ export class Framework {
 	protected controllers: Array<any> = [];
 	protected models: Array<any> = [];
 	protected services: Array<any> = [];
+	protected providers: Array<any> = [];
 	protected http_server: HTTPServer;
 	protected ws_server: WSServer;
 	protected database: Database;
@@ -92,17 +94,15 @@ export class Framework {
 	 */
 	public async start(): Promise<void> {
 
-		// Log starting message.
-		this.logger.notice(`FRAMEWORK`, `Application is launching...`);
-
 		// Process the registered classes.
 		await this.process();
 
 		// Now start the servers.
 		this.http_server.start();
 
-		// Log launched message.
-		this.logger.notice(`FRAMEWORK`, `Application is listening on port ${this.options.port}.`);
+		// Log launch message.
+		this.logger.notice('FRAMEWORK', `Application is listening and available at http://${this.options.hostname}:${this.options.port}/.`);
+		this.logger.notice('FRAMEWORK', `Registered ${this.controllers.length} controller(s), ${this.models.length} model(s), ${this.services.length} service(s), and ${this.providers.length} provider(s).`);
 	}
 
 	/**
@@ -125,6 +125,15 @@ export class Framework {
 			model.instance = new model.class(model.name, model.type, collection);
 		});
 
+		// Initialise the provider instances.
+		this.providers.forEach((provider: any) => {
+			if (provider.type === 'shared') {
+				provider.instance = new provider.class();
+			} else {
+				provider.instance = false;
+			}
+		});
+
 		// Initialise the controller instances.
 		this.controllers.forEach((controller: any) => {
 			controller.instance = new controller.class();
@@ -144,7 +153,14 @@ export class Framework {
 				if (model !== false) controller.instance[inject_name] = model.instance;
 
 				// Search for a provider.
-				// To-do
+				const provider: any = this.helper.findMatching(this.providers, inject_name);
+				if (provider !== false) {
+					if (provider.type === 'shared') {
+						controller.instance[inject_name] = provider.instance;
+					} else if (provider.type === 'single') {
+						controller.instance[inject_name] = new provider.class();
+					}
+				}
 			});
 		});
 
@@ -215,6 +231,17 @@ export class Framework {
 		this.services.push({
 			name: serviceName,
 			schedule: serviceSchedule,
+			class: class_item,
+		});
+	}
+
+	protected registerProvider(class_item: AbstractProvider): void {
+		const providerName: string = Reflect.getMetadata('name', class_item);
+		const providerType: 'single' | 'shared' = Reflect.getMetadata('type', class_item);
+
+		this.providers.push({
+			name: providerName,
+			type: providerType,
 			class: class_item,
 		});
 	}

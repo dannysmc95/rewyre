@@ -7,7 +7,7 @@
  * @param name The name of the provider.
  * @param type The type of initialisation.
  */
-export function Provide(name: string, type: 'single' | 'shared'): any {
+export function Provide(name: string, type: 'single' | 'shared' = 'shared'): any {
 	return (target: any) => {
 
 		// Define base class information.
