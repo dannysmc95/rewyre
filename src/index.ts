@@ -20,7 +20,7 @@ import { PacketHelper } from './helper/packet';
 import { ServerHelper } from './helper/server';
 
 import { IAny } from './interface/any';
-import { IContext } from './interface/context';
+import { IContext, IContextRaw } from './interface/context';
 import { IOptions } from './interface/options';
 import { IPacket } from './interface/packet';
 import { IRecord } from './interface/record';
@@ -35,6 +35,13 @@ import { Router } from './module/router';
 import { Threader } from './module/threader';
 import { WSServer } from './module/ws-server';
 
+/**
+ * The default entry into the rewyre library, everything is
+ * exported from this area, and ALL classes, interfaces, enums
+ * and more is exported so that you can even augment and extend
+ * the classes to add even more functionality or additionally
+ * build your own framework based on this.
+ */
 export {
 
 	// Abstract.
@@ -63,6 +70,7 @@ export {
 	// Interface.
 	IAny,
 	IContext,
+	IContextRaw,
 	IOptions,
 	IPacket,
 	IRecord,

@@ -235,6 +235,13 @@ export class Framework {
 		});
 	}
 
+	/**
+	 * Takes the uninstatiated provider class and prepares it for
+	 * the framework to instantiate it and register it and inject
+	 * it to the requiring controllers.
+	 * 
+	 * @param class_item The provider class.
+	 */
 	protected registerProvider(class_item: AbstractProvider): void {
 		const providerName: string = Reflect.getMetadata('name', class_item);
 		const providerType: 'single' | 'shared' = Reflect.getMetadata('type', class_item);

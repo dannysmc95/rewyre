@@ -3,6 +3,8 @@ import { IAny } from './any';
 /**
  * The packet inteface defines the structure for any
  * packets the platform uses.
+ * 
+ * @interface IPacket
  */
 export interface IPacket {
 	command: string;

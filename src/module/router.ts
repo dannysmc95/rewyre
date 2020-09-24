@@ -28,6 +28,18 @@ export class Router {
 		this.logger = new Logger();
 	}
 
+	/**
+	 * The dispatch method is the key part of executing the actual
+	 * methods from the classes, this takes events from both the WS
+	 * and HTTP server and places them in a single function, this way
+	 * the framework can also offer functionality for executing methods
+	 * in a different thread and also managing the response and where
+	 * and how to send that back to the client.
+	 * 
+	 * @param controller The controller definition.
+	 * @param route The route definition.
+	 * @param context The context from the HTTP/WS server.
+	 */
 	public async dispatch(controller: IAny, route: IAny, context: IContext): Promise<void> {
 		try {
 
@@ -39,7 +51,7 @@ export class Router {
 			// Execute the function.
 			let response!: IReturn;
 			if (controller.threaded === true) {
-				const thread: any = this.threader.getThread(controller);
+				const thread: any = await this.threader.getThread(controller);
 				response = await thread.execute(context);
 			} else {
 				response = await controller.instance[route.methodName](context);
