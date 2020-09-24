@@ -1,3 +1,5 @@
+import { IAny } from '../interface/any';
+
 /**
  * The Model decorator is used to define a class as a model, this injects a MongoDB collection
  * instance based on the model name, the name is also used for the Inject decorator and
@@ -13,12 +15,13 @@
  * @param type The type of model you are defining, options: general, user.
  * @param fields The fields is an object of key, values defining the model.
  */
-export function Model(name: string, type: string, fields: unknown): any {
+export function Model(name: string, type: string, fields: IAny): any {
 	return (target: any): void => {
 
 		// Define base class information.
 		Reflect.defineMetadata('class_type', 'model', target);
 		Reflect.defineMetadata('name', name, target);
+		Reflect.defineMetadata('type', type, target);
 		Reflect.defineMetadata('fields', fields, target);
 	}
 }

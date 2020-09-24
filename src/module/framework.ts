@@ -8,6 +8,9 @@ import { AbstractService } from '../abstract/service';
 import { Router } from './router';
 import { HTTPServer } from './http-server';
 import { WSServer } from './ws-server';
+import { Database } from './database';
+import { Collection } from 'mongodb';
+import { Logger } from './logger';
 
 /**
  * The framework is the core part of the rewyre package, the
@@ -25,6 +28,8 @@ export class Framework {
 	protected services: Array<any> = [];
 	protected http_server: HTTPServer;
 	protected ws_server: WSServer;
+	protected database: Database;
+	protected logger: Logger;
 
 	/**
 	 * Creates a new instance of the rewyre framework, with the
@@ -34,11 +39,13 @@ export class Framework {
 	 * @param options The framework options.
 	 */
 	constructor(options?: IOptions) {
+		this.logger = new Logger();
 		this.helper = new FrameworkHelper();
 		this.options = this.helper.mergeOptions(options);
-		this.http_server = new HTTPServer(this.options);
+		this.database = new Database(this.options);
+		this.router = new Router(this.options);
+		this.http_server = new HTTPServer(this.options, this.router);
 		this.ws_server = new WSServer(this.options, this.http_server);
-		this.router = new Router(this.options, this.http_server, this.ws_server);
 	}
 
 	/**
@@ -84,8 +91,18 @@ export class Framework {
 	 * classes, that being controllers, models, services, etc.
 	 */
 	public async start(): Promise<void> {
-		console.log('Server is starting...');
-		this.process();
+
+		// Log starting message.
+		this.logger.notice(`FRAMEWORK`, `Application is launching...`);
+
+		// Process the registered classes.
+		await this.process();
+
+		// Now start the servers.
+		this.http_server.start();
+
+		// Log launched message.
+		this.logger.notice(`FRAMEWORK`, `Application is listening on port ${this.options.port}.`);
 	}
 
 	/**
@@ -97,10 +114,16 @@ export class Framework {
 	 * server to be processed to have executors applied to them, from there
 	 * we shall start the HTTP and WS servers.
 	 */
-	protected process(): void {
+	protected async process(): Promise<void> {
+
+		// Initialise the database.
+		await this.database.initialise();
 
 		// Initialise the model instances.
-		// To-do.
+		this.models.forEach((model: any) => {
+			const collection: Collection = this.database.getCollection(model.name);
+			model.instance = new model.class(model.name, model.type, collection);
+		});
 
 		// Initialise the controller instances.
 		this.controllers.forEach((controller: any) => {
@@ -108,16 +131,28 @@ export class Framework {
 		});
 
 		// Now we need to check injections.
-		// To-do
+		this.controllers.forEach((controller: any) => {
+
+			// Proceed only if there are injections available.
+			if (controller.injects.length === 0) return;
+
+			// Let's look for any matching classes.
+			controller.injects.forEach((inject_name: string) => {
+
+				// Search for a model.
+				const model: any = this.helper.findMatching(this.models, inject_name);
+				if (model !== false) controller.instance[inject_name] = model.instance;
+
+				// Search for a provider.
+				// To-do
+			});
+		});
 
 		// Process the controllers for HTTP.
 		this.http_server.process(this.controllers, this.models);
 
 		// Process the controllers for WS.
 		// To-do
-
-		// Now start the servers.
-		this.http_server.start();
 	}
 
 	/**

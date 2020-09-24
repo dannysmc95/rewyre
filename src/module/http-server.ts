@@ -2,6 +2,10 @@ import { IOptions } from '../interface/options';
 import * as express from 'express';
 import * as cookieParser from 'cookie-parser';
 import * as bodyParser from 'body-parser';
+import { normalize } from 'path';
+import { ServerHelper } from '../helper/server';
+import { Router } from './router';
+import { IContext } from '../interface/context';
 
 /**
  * The HTTPServer is the wrapper around the express server,
@@ -10,6 +14,7 @@ import * as bodyParser from 'body-parser';
  */
 export class HTTPServer {
 
+	protected helper: ServerHelper;
 	protected server: express.Application;
 	protected controllers!: Array<any>;
 	protected models!: Array<any>;
@@ -20,7 +25,8 @@ export class HTTPServer {
 	 * 
 	 * @param options The framework options.
 	 */
-	constructor(protected options: IOptions) {
+	constructor(protected options: IOptions, protected router: Router) {
+		this.helper = new ServerHelper();
 		this.server = express();
 		this.setupDefaultMiddleware();
 	}
@@ -56,20 +62,34 @@ export class HTTPServer {
 
 	/**
 	 * Loops through the routes, and builds the desired route, specifically
-	 * for the 
+	 * for the HTTP server's context, it will then create a function that
+	 * will call the dispatch method of the router, which will actually do
+	 * the processing and error catching for that route.
 	 */
 	protected buildRoutes(): void {
 		this.controllers.forEach((controller: any) => {
 			controller.routes.forEach((route: any) => {
 
-				console.log(route);
-
 				// Create the express route.
-				this.server[route.requestMethod](controller.prefix + route.path, (request: express.Request, response: express.Response) => {
+				this.server[route.requestMethod](normalize(controller.prefix + route.path), (request: express.Request, response: express.Response) => {
 
-					console.log(route);
-					response.status(200).json({message: 'Hello'});
+					// Build a context.
+					const context: IContext = {
+						type: 'http',
+						ipAddress: request.socket.remoteAddress || '',
+						headers: this.helper.convertObject(request.headers),
+						cookies: this.helper.convertObject(request.cookies),
+						params: this.helper.convertObject(request.params),
+						query: this.helper.convertObject(request.query),
+						body: request.body,
+						getRaw: () => {return {
+							request: request,
+							response: response,
+						}},
+					};
 
+					// Pass to the dispatcher.
+					this.router.dispatch(controller, route, context);
 				});
 			});
 		});

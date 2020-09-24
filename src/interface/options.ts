@@ -16,6 +16,7 @@ export interface IOptions {
 	 * Database specific options.
 	 */
 	db_enable?: boolean;
+	db_database?: string;
 	db_authenticate?: boolean;
 	db_hostname?: string;
 	db_port?: number;

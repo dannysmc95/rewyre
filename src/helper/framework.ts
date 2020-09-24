@@ -23,6 +23,7 @@ export class FrameworkHelper {
 
 			// Database Specific.
 			db_enable: true,
+			db_database: 'rewyre',
 			db_port: 27017,
 			db_hostname: 'localhost',
 
@@ -45,5 +46,21 @@ export class FrameworkHelper {
 	 */
 	public capitalise(text: string): string {
 		return text.charAt(0).toUpperCase() + text.substring(1);
+	}
+
+	/**
+	 * This takes an array of objects, and will search against each object
+	 * to find the "name" property and check if it matches.
+	 * 
+	 * @param classItems The definitions to search.
+	 * @param className The definition to find.
+	 */
+	public findMatching(classItems: Array<any>, className: string): any {
+		for (const index in classItems) {
+			if (typeof classItems[index].name !== 'undefined' && classItems[index].name === className) {
+				return classItems[index];
+			}
+		}
+		return false;
 	}
 }
