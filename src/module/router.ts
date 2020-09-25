@@ -3,7 +3,6 @@ import { ErrorMessages } from '../enum/error-messages';
 import { IContext } from '../interface/context';
 import { IOptions } from '../interface/options';
 import { Logger } from './logger';
-import { Threader } from './threader';
 import { IAny } from '../interface/any';
 
 /**
@@ -14,7 +13,6 @@ import { IAny } from '../interface/any';
  */
 export class Router {
 
-	protected threader: Threader;
 	protected logger: Logger;
 
 	/**
@@ -24,7 +22,6 @@ export class Router {
 	 * @param options The framework options.
 	 */
 	constructor(protected options: IOptions) {
-		this.threader = new Threader();
 		this.logger = new Logger();
 	}
 
@@ -49,13 +46,7 @@ export class Router {
 			}
 
 			// Execute the function.
-			let response!: IReturn;
-			if (controller.threaded === true) {
-				const thread: any = await this.threader.getThread(controller);
-				response = await thread.execute(context);
-			} else {
-				response = await controller.instance[route.methodName](context);
-			}
+			const response: IReturn = await controller.instance[route.methodName](context);
 
 			// Check for response management.
 			if (context.type === 'http') {

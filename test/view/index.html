@@ -1,0 +1,200 @@
+<div id="todo-demo-mount" class="page-container page-index">
+	<div class="todo-header" v-if="view === 'list'">
+		<button class="btn btn-add" @click="changeView('create')">New Task</button>
+	</div>
+
+	<div class="todo-create" v-if="view === 'create'">
+		<input type="text" placeholder="Task name..." v-model="create.name" />
+		<textarea placeholder="Task description..." rows="10" v-model="create.description"></textarea>
+		<button class="btn btn-submit" @click="createTask">Submit</button>
+		<button class="btn btn-cancel pull-right" @click="changeView('list')">Cancel</button>
+	</div>
+
+	<div class="todo-tasks" v-if="view === 'list'">
+		<div class="task-item" v-for="task in tasks" :key="task._id">
+			<div class="task-item__left">
+				<p class="name" v-text="task.name"></p>
+				<p class="description" v-text="task.description"></p>
+				<p class="updated" v-text="`${toDate(task.updated)}`"></p>
+			</div>
+			<div class="task-item__right">
+				<button class="btn btn-complete" v-if="!task.completed">Complete</button>
+				<button class="btn btn-delete" @click="deleteTask(task._id)">Delete</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	window.vm = new Vue({
+		name: 'ToDoDemo',
+		el: '#todo-demo-mount',
+		data: {
+			view: 'list',
+			tasks: [],
+			create: {
+				name: '',
+				description: '',
+			},
+		},
+		methods: {
+			async getTasks() {
+				const tasks = await this.$http.get('/api/tasks');
+				this.tasks = tasks.body;
+			},
+
+			async createTask() {
+				await this.$http.post('/api/task', this.create);
+				this.create.name = '';
+				this.create.description = '';
+				await this.getTasks();
+				this.changeView('list');
+			},
+
+			async deleteTask(id) {
+				await this.$http.delete(`/api/task/${id}`);
+				await this.getTasks();
+			},
+
+			async markComplete(id) {
+				await this.$http.post(`/api/task/complete/${id}`);
+				await this.getTasks();
+			},
+
+			changeView(view_name) {
+				this.view = view_name;
+			},
+
+			toDate(timestamp) {
+				return moment(timestamp).format('DD/MM/YYYY HH:mm:ss');
+			},
+		},
+		mounted() {
+			this.getTasks();
+			this.$timer = setInterval((context) => {
+				context.getTasks();
+			}, 5000, this);
+		},
+	});
+</script>
+
+<style>
+	.btn {
+		float: left;
+		width: auto;
+		cursor: pointer;
+		padding: 5px 20px;
+		border: 1px solid orange;
+		background-color: orange;
+		color: white;
+	}
+
+	.btn.pull-right {
+		float: right;
+	}
+
+	.btn:hover {
+		color: orange;
+		background-color: transparent;
+	}
+
+	.page-index {
+		float: left;
+		width: 100%;
+	}
+	
+	.todo-create {
+		float: left;
+		clear: both;
+		width: 100%;
+		max-width: 50%;
+	}
+
+	.todo-create input, .todo-create textarea {
+		float: left;
+		width: 100%;
+		margin: 10px 0;
+		padding: 8px;
+		border-radius: 5px;
+		border: 1px solid #c3c2c2;
+		resize: none;
+	}
+
+	.todo-create .btn-cancel {
+		border: 1px solid red;
+		background-color: red;
+	}
+
+	.todo-create .btn-cancel:hover {
+		color: red;
+		background-color: transparent;
+	}
+
+	.todo-tasks {
+		float: left;
+		width: 100%;
+		margin-top: 20px;
+	}
+
+	.task-item {
+		float: left;
+		width: 100%;
+		padding: 15px 0;
+		border-top: 1px solid #e3e3e3;
+	}
+
+	.task-item:last-child {
+		border-bottom: 1px solid #e3e3e3;
+	}
+
+	.task-item .task-item__left {
+		float: left;
+		width: 80%;
+	}
+
+	.task-item .task-item__right {
+		float: right;
+		width: 20%;
+	}
+
+	.task-item__left .name {
+		font-weight: bold;
+		font-size: 18px;
+	}
+
+	.task-item__left .description {
+		padding: 5px 0;
+	}
+
+	.task-item__left .updated {
+		font-style: italic;
+		color: #777777;
+	}
+
+	.task-item__right .btn {
+		float: right;
+		clear: both;
+		width: 100%;
+		margin-bottom: 5px;
+	}
+
+	.task-item__right .btn-complete {
+		border: 1px solid blue;
+		background-color: blue;
+	}
+
+	.task-item__right .btn-complete:hover {
+		color: blue;
+		background-color: transparent;
+	}
+
+	.task-item__right .btn-delete {
+		border: 1px solid red;
+		background-color: red;
+	}
+
+	.task-item__right .btn-delete:hover {
+		color: red;
+		background-color: transparent;
+	}
+</style>

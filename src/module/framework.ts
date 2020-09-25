@@ -122,7 +122,7 @@ export class Framework {
 		// Initialise the model instances.
 		this.models.forEach((model: any) => {
 			const collection: Collection = this.database.getCollection(model.name);
-			model.instance = new model.class(model.name, model.type, collection);
+			model.instance = new model.class(model.name, model.type, model.fields, collection);
 		});
 
 		// Initialise the provider instances.

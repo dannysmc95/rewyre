@@ -8,4 +8,5 @@ export enum ErrorMessages {
 	DATABASE_CONNECTION_FAILED 		= 'Failed to connect to the database.',
 	ENDPOINT_NOT_FOUND				= 'The requested endpoint can not be found.',
 	SERVER_ERROR					= 'The server has encountered an error trying to process your request.',
+	THREAD_SPAWN_FAIL				= 'The thread failed to spawn due to an internal error.',
 }

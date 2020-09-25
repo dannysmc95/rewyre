@@ -15,7 +15,7 @@ import { IAny } from '../interface/any';
  * @param type The type of model you are defining, options: general, user.
  * @param fields The fields is an object of key, values defining the model.
  */
-export function Model(name: string, type: string, fields: IAny): any {
+export function Model(name: string, type: 'general' | 'user', fields: IAny): any {
 	return (target: any): void => {
 
 		// Define base class information.

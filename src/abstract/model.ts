@@ -15,10 +15,11 @@ export class AbstractModel {
 	 * for accessing the model's linked Mongo database collection.
 	 * 
 	 * @param name The model name.
-	 * @param definition The model definition.
+	 * @param type The model type.
+	 * @param fields The fields in the model.
 	 * @param collection The linked Mongo database collection.
 	 */
-	constructor(public name: string, public definition: IAny, public collection: Collection) {}
+	constructor(public name: string, public type: string, public fields: IAny, public collection: Collection) {}
 
 	/**
 	 * Used to find a single document.
@@ -119,7 +120,7 @@ export class AbstractModel {
 	 */
 	public validate(record: IAny): IValidateResponse {
 		for (const key in record) {
-			const definition = (typeof this.definition.fields[key] !== 'undefined' ? this.definition.fields[key] : false);
+			const definition = (typeof this.fields[key] !== 'undefined' ? this.fields[key] : false);
 			if (definition !== false) {
 				if (typeof record[key] !== definition.replace('?', '')) {
 					return { valid: false, reason: `The key: ${key} should be of type: ${definition.replace('?', '')}, not type: ${typeof record[key]}.` };
@@ -128,8 +129,8 @@ export class AbstractModel {
 				return { valid: false, reason: `The key: ${key}, does not exist on this model.` };
 			}
 		}
-		for (const fkey in this.definition.fields) {
-			if (typeof record[fkey] === 'undefined' && String(this.definition.fields[fkey]).charAt(0) !== '?') {
+		for (const fkey in this.fields) {
+			if (typeof record[fkey] === 'undefined' && String(this.fields[fkey]).charAt(0) !== '?') {
 				return { valid: false, reason: `Missing model key: ${fkey}.` };
 			}
 		}
