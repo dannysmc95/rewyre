@@ -18,7 +18,9 @@
 				<p class="updated" v-text="`${toDate(task.updated)}`"></p>
 			</div>
 			<div class="task-item__right">
-				<button class="btn btn-complete" v-if="!task.completed">Complete</button>
+				<button class="btn btn-complete" v-if="!task.completed && !task.to_complete" @click="markComplete(task._id)">Complete</button>
+				<button class="btn btn-marked" v-if="task.to_complete">Marked</button>
+				<button class="btn btn-done" v-if="task.completed">Done</button>
 				<button class="btn btn-delete" @click="deleteTask(task._id)">Delete</button>
 			</div>
 		</div>
@@ -57,7 +59,7 @@
 			},
 
 			async markComplete(id) {
-				await this.$http.post(`/api/task/complete/${id}`);
+				await this.$http.patch(`/api/task/complete/${id}`);
 				await this.getTasks();
 			},
 
@@ -196,5 +198,27 @@
 	.task-item__right .btn-delete:hover {
 		color: red;
 		background-color: transparent;
+	}
+
+	.task-item__right .btn-marked {
+		border: 1px solid #205ccc;
+		color: #205ccc;
+		background-color: transparent;
+	}
+
+	.task-item__right .btn-marked:hover {
+		color: white;
+		background-color: #205ccc;
+	}
+
+	.task-item__right .btn-done {
+		border: 1px solid #2b7443;
+		color: #2b7443;
+		background-color: transparent;
+	}
+
+	.task-item__right .btn-done:hover {
+		color: white;
+		background-color: #2b7443;
 	}
 </style>

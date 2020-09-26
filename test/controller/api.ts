@@ -18,6 +18,7 @@ export class ApiController extends AbstractController {
 		const task = {
 			name: context.body.name,
 			description: context.body.description,
+			to_complete: false,
 			completed: false,
 			updated: new Date().valueOf(),
 		};
@@ -29,5 +30,11 @@ export class ApiController extends AbstractController {
 	public async delete(context: IContext): Promise<IReturn> {
 		await this.tasks.deleteOne({ _id: new ModelRecordID(context.params.id) });
 		return { status: 204 };
+	}
+
+	@Route('PATCH', '/task/complete/:id')
+	public async complete(context: IContext): Promise<IReturn> {
+		await this.tasks.updateOne({ _id: new ModelRecordID(context.params.id) }, { to_complete: true });
+		return { status: 200 };
 	}
 }

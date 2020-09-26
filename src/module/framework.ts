@@ -12,6 +12,7 @@ import { WSServer } from './ws-server';
 import { Database } from './database';
 import { Collection } from 'mongodb';
 import { Logger } from './logger';
+import { Scheduler } from './scheduler';
 
 /**
  * The framework is the core part of the rewyre package, the
@@ -32,6 +33,7 @@ export class Framework {
 	protected ws_server: WSServer;
 	protected database: Database;
 	protected logger: Logger;
+	protected scheduler: Scheduler;
 
 	/**
 	 * Creates a new instance of the rewyre framework, with the
@@ -48,6 +50,7 @@ export class Framework {
 		this.router = new Router(this.options);
 		this.http_server = new HTTPServer(this.options, this.router);
 		this.ws_server = new WSServer(this.options, this.http_server);
+		this.scheduler = new Scheduler(this.options);
 	}
 
 	/**
@@ -125,7 +128,7 @@ export class Framework {
 			model.instance = new model.class(model.name, model.type, model.fields, collection);
 		});
 
-		// Initialise the provider instances.
+		// Initialise the provider instances and check injections.
 		this.providers.forEach((provider: any) => {
 			if (provider.type === 'shared') {
 				provider.instance = new provider.class();
@@ -134,13 +137,39 @@ export class Framework {
 			}
 		});
 
-		// Initialise the controller instances.
-		this.controllers.forEach((controller: any) => {
-			controller.instance = new controller.class();
+		// Initialise the services.
+		this.services.forEach((service: any) => {
+
+			// Create service instance.
+			service.instance = new service.class();
+
+			// Proceed only if there are injections available.
+			if (service.injects.length === 0) return;
+
+			// Let's look for any matching classes.
+			service.injects.forEach((inject_name: string) => {
+
+				// Search for a model.
+				const model: any = this.helper.findMatching(this.models, inject_name);
+				if (model !== false) service.instance[inject_name] = model.instance;
+
+				// Search for a provider.
+				const provider: any = this.helper.findMatching(this.providers, inject_name);
+				if (provider !== false) {
+					if (provider.type === 'shared') {
+						service.instance[inject_name] = provider.instance;
+					} else if (provider.type === 'single') {
+						service.instance[inject_name] = new provider.class();
+					}
+				}
+			});
 		});
 
-		// Now we need to check injections.
+		// Initialise the controller instances and check injections.
 		this.controllers.forEach((controller: any) => {
+
+			// Create controller instance.
+			controller.instance = new controller.class();
 
 			// Proceed only if there are injections available.
 			if (controller.injects.length === 0) return;
@@ -163,6 +192,9 @@ export class Framework {
 				}
 			});
 		});
+
+		// Process the services in the scheduler.
+		this.scheduler.process(this.services);
 
 		// Process the controllers for HTTP.
 		this.http_server.process(this.controllers, this.models);
@@ -226,11 +258,13 @@ export class Framework {
 	 */
 	protected registerService(class_item: AbstractService): void {
 		const serviceName: string = Reflect.getMetadata('name', class_item);
-		const serviceSchedule: string = Reflect.getMetadata('schedule', class_item);
+		const serviceSchedule: number = Reflect.getMetadata('schedule', class_item);
+		const serviceInjects: Array<any> = Reflect.getMetadata('injects', class_item);
 
 		this.services.push({
 			name: serviceName,
 			schedule: serviceSchedule,
+			injects: serviceInjects,
 			class: class_item,
 		});
 	}
