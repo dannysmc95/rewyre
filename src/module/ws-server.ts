@@ -32,6 +32,7 @@ export class WSServer {
 	 * 
 	 * @param options The framework options.
 	 * @param http_server The HTTPServer instance.
+	 * @param router The router instance.
 	 */
 	constructor(protected options: IOptions, protected http_server: HTTPServer, protected router: Router) {
 		this.logger = new Logger();
@@ -41,6 +42,13 @@ export class WSServer {
 		this.server = server;
 	}
 
+	/**
+	 * This will take the controllers and assign them to the local class. and
+	 * then create a WebSocket server and prepare to handle the ouputs by assigning
+	 * the outputs to the correct local methods.
+	 * 
+	 * @param controllers The array of controllers.
+	 */
 	public process(controllers: Array<any>): void {
 		this.controllers = controllers;
 		if (this.options.ws_enable) {
@@ -48,6 +56,11 @@ export class WSServer {
 		}
 	}
 
+	/**
+	 * Creates the WebSocket server and creates the events that the framework
+	 * needs to listen to and then sends them to the correct local methods to
+	 * be managed correctly.
+	 */
 	protected initialise(): void {
 		this.server.ws(this.options.ws_path || '/ws', (socket: WS, request: Request) => {
 
@@ -171,6 +184,14 @@ export class WSServer {
 		}
 	}
 
+	/**
+	 * Will take the namespace and method and attempt to find the controller
+	 * and route object to return back to the calling method to then process
+	 * the request ready for the router to take it.
+	 * 
+	 * @param namespace The controller namespace.
+	 * @param method The controller method.
+	 */
 	protected getControllerAndRoute(namespace: string, method: string): Array<any> {
 		let controller: any = false,
 			route: any = false;

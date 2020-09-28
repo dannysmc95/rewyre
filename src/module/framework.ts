@@ -104,7 +104,7 @@ export class Framework {
 		this.http_server.start();
 
 		// Log launch message.
-		this.logger.notice('FRAMEWORK', `Application is listening and available at http://${this.options.hostname}:${this.options.port}/${this.options.ws_enable ? ` and ws://${this.options.hostname}:${this.options.port}${this.options.ws_path}` : ''}.`);
+		this.logger.notice('FRAMEWORK', `Application is listening at http://${this.options.hostname}:${this.options.port}/${this.options.ws_enable ? ` and ws://${this.options.hostname}:${this.options.port}${this.options.ws_path}` : ''}.`);
 		this.logger.notice('FRAMEWORK', `Registered ${this.controllers.length} controller(s), ${this.models.length} model(s), ${this.services.length} service(s), and ${this.providers.length} provider(s).`);
 	}
 

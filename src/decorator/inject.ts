@@ -1,10 +1,10 @@
 /**
- * The Inject decorator is used to specifically to inject models into a controller, the core
- * user model is injected to all controllers by default due to the requirement of being able to authenticate
- * connections, but for normal models you can decide which ones are available to specific controllers. The
- * name/names you can use are the ones you define as the first parameter of the model decorator.
+ * The Inject decorator is used to specifically to inject models into a controller or service,
+ * you can supply a string or an array of strings to inject, please make sure to name your
+ * injections useful names, once you have added this, you will need to define the injected models
+ * or providers as properties inside of your class, see docs for more information.
  * 
- * @param modelNames The name or array of names of models you wish to inject to this controller.
+ * @param modelNames The name or array of names of models/providers you wish to inject to this class (controller or service).
  */
 export function Inject(classItems: Array<string> | string): any {
 	return (target: any) => {

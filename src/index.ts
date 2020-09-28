@@ -17,13 +17,11 @@ import { Service } from './decorator/service';
 import { ErrorMessages } from './enum/error-messages';
 
 import { FrameworkHelper } from './helper/framework';
-import { PacketHelper } from './helper/packet';
 import { ServerHelper } from './helper/server';
 
 import { IAny } from './interface/any';
 import { IContext, IContextRaw } from './interface/context';
 import { IOptions } from './interface/options';
-import { IPacket } from './interface/packet';
 import { IRecord } from './interface/record';
 import { IReturn } from './interface/return';
 import { IService } from './interface/service';
@@ -34,6 +32,7 @@ import { Framework } from './module/framework';
 import { HTTPServer } from './module/http-server';
 import { Logger } from './module/logger';
 import { Router } from './module/router';
+import { Scheduler } from './module/scheduler';
 import { WSServer } from './module/ws-server';
 
 /**
@@ -64,7 +63,6 @@ export {
 
 	// Helper.
 	FrameworkHelper,
-	PacketHelper,
 	ServerHelper,
 
 	// Interface.
@@ -72,7 +70,6 @@ export {
 	IContext,
 	IContextRaw,
 	IOptions,
-	IPacket,
 	IRecord,
 	IReturn,
 	IService,
@@ -84,6 +81,7 @@ export {
 	HTTPServer,
 	Logger,
 	Router,
+	Scheduler,
 	WSServer,
 
 	// External.

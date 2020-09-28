@@ -1,4 +1,4 @@
-import { Controller, Route, IReturn, Inject } from '../../src/index';
+import { Controller, Route, IReturn } from '../../src/index';
 import { CustomController } from '../abstract/controller';
 
 @Controller('/', 'home')

@@ -1,7 +1,6 @@
 /**
- * The ErrorMessages enum contains all application
- * level error messages that we are aware of and are
- * pre-defined with useful messages.
+ * The ErrorMessages enum contains all application level error messages
+ * that we are aware of and are pre-defined with useful messages.
  */
 export enum ErrorMessages {
 	NO_CLASS_TYPE 					= 'Provided class does not have a valid class type.',

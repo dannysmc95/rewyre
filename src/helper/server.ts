@@ -23,6 +23,16 @@ export class ServerHelper {
 		return latest;
 	}
 
+	/**
+	 * This function will validate WebSocket access, depending on the
+	 * framework settings, this will either check for full acces and then
+	 * grant it, or check for partial and then check the controller and route
+	 * each for access to the method.
+	 * 
+	 * @param options The framework options.
+	 * @param controller The specific controller to verify.
+	 * @param route The specific route to verify.
+	 */
 	public checkWebSocketAccess(options: IOptions, controller: IAny, route: IAny): boolean {
 		if (!options.ws_enable) return false;
 		if (options.ws_access === 'full') return true;

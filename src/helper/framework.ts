@@ -2,8 +2,8 @@ import { IOptions } from '../interface/options';
 
 /**
  * The Framework helper, provides various functions that compliment the Framework
- * class, the helper allows me to abstract some of the functionality out of the
- * main class, to make sure the code is clean and readable.
+ * class, the helper allows for abstraction of some functionality out of the main
+ * class, to make sure the code is clean and readable.
  */
 export class FrameworkHelper {
 
