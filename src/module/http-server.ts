@@ -17,7 +17,6 @@ export class HTTPServer {
 	protected helper: ServerHelper;
 	protected server: express.Application;
 	protected controllers!: Array<any>;
-	protected models!: Array<any>;
 
 	/**
 	 * Creates an instance of the HTTPServer, with the framework options,
@@ -54,9 +53,8 @@ export class HTTPServer {
 	 * @param controllers The array of controllers.
 	 * @param models The array of models.
 	 */
-	public process(controllers: Array<any>, models: Array<any>): void {
+	public process(controllers: Array<any>): void {
 		this.controllers = controllers;
-		this.models = models;
 		this.buildRoutes();
 	}
 

@@ -70,24 +70,28 @@ export class AbstractModel {
 	}
 
 	/**
-	 * Used to update a single document based on the query, with the given update.
+	 * Used to update a single document based on the query, with the given update. If you
+	 * want to use upset, then the third parameter should be: `{ upsert: true }`.
 	 * 
 	 * @param query The query to search against.
 	 * @param update The update changes to apply to the match.
+	 * @param options The options to apply to MongoDB.
 	 */
-	public async updateOne(query: IAny, update: IAny): Promise<boolean> {
-		const result: any = await this.collection.updateOne(query, { $set: update }, { upsert: true });
+	public async updateOne(query: IAny, update: IAny, options?: IAny): Promise<boolean> {
+		const result: any = await this.collection.updateOne(query, { $set: update }, options);
 		return (result.result.ok === 1 ? true : false);
 	}
 
 	/**
-	 * Used to update many documents based on the query, with the given update.
+	 * Used to update many documents based on the query, with the given update. If you
+	 * want to use upset, then the third parameter should be: `{ upsert: true }`.
 	 * 
 	 * @param query The query to search against.
 	 * @param update The update changes to apply to the match.
+	 * @param options The options to apply to MongoDB.
 	 */
-	public async updateMany(query: IAny, update: IAny): Promise<boolean> {
-		const result: any = await this.collection.updateMany(query, { $set: update }, { upsert: true });
+	public async updateMany(query: IAny, update: IAny, options?: IAny): Promise<boolean> {
+		const result: any = await this.collection.updateMany(query, { $set: update }, options);
 		return (result.result.ok === 1 ? true : false);
 	}
 

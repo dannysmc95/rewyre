@@ -2,11 +2,11 @@
 
 ## Introduction
 
-The rewyre framework is a REST-based framework built on top of express, and express-ws and utilises TypeScript to give you a powerful wiring tool to create API applications in a very short time. The framework uses TypeScript decorators to apply controller and routing functionality and apply additional controls.
+The rewyre framework is built on top of express, and express-ws and utilises TypeScript to give you a powerful wiring tool to create API applications in a very short time. The framework uses TypeScript decorators to apply controller and routing functionality and apply additional controls.
 
 The package was originally called `aether-framework` and then changed to `@rewyre/core` and is now just named as `rewyre`, I apologise for this, I was very conflicted with what to name it.
 
-
+<br /><br />
 
 ## Installation
 
@@ -16,34 +16,48 @@ You can install from NPM with:
 npm install --save rewyre
 ```
 
-
+<br /><br />
 
 ## Examples
 
-Depending on what you want to get out of it, you can look at the [demo](https://github.com/dannysmc95/rewyre/tree/master/test) for a full example, if you plan to use this for a larger application then there is a boilerplate I have created called: [rewyre-vue](https://github.com/dannysmc95/rewyre-vue) from which the whole project has been created to support Vue 3 + Rewyre + TypeScript, You can check it out [here](https://github.com/dannysmc95/rewyre-vue).
+#### Documentation
 
+The documentation is availabe here: [Documentation](https://github.com/dannysmc95/rewyre/tree/master/docs).
 
+> NOTE: The below project has not been updated to the latest rewyre stable release, but I plan to update that in the coming months, or you are welcome to create some pull requests instead.
+
+#### Examples & Demos
+
+Depending on what you want to get out of it, you can look at the [demo](https://github.com/dannysmc95/rewyre/tree/master/test) for a full to-do demo, if you plan to use this for a larger application then there is a boilerplate I have created called: [rewyre-vue](https://github.com/dannysmc95/rewyre-vue) from which the whole project has been created to support Vue 3 + Rewyre + TypeScript, You can check it out [here](https://github.com/dannysmc95/rewyre-vue).
+
+<br /><br />
 
 ## Features
 
-The below table lists all included features, please note the status of each feature, during the course of developing this, the API may change many times, including breaking changes.
+The below lists the features and their stable state, this framework's API will not change for the forseable future, any changes will be fully implemented and any non-backwards compatible changes will be in the latest major version, following the semver versioning scheme.
 
-* **HTTP Server** - We use express as the backbone HTTP server.
-* **WS Server** - We have opted to use `express-ws` for the WebSocket server.
-* **Middleware Support** - All standard middleware for express is supported normally, see [demo](https://github.com/dannysmc95/rewyre/tree/master/test).
-* **Static Assets** - You can still define static assets via express, see [demo](https://github.com/dannysmc95/rewyre/tree/master/test).
-* **Controller Decorator** - Used to create base routes for HTTP and namespaces for WS.
-* **Route Decorator** - The route decorator is applied to methods to give routes and WS access to a method.
-* **Model Decorator** - Used to create models which automatically map to the Mongo database.
-* **InjectModel Decorator** - Used to add models to specific controllers, to limit what controllers can access.
-* **Authenticated Decorator** - Used to authenticate users either via just being logged in or by roles.
+| Feature | Description | Status |
+| - | - | - |
+| HTTP Server | The HTTP server is the base for the framework and is built on top of Express. | `Stable` |
+| WebSocket Server | The WebSocket server uses `express-ws` package to apply WebSocket support. | `Stable` |
+| Middleware Support | Standard Express middleware is supported using the `useMiddleware` method. | `Stable` |
+| Static Assets | Standard Express static is supported as well using the `useStatic` method. | `Stable` |
+| Controllers | Controller classes and the `@Controller` decorator are both implemented. | `Stable` |
+| Controller Routes | Controller routes are and the `@Route` decorator are both implemented. | `Stable` |
+| Models | Model classes and the `@Model` decorator are both implemented. | `Stable` |
+| Injections | Injections are done using a single `@Inject` decorator and you can inject one or many, you can inject models and providers to any service or controller as required. | `Stable` |
+| Services | Service classes and the `@Service` decorator are both implemented and services can run on a loop based on seconds. | `Stable` |
+| Providers | Providers and the `@Provide` decorator are both implemented, the provider allows you to create built in helper classes that can be injected to controllers, and services. | `Stable` |
 
-There _is some_ functionality left to implement including:
+#### Future Features
+There is _some_ functionality left to implement including:
 
+* **Authentication Decorator** - To implement an authentication decorator for out-of-the-box permissions.
 * **Threaded Decorator** - To add support for controllers being run in a different thread, to long processes.
-* **Service Decorator** - A service is a process that runs on a schedule and can be programmed to do anything.
 * **Plugin Support** - There is a plan to add plugin support, but I am not sure what this will look like yet.
+
+<br /><br />
 
 ## Future Plans
 
-The future for this library is big, I have many plans to add lots of new features and more decorators to add additional support, originally the provide/inject methods existed on this project, but I have had to remove them because they caused to many issues, these may be re-added, but at the moment, I can't see a reason to use that instead of simply importing a helper.
+The future for this library is big, I have many plans to add lots of new features and more decorators to add additional features, and I plan to turn this (slowly) into a full out-of-the-box TypeScript based framework for building Node.JS server side applications. This framework can handle any structure and can be included into other applications like Vue.JS Server-Side Rendering. You can use this framework for API first structure or even to use it to build a basic website, using Express routing.

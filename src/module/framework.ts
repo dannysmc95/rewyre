@@ -49,7 +49,7 @@ export class Framework {
 		this.database = new Database(this.options);
 		this.router = new Router(this.options);
 		this.http_server = new HTTPServer(this.options, this.router);
-		this.ws_server = new WSServer(this.options, this.http_server);
+		this.ws_server = new WSServer(this.options, this.http_server, this.router);
 		this.scheduler = new Scheduler(this.options);
 	}
 
@@ -104,7 +104,7 @@ export class Framework {
 		this.http_server.start();
 
 		// Log launch message.
-		this.logger.notice('FRAMEWORK', `Application is listening and available at http://${this.options.hostname}:${this.options.port}/.`);
+		this.logger.notice('FRAMEWORK', `Application is listening and available at http://${this.options.hostname}:${this.options.port}/${this.options.ws_enable ? ` and ws://${this.options.hostname}:${this.options.port}${this.options.ws_path}` : ''}.`);
 		this.logger.notice('FRAMEWORK', `Registered ${this.controllers.length} controller(s), ${this.models.length} model(s), ${this.services.length} service(s), and ${this.providers.length} provider(s).`);
 	}
 
@@ -197,10 +197,10 @@ export class Framework {
 		this.scheduler.process(this.services);
 
 		// Process the controllers for HTTP.
-		this.http_server.process(this.controllers, this.models);
+		this.http_server.process(this.controllers);
 
 		// Process the controllers for WS.
-		// To-do
+		this.ws_server.process(this.controllers);
 	}
 
 	/**

@@ -1,15 +1,11 @@
-import { IOptions } from '../interface/options';
-import { Logger } from './logger';
+import { IOptions } from "../interface/options";
 
 export class Scheduler {
 
-	protected logger: Logger;
 	protected services: Array<any> = [];
 	protected _timer: any;
 
-	constructor(protected options: IOptions) {
-		this.logger = new Logger();
-	}
+	constructor(protected options: IOptions) {}
 
 	public process(services: Array<any>): void {
 		this.services = services;

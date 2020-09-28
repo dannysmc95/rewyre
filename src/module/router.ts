@@ -56,7 +56,10 @@ export class Router {
 					context.getRaw().response?.status(response.status).json(response.content);
 				}
 			} else {
-				context.getRaw().socket?.send(response.content);
+				context.getRaw().socket?.send(JSON.stringify({
+					command: context.query.ws_command,
+					content: response.content,
+				}));
 			}
 
 		} catch(err) {

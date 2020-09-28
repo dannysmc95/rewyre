@@ -70,8 +70,28 @@
 			toDate(timestamp) {
 				return moment(timestamp).format('DD/MM/YYYY HH:mm:ss');
 			},
+
+			initWebSocket() {
+				this.$socket = new WebSocket(`ws://${window.location.host}/ws`);
+				this.$socket.addEventListener('open', (event) => {
+					console.log('WebSocket Opened', event);
+					setTimeout(() => {
+						this.$socket.send(JSON.stringify({ command: 'api/index' }));
+					});
+				});
+				this.$socket.addEventListener('close', (event) => {
+					console.log('WebSocket Closed', event);
+				});
+				this.$socket.addEventListener('error', (event) => {
+					console.log('WebSocket Errored', event);
+				});
+				this.$socket.addEventListener('message', (event) => {
+					console.log('WebSocket Message', event);
+				});
+			},
 		},
 		mounted() {
+			this.initWebSocket();
 			this.getTasks();
 			this.$timer = setInterval((context) => {
 				context.getTasks();

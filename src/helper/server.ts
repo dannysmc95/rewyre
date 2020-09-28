@@ -1,4 +1,5 @@
 import { IAny } from '../interface/any';
+import { IOptions } from '../interface/options';
 
 /**
  * The ServerHelper class gives support to the main HTTP and WS
@@ -14,11 +15,20 @@ export class ServerHelper {
 	 * 
 	 * @param current The current object. 
 	 */
-	public convertObject(current: IAny): any {
+	public convertObject(current: IAny): IAny {
 		const latest = {};
 		for (const key in current) {
 			latest[key] = current[key];
 		}
 		return latest;
+	}
+
+	public checkWebSocketAccess(options: IOptions, controller: IAny, route: IAny): boolean {
+		if (!options.ws_enable) return false;
+		if (options.ws_access === 'full') return true;
+		if (controller.websocket && route.websocket) {
+			return true;
+		}
+		return false;
 	}
 }
