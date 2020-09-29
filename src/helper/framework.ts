@@ -23,7 +23,7 @@ export class FrameworkHelper {
 
 			// Database Specific.
 			db_enable: true,
-			db_database: 'rewyre',
+			db_database: 'rewyre-application',
 			db_port: 27017,
 			db_hostname: 'localhost',
 
