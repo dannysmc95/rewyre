@@ -1,6 +1,7 @@
 import { IAny } from '../interface/any';
 import { Collection } from 'mongodb';
 import { IValidateResponse } from '../interface/validate-response';
+import { State } from '../module/state';
 
 /**
  * The abstract model comes with various pre-defined functions for collection
@@ -18,8 +19,9 @@ export class AbstractModel {
 	 * @param type The model type.
 	 * @param fields The fields in the model.
 	 * @param collection The linked Mongo database collection.
+	 * @param state The state module.
 	 */
-	constructor(public name: string, public type: string, public fields: IAny, public collection: Collection) {}
+	constructor(public name: string, public type: string, public fields: IAny, public collection: Collection, protected state: State) {}
 
 	/**
 	 * Used to find a single document.

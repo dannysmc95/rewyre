@@ -13,6 +13,7 @@ import { Database } from './database';
 import { Collection } from 'mongodb';
 import { Logger } from './logger';
 import { Scheduler } from './scheduler';
+import { State } from './state';
 
 /**
  * The framework is the core part of the rewyre package, the
@@ -34,6 +35,7 @@ export class Framework {
 	protected database: Database;
 	protected logger: Logger;
 	protected scheduler: Scheduler;
+	protected state: State;
 
 	/**
 	 * Creates a new instance of the rewyre framework, with the
@@ -44,6 +46,7 @@ export class Framework {
 	 */
 	constructor(options?: IOptions) {
 		this.logger = new Logger();
+		this.state = new State();
 		this.helper = new FrameworkHelper();
 		this.options = this.helper.mergeOptions(options);
 		this.database = new Database(this.options);
@@ -125,13 +128,13 @@ export class Framework {
 		// Initialise the model instances.
 		this.models.forEach((model: any) => {
 			const collection: Collection = this.database.getCollection(model.name);
-			model.instance = new model.class(model.name, model.type, model.fields, collection);
+			model.instance = new model.class(model.name, model.type, model.fields, collection, this.state);
 		});
 
 		// Initialise the provider instances and check injections.
 		this.providers.forEach((provider: any) => {
 			if (provider.type === 'shared') {
-				provider.instance = new provider.class();
+				provider.instance = new provider.class(this.state);
 			} else {
 				provider.instance = false;
 			}
@@ -141,7 +144,7 @@ export class Framework {
 		this.services.forEach((service: any) => {
 
 			// Create service instance.
-			service.instance = new service.class();
+			service.instance = new service.class(this.state);
 
 			// Proceed only if there are injections available.
 			if (service.injects.length === 0) return;
@@ -159,7 +162,7 @@ export class Framework {
 					if (provider.type === 'shared') {
 						service.instance[inject_name] = provider.instance;
 					} else if (provider.type === 'single') {
-						service.instance[inject_name] = new provider.class();
+						service.instance[inject_name] = new provider.class(this.state);
 					}
 				}
 			});
@@ -169,7 +172,7 @@ export class Framework {
 		this.controllers.forEach((controller: any) => {
 
 			// Create controller instance.
-			controller.instance = new controller.class();
+			controller.instance = new controller.class(this.state);
 
 			// Proceed only if there are injections available.
 			if (controller.injects.length === 0) return;
@@ -187,7 +190,7 @@ export class Framework {
 					if (provider.type === 'shared') {
 						controller.instance[inject_name] = provider.instance;
 					} else if (provider.type === 'single') {
-						controller.instance[inject_name] = new provider.class();
+						controller.instance[inject_name] = new provider.class(this.state);
 					}
 				}
 			});
