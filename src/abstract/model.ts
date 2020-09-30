@@ -11,6 +11,8 @@ import { State } from '../module/state';
  */
 export class AbstractModel {
 
+	protected state!: State;
+
 	/**
 	 * Creates an instance of the class with the required pre-built functions
 	 * for accessing the model's linked Mongo database collection.
@@ -21,7 +23,7 @@ export class AbstractModel {
 	 * @param collection The linked Mongo database collection.
 	 * @param state The state module.
 	 */
-	constructor(public name: string, public type: string, public fields: IAny, public collection: Collection, protected state: State) {}
+	constructor(public name: string, public type: string, public fields: IAny, public collection: Collection) {}
 
 	/**
 	 * Used to find a single document.

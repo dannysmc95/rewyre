@@ -6,7 +6,9 @@ The rewyre framework is built on top of express, and express-ws and utilises Typ
 
 The package was originally called `aether-framework` and then changed to `@rewyre/core` and is now just named as `rewyre`, I apologise for this, I was very conflicted with what to name it.
 
-<br /><br />
+> **IMPORTANT** This project has been completely re-written from ground up for the latest version 1 release, this is because the project did not have enough flexibility than what it needed when it released in alpha, therefore this is the final version of the API and structure.
+
+<br />
 
 ## Installation
 
@@ -16,23 +18,25 @@ You can install from NPM with:
 npm install --save rewyre
 ```
 
-<br /><br />
+<br />
 
 ## Examples
 
-#### Documentation
+Below are some demos and examples you can try out to help with your development experience and to use as a base.
+
+### Documentation
 
 The documentation is availabe here: [Documentation](https://github.com/dannysmc95/rewyre/tree/master/docs).
 
-> NOTE: The below project has not been updated to the latest rewyre stable release, but I plan to update that in the coming months, or you are welcome to create some pull requests instead.
+> NOTE: The `rewyre-vue` project has not been updated to the latest rewyre stable release, but I plan to update that in the coming months, or you are welcome to create some pull requests instead.
 
-#### Examples & Demos
+### Examples & Demos
 
 Depending on what you want to get out of it, you can look at the [demo](https://github.com/dannysmc95/rewyre/tree/master/test) for a full to-do demo, if you plan to use this for a larger application then there is a boilerplate I have created called: [rewyre-vue](https://github.com/dannysmc95/rewyre-vue) from which the whole project has been created to support Vue 3 + Rewyre + TypeScript, You can check it out [here](https://github.com/dannysmc95/rewyre-vue).
 
-<br /><br />
+<br />
 
-## Features
+## Available Features
 
 The below lists the features and their stable state, this framework's API will not change for the forseable future, any changes will be fully implemented and any non-backwards compatible changes will be in the latest major version, following the semver versioning scheme.
 
@@ -49,15 +53,24 @@ The below lists the features and their stable state, this framework's API will n
 | Services | Service classes and the `@Service` decorator are both implemented and services can run on a loop based on seconds. | `Stable` |
 | Providers | Providers and the `@Provide` decorator are both implemented, the provider allows you to create built in helper classes that can be injected to controllers, and services. | `Stable` |
 
-#### Future Features
+<br />
+
+## Upcoming Features
+
 There is _some_ functionality left to implement including:
 
 * **Authentication Decorator** - To implement an authentication decorator for out-of-the-box permissions.
 * **Threaded Decorator** - To add support for controllers being run in a different thread, to long processes.
 * **Plugin Support** - There is a plan to add plugin support, but I am not sure what this will look like yet.
 
-<br /><br />
+<br />
 
 ## Future Plans
 
 The future for this library is big, I have many plans to add lots of new features and more decorators to add additional features, and I plan to turn this (slowly) into a full out-of-the-box TypeScript based framework for building Node.JS server side applications. This framework can handle any structure and can be included into other applications like Vue.JS Server-Side Rendering. You can use this framework for API first structure or even to use it to build a basic website, using Express routing.
+
+<br />
+
+## Development Overview
+
+While I additionally add new functionality they will go through various states, they will be developed in the `develop` branch and new features will be labelled `alpha` until everything has been finalised, then moved to `beta` status while I test for bugs, and then `stable` once the API won't change and I have removed any bugs I can find, of course if you find a bug then please, create an issue!

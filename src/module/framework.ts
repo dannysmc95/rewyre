@@ -128,13 +128,15 @@ export class Framework {
 		// Initialise the model instances.
 		this.models.forEach((model: any) => {
 			const collection: Collection = this.database.getCollection(model.name);
-			model.instance = new model.class(model.name, model.type, model.fields, collection, this.state);
+			model.instance = new model.class(model.name, model.type, model.fields, collection);
+			model.instance.state = this.state;
 		});
 
 		// Initialise the provider instances and check injections.
 		this.providers.forEach((provider: any) => {
 			if (provider.type === 'shared') {
-				provider.instance = new provider.class(this.state);
+				provider.instance = new provider.class();
+				provider.instance.state = this.state;
 			} else {
 				provider.instance = false;
 			}
@@ -144,7 +146,8 @@ export class Framework {
 		this.services.forEach((service: any) => {
 
 			// Create service instance.
-			service.instance = new service.class(this.state);
+			service.instance = new service.class();
+			service.instance.state = this.state;
 
 			// Proceed only if there are injections available.
 			if (service.injects.length === 0) return;
@@ -162,7 +165,8 @@ export class Framework {
 					if (provider.type === 'shared') {
 						service.instance[inject_name] = provider.instance;
 					} else if (provider.type === 'single') {
-						service.instance[inject_name] = new provider.class(this.state);
+						service.instance[inject_name] = new provider.class();
+						service.instance[inject_name].state = this.state;
 					}
 				}
 			});
@@ -172,7 +176,8 @@ export class Framework {
 		this.controllers.forEach((controller: any) => {
 
 			// Create controller instance.
-			controller.instance = new controller.class(this.state);
+			controller.instance = new controller.class();
+			controller.instance.state = this.state;
 
 			// Proceed only if there are injections available.
 			if (controller.injects.length === 0) return;
@@ -190,7 +195,8 @@ export class Framework {
 					if (provider.type === 'shared') {
 						controller.instance[inject_name] = provider.instance;
 					} else if (provider.type === 'single') {
-						controller.instance[inject_name] = new provider.class(this.state);
+						controller.instance[inject_name] = new provider.class();
+						controller.instance[inject_name].state = this.state;
 					}
 				}
 			});

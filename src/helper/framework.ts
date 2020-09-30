@@ -26,6 +26,7 @@ export class FrameworkHelper {
 			db_database: 'rewyre-application',
 			db_port: 27017,
 			db_hostname: 'localhost',
+			db_authenticate: false,
 
 			// WebSocket Specific.
 			ws_enable: false,

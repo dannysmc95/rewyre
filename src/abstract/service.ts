@@ -8,11 +8,5 @@ import { State } from '../module/state';
  */
 export class AbstractService {
 
-	/**
-	 * Creates an instance of the AbstractService, should never be called
-	 * directly but called from extended classes instead.
-	 * 
-	 * @param state The state module.
-	 */
-	constructor(protected state: State) {}
+	protected state!: State;
 }

@@ -7,11 +7,5 @@ import { State } from '../module/state';
  */
 export class AbstractProvider {
 
-	/**
-	 * Creates an instance of the AbstractProvider, should never be called
-	 * directly but called from extended classes instead.
-	 * 
-	 * @param state The state module.
-	 */
-	constructor(protected state: State) {}
+	protected state!: State;
 }
