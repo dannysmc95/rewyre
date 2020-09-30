@@ -3,7 +3,6 @@ import { ErrorMessages } from '../enum/error-messages';
 import { IContext } from '../interface/context';
 import { IOptions } from '../interface/options';
 import { Logger } from './logger';
-import { IAny } from '../interface/any';
 
 /**
  * The Router class manages the actual requests coming in from the
@@ -37,7 +36,7 @@ export class Router {
 	 * @param route The route definition.
 	 * @param context The context from the HTTP/WS server.
 	 */
-	public async dispatch(controller: IAny, route: IAny, context: IContext): Promise<void> {
+	public async dispatch(controller: any, route: any, context: IContext): Promise<void> {
 		try {
 
 			// Validate the endpoint.

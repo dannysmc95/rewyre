@@ -45,10 +45,10 @@ export class Framework {
 	 * @param options The framework options.
 	 */
 	constructor(options?: IOptions) {
-		this.logger = new Logger();
-		this.state = new State();
 		this.helper = new FrameworkHelper();
 		this.options = this.helper.mergeOptions(options);
+		this.logger = new Logger();
+		this.state = new State(this.options, this.logger);
 		this.database = new Database(this.options);
 		this.router = new Router(this.options);
 		this.http_server = new HTTPServer(this.options, this.router);
@@ -102,6 +102,9 @@ export class Framework {
 
 		// Process the registered classes.
 		await this.process();
+
+		// Initialise the state.
+		await this.state.initialise();
 
 		// Now start the servers.
 		this.http_server.start();

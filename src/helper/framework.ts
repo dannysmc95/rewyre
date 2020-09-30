@@ -33,6 +33,10 @@ export class FrameworkHelper {
 			ws_path: '/ws',
 			ws_access: 'full',
 
+			// State Specific.
+			state_flush_period: 30,
+			state_storage_type: 'file',
+
 			// Extra Specific.
 			enable_audit: false,
 			enable_debug: false,

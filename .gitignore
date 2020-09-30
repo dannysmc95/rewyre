@@ -25,3 +25,4 @@ yarn.lock
 .prettierrc
 .vscode/
 .circleci/
+state.json

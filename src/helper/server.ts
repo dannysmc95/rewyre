@@ -1,4 +1,3 @@
-import { IAny } from '../interface/any';
 import { IOptions } from '../interface/options';
 
 /**
@@ -15,7 +14,7 @@ export class ServerHelper {
 	 * 
 	 * @param current The current object. 
 	 */
-	public convertObject(current: IAny): IAny {
+	public convertObject(current: any): any {
 		const latest = {};
 		for (const key in current) {
 			latest[key] = current[key];
@@ -33,7 +32,7 @@ export class ServerHelper {
 	 * @param controller The specific controller to verify.
 	 * @param route The specific route to verify.
 	 */
-	public checkWebSocketAccess(options: IOptions, controller: IAny, route: IAny): boolean {
+	public checkWebSocketAccess(options: IOptions, controller: any, route: any): boolean {
 		if (!options.ws_enable) return false;
 		if (options.ws_access === 'full') return true;
 		if (controller.websocket && route.websocket) {

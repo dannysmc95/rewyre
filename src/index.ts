@@ -19,10 +19,8 @@ import { ErrorMessages } from './enum/error-messages';
 import { FrameworkHelper } from './helper/framework';
 import { ServerHelper } from './helper/server';
 
-import { IAny } from './interface/any';
 import { IContext, IContextRaw } from './interface/context';
 import { IOptions } from './interface/options';
-import { IRecord } from './interface/record';
 import { IReturn } from './interface/return';
 import { IService } from './interface/service';
 import { IValidateResponse } from './interface/validate-response';
@@ -33,6 +31,7 @@ import { HTTPServer } from './module/http-server';
 import { Logger } from './module/logger';
 import { Router } from './module/router';
 import { Scheduler } from './module/scheduler';
+import { State } from './module/state';
 import { WSServer } from './module/ws-server';
 
 /**
@@ -66,11 +65,9 @@ export {
 	ServerHelper,
 
 	// Interface.
-	IAny,
 	IContext,
 	IContextRaw,
 	IOptions,
-	IRecord,
 	IReturn,
 	IService,
 	IValidateResponse,
@@ -82,6 +79,7 @@ export {
 	Logger,
 	Router,
 	Scheduler,
+	State,
 	WSServer,
 
 	// External.

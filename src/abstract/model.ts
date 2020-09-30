@@ -1,7 +1,5 @@
-import { IAny } from '../interface/any';
 import { Collection } from 'mongodb';
 import { IValidateResponse } from '../interface/validate-response';
-import { State } from '../module/state';
 
 /**
  * The abstract model comes with various pre-defined functions for collection
@@ -10,8 +8,6 @@ import { State } from '../module/state';
  * this class due to this class having the definitions and pre-built functions.
  */
 export class AbstractModel {
-
-	protected state!: State;
 
 	/**
 	 * Creates an instance of the class with the required pre-built functions
@@ -23,14 +19,14 @@ export class AbstractModel {
 	 * @param collection The linked Mongo database collection.
 	 * @param state The state module.
 	 */
-	constructor(public name: string, public type: string, public fields: IAny, public collection: Collection) {}
+	constructor(public name: string, public type: string, public fields: any, public collection: Collection) {}
 
 	/**
 	 * Used to find a single document.
 	 * 
 	 * @param query The query to pass.
 	 */
-	public async findOne(query: IAny): Promise<IAny | null> {
+	public async findOne(query: any): Promise<any> {
 		return await this.collection.findOne(query);
 	}
 
@@ -39,8 +35,8 @@ export class AbstractModel {
 	 * 
 	 * @param query The query to pass.
 	 */
-	public async find(query: IAny): Promise<Array<IAny>> {
-		const results: Array<IAny> = await this.collection.find(query).toArray();
+	public async find(query: any): Promise<Array<any>> {
+		const results: Array<any> = await this.collection.find(query).toArray();
 		return results;
 	}
 
@@ -49,7 +45,7 @@ export class AbstractModel {
 	 * 
 	 * @param record The record to pass.
 	 */
-	public async insertOne(record: IAny): Promise<string> {
+	public async insertOne(record: any): Promise<string> {
 		const result: IValidateResponse = this.validate(record);
 		if (result.valid) {
 			const result: any = await this.collection.insertOne(record);
@@ -64,7 +60,7 @@ export class AbstractModel {
 	 * 
 	 * @param records Array of multiple records to pass.
 	 */
-	public async insertMany(records: Array<IAny>): Promise<Array<string> | string> {
+	public async insertMany(records: Array<any>): Promise<Array<string> | string> {
 		for (const index in records) {
 			const result: IValidateResponse = this.validate(records[index]);
 			if (!result.valid) return String(result.reason);
@@ -81,7 +77,7 @@ export class AbstractModel {
 	 * @param update The update changes to apply to the match.
 	 * @param options The options to apply to MongoDB.
 	 */
-	public async updateOne(query: IAny, update: IAny, options?: IAny): Promise<boolean> {
+	public async updateOne(query: any, update: any, options?: any): Promise<boolean> {
 		const result: any = await this.collection.updateOne(query, { $set: update }, options);
 		return (result.result.ok === 1 ? true : false);
 	}
@@ -94,7 +90,7 @@ export class AbstractModel {
 	 * @param update The update changes to apply to the match.
 	 * @param options The options to apply to MongoDB.
 	 */
-	public async updateMany(query: IAny, update: IAny, options?: IAny): Promise<boolean> {
+	public async updateMany(query: any, update: any, options?: any): Promise<boolean> {
 		const result: any = await this.collection.updateMany(query, { $set: update }, options);
 		return (result.result.ok === 1 ? true : false);
 	}
@@ -104,7 +100,7 @@ export class AbstractModel {
 	 * 
 	 * @param query The query to match against.
 	 */
-	public async deleteOne(query: IAny): Promise<boolean> {
+	public async deleteOne(query: any): Promise<boolean> {
 		const result: any = await this.collection.deleteOne(query);
 		return (result.result.ok === 1 ? true : false);
 	}
@@ -114,7 +110,7 @@ export class AbstractModel {
 	 * 
 	 * @param query The query to match against.
 	 */
-	public async deleteMany(query: IAny): Promise<boolean> {
+	public async deleteMany(query: any): Promise<boolean> {
 		const result: any = await this.collection.deleteMany(query);
 		return (result.result.ok === 1 ? true : false);
 	}
@@ -126,7 +122,7 @@ export class AbstractModel {
 	 * 
 	 * @param record The record to validate.
 	 */
-	public validate(record: IAny): IValidateResponse {
+	public validate(record: any): IValidateResponse {
 		for (const key in record) {
 			const definition = (typeof this.fields[key] !== 'undefined' ? this.fields[key] : false);
 			if (definition !== false) {

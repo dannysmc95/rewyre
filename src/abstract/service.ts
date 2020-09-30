@@ -1,12 +1,7 @@
-import { State } from '../module/state';
-
 /**
  * The abstract class for all services to follow,
  * this class defines all the required properties and
  * makes sure the class has access to the required parts
  * of the framework.
  */
-export class AbstractService {
-
-	protected state!: State;
-}
+export class AbstractService {}

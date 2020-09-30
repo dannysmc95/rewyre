@@ -9,6 +9,7 @@ import { MiscProvider } from './provider/misc';
 
 	// Create an instance of the framework.
 	const application: Framework = new Framework({
+		db_enable: true,
 		db_database: 'todo-manager-demo',
 		ws_enable: true,
 	});

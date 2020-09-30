@@ -1,4 +1,3 @@
-import { IAny } from './any';
 import { Request, Response } from 'express';
 import * as WS from 'ws';
 
@@ -14,10 +13,10 @@ import * as WS from 'ws';
 export interface IContext {
 	type: 'http' | 'ws',
 	ipAddress: string,
-	headers: IAny,
-	cookies: IAny,
-	params: IAny,
-	query: IAny,
+	headers: any,
+	cookies: any,
+	params: any,
+	query: any,
 	body: any,
 	getRaw: () => IContextRaw,
 }

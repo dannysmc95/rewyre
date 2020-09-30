@@ -1,5 +1,3 @@
-import { IAny } from '../interface/any';
-
 /**
  * The Model decorator is used to define a class as a model, this injects a MongoDB collection
  * instance based on the model name, the name is also used for the Inject decorator and
@@ -15,7 +13,7 @@ import { IAny } from '../interface/any';
  * @param type The type of model you are defining, options: general, user.
  * @param fields The fields is an object of key, values defining the model.
  */
-export function Model(name: string, type: 'general' | 'user', fields: IAny): any {
+export function Model(name: string, type: 'general' | 'user', fields: any): any {
 	return (target: any): void => {
 
 		// Define base class information.

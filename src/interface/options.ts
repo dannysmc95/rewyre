@@ -31,6 +31,12 @@ export interface IOptions {
 	ws_access?: 'full' | 'partial';
 
 	/**
+	 * State specific options.
+	 */
+	state_flush_period?: number,
+	state_storage_type?: 'file' | 'database',
+
+	/**
 	 * Extra framework options.
 	 */
 	enable_audit?: boolean;
