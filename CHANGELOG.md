@@ -5,6 +5,31 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.0.0](https://github.com/dannysmc95/rewyre/compare/v0.3.2...v1.0.0) - 2020-09-30
+
+### Commits
+
+- Started working on the version 1 release. [`c5eff66`](https://github.com/dannysmc95/rewyre/commit/c5eff667aa22a397d5bb1aa5b971b5779f5a4f66)
+- Finished documentation and updated the state module to be injected, instead of being used in the contructor. [`e32b4e4`](https://github.com/dannysmc95/rewyre/commit/e32b4e425d5cfd2e0c9c385ba009fbc71141d0e1)
+- Completed the basic HTTP creation, alongside database setup, model instantiation, controller instantiation and injection for models. [`fe87d0c`](https://github.com/dannysmc95/rewyre/commit/fe87d0cb4525be5644770b17678e848478569037)
+- Working on the demo and fine tuning the HTTP server [`1e8dc52`](https://github.com/dannysmc95/rewyre/commit/1e8dc529af654322be3945ca8c39b647daf09826)
+- Finished implementing the scheduler and the service demo, alongisde creating a new provider in the demo, alongside adding WebSocket support [`b97f133`](https://github.com/dannysmc95/rewyre/commit/b97f1331cd8afe4a73f2913ea82bfaf3667f6566)
+- Various fixes and changes [`3c562ce`](https://github.com/dannysmc95/rewyre/commit/3c562ce431ba0e8e6f65a6517bffc50f00a281e3)
+- Working on the documentation [`01def49`](https://github.com/dannysmc95/rewyre/commit/01def4949106e41c3ab63475f5d4e0871d9c2b9c)
+- Bumped packages to the latest version, and removed the @types/moment-timezone stub definition [`d19c4e4`](https://github.com/dannysmc95/rewyre/commit/d19c4e46098f420385d354ecbac0496b9a9885a2)
+- Updated the test with the provider example and also updated all comment blocks on every method and class to make sure they all make sense. [`0a31895`](https://github.com/dannysmc95/rewyre/commit/0a318953af8659ff47cc6c3a69446406bb742ee1)
+- Added various changes and started working on the controller HTTP routing. [`7147d8f`](https://github.com/dannysmc95/rewyre/commit/7147d8f902c4da73b20ad137d60629ac86e4949e)
+- Added initial re-develop phase, rebuilding the framework ground up to be more in-keeping with TypeScript, due to the previous version not playing very well with WebSockets and the HTTP Server in the way I wanted, plus this gives up more freedom, alongside, a whole new design ready for plugin support and threading support. [`e3a9e54`](https://github.com/dannysmc95/rewyre/commit/e3a9e54b0bd3f68455839fa19e2223e929fd767e)
+- Cleaned up any code and updated and created comments for rest of the new code to help with TS type hinting [`ab0329e`](https://github.com/dannysmc95/rewyre/commit/ab0329ee36a27b45c34d3b83fb1662441732da89)
+- Setup the scheduler [`638a003`](https://github.com/dannysmc95/rewyre/commit/638a003faf2360180388cfbbc874c40c28357de9)
+- Added license [`ab73fcd`](https://github.com/dannysmc95/rewyre/commit/ab73fcda702ca20e27b09a4465f6150e33506c97)
+- Added additional comments to the constructor methods, as well as started working on the threader module. [`6d223bf`](https://github.com/dannysmc95/rewyre/commit/6d223bf507feb13319e4a9990d7d38698601ae1c)
+- Started implementing the provider, and removed the model-field interface. [`5e574a6`](https://github.com/dannysmc95/rewyre/commit/5e574a67b3bcfe0ea99ecc519b424a5ee0999f9e)
+- Started working on the state module. [`53ca9ef`](https://github.com/dannysmc95/rewyre/commit/53ca9ef4a73ada143bccb9d281b3f8c06126ffd0)
+- Started writing up the documentation [`bfe4d0e`](https://github.com/dannysmc95/rewyre/commit/bfe4d0e1694b870e4db0d0ae29a0c9e13cafd459)
+- Amended the package.json to define more information [`b0444ac`](https://github.com/dannysmc95/rewyre/commit/b0444ac5f0b34dcab57157b86d1bb04a9a6edea8)
+- Updated changelog [`59d5935`](https://github.com/dannysmc95/rewyre/commit/59d59351583edfddb4f06d678f625017218a1d01)
+
 ## [v0.3.2](https://github.com/dannysmc95/rewyre/compare/v0.3.1...v0.3.2) - 2020-09-17
 
 ### Commits
