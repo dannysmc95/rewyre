@@ -1,4 +1,4 @@
-import { Framework } from '../src/index';
+import { Framework, CryptoProvider, AuthProvider } from '../src/index';
 import { HomeController } from './controller/home';
 import { ApiController } from './controller/api';
 import { TasksModel } from './model/tasks';
@@ -15,7 +15,7 @@ import { MiscProvider } from './provider/misc';
 	});
 
 	// Register classes.
-	application.register([ HomeController, ApiController, TasksModel, TaskService, MiscProvider ]);
+	application.register([ HomeController, ApiController, TasksModel, TaskService, MiscProvider, CryptoProvider, AuthProvider ]);
 
 	// Start the server.
 	await application.start();

@@ -3,7 +3,7 @@ import { TasksModel } from '../model/tasks';
 import { MiscProvider } from '../provider/misc';
 
 @Inject(['tasks', 'misc'])
-@Service('task_completer', 5)
+@Service('task_completer', 60)
 export class TaskService extends AbstractService implements IService {
 
 	protected tasks!: TasksModel;

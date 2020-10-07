@@ -4,4 +4,4 @@
  * makes sure the class has access to the required parts
  * of the framework.
  */
-export class AbstractController {}
+export abstract class AbstractController {}

@@ -34,6 +34,9 @@ import { Scheduler } from './module/scheduler';
 import { State } from './module/state';
 import { WSServer } from './module/ws-server';
 
+import { AuthProvider } from './provider/auth';
+import { CryptoProvider } from './provider/crypto';
+
 /**
  * The default entry into the rewyre library, everything is
  * exported from this area, and ALL classes, interfaces, enums
@@ -81,6 +84,10 @@ export {
 	Scheduler,
 	State,
 	WSServer,
+
+	// Provider.
+	AuthProvider,
+	CryptoProvider,
 
 	// External.
 	ModelRecordID,

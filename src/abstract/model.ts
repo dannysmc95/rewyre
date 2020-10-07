@@ -7,7 +7,7 @@ import { IValidateResponse } from '../interface/validate-response';
  * class can be used for extending the actual model class, but make sure to extend
  * this class due to this class having the definitions and pre-built functions.
  */
-export class AbstractModel {
+export abstract class AbstractModel {
 
 	/**
 	 * Creates an instance of the class with the required pre-built functions
