@@ -1,9 +1,10 @@
-import { Framework, CryptoProvider, AuthProvider } from '../src/index';
+import { Framework, CryptoProvider } from '../src/index';
 import { HomeController } from './controller/home';
 import { ApiController } from './controller/api';
 import { TasksModel } from './model/tasks';
 import { TaskService } from './service/task';
 import { MiscProvider } from './provider/misc';
+import { DefaultGuard } from './guard/default';
 
 (async() => {
 
@@ -15,7 +16,15 @@ import { MiscProvider } from './provider/misc';
 	});
 
 	// Register classes.
-	application.register([ HomeController, ApiController, TasksModel, TaskService, MiscProvider, CryptoProvider, AuthProvider ]);
+	application.register([
+		HomeController,
+		ApiController,
+		TasksModel,
+		TaskService,
+		MiscProvider,
+		CryptoProvider,
+		DefaultGuard,
+	]);
 
 	// Start the server.
 	await application.start();

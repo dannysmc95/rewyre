@@ -9,11 +9,11 @@ import { Provide } from '../decorator/provide';
 @Provide('crypto', 'single')
 export class CryptoProvider extends AbstractProvider {
 
-	protected hash_iterations: number = 872791;
-	protected hash_salt_length: number = 32;
-	protected hash_key_length: number = 64;
-	protected hash_algorithm: string = 'sha512';
-	protected crypt_algorithm: string = 'aes-256-cbc';
+	protected hash_iterations = 872791;
+	protected hash_salt_length = 32;
+	protected hash_key_length = 64;
+	protected hash_algorithm = 'sha512';
+	protected crypt_algorithm = 'aes-256-cbc';
 
 	/**
 	 * This will take a password and use the crypto method: pbkdf2, to hash the
@@ -37,7 +37,7 @@ export class CryptoProvider extends AbstractProvider {
 	 * @param hashed_password The already hashed password.
 	 */
 	public async validatePassword(password: string, hashed_password: string): Promise<boolean> {
-		const [ hashed, salt, iterations, salt_length, key_length, hash_algorithm ] = hashed_password.split(':');
+		const [ hashed, salt, iterations,, key_length, hash_algorithm ] = hashed_password.split(':');
 		const pass_hashed: string = await this.pbkdf2(password, salt, parseInt(iterations), parseInt(key_length), hash_algorithm);
 		if (hashed === pass_hashed) {
 			return true;

@@ -3,11 +3,13 @@ import 'reflect-metadata';
 import { ObjectID as ModelRecordID } from 'mongodb';
 
 import { AbstractController } from './abstract/controller';
+import { AbstractGuard } from './abstract/guard';
 import { AbstractModel } from './abstract/model';
 import { AbstractProvider } from './abstract/provider';
 import { AbstractService } from './abstract/service';
 
 import { Controller } from './decorator/controller';
+import { Guard } from './decorator/guard';
 import { Inject } from './decorator/inject';
 import { Model } from './decorator/model';
 import { Provide } from './decorator/provide';
@@ -20,11 +22,13 @@ import { FrameworkHelper } from './helper/framework';
 import { ServerHelper } from './helper/server';
 
 import { IContext, IContextRaw } from './interface/context';
+import { IGuard } from './interface/guard';
 import { IOptions } from './interface/options';
 import { IReturn } from './interface/return';
 import { IService } from './interface/service';
 import { IValidateResponse } from './interface/validate-response';
 
+import { Authenticator } from './module/authenticator';
 import { Database } from './module/database';
 import { Framework } from './module/framework';
 import { HTTPServer } from './module/http-server';
@@ -34,7 +38,6 @@ import { Scheduler } from './module/scheduler';
 import { State } from './module/state';
 import { WSServer } from './module/ws-server';
 
-import { AuthProvider } from './provider/auth';
 import { CryptoProvider } from './provider/crypto';
 
 /**
@@ -48,12 +51,14 @@ export {
 
 	// Abstract.
 	AbstractController,
+	AbstractGuard,
 	AbstractModel,
 	AbstractProvider,
 	AbstractService,
 
 	// Decorator.
 	Controller,
+	Guard,
 	Inject,
 	Model,
 	Provide,
@@ -70,12 +75,14 @@ export {
 	// Interface.
 	IContext,
 	IContextRaw,
+	IGuard,
 	IOptions,
 	IReturn,
 	IService,
 	IValidateResponse,
 
 	// Module.
+	Authenticator,
 	Database,
 	Framework,
 	HTTPServer,
@@ -86,7 +93,6 @@ export {
 	WSServer,
 
 	// Provider.
-	AuthProvider,
 	CryptoProvider,
 
 	// External.

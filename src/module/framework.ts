@@ -6,6 +6,7 @@ import { AbstractController } from '../abstract/controller';
 import { AbstractModel } from '../abstract/model';
 import { AbstractService } from '../abstract/service';
 import { AbstractProvider } from '../abstract/provider';
+import { AbstractGuard } from '../abstract/guard';
 import { Router } from './router';
 import { HTTPServer } from './http-server';
 import { WSServer } from './ws-server';
@@ -14,6 +15,7 @@ import { Collection } from 'mongodb';
 import { Logger } from './logger';
 import { Scheduler } from './scheduler';
 import { State } from './state';
+import { Authenticator } from './authenticator';
 
 /**
  * The framework is the core part of the rewyre package, the
@@ -30,11 +32,13 @@ export class Framework {
 	protected models: Array<any> = [];
 	protected services: Array<any> = [];
 	protected providers: Array<any> = [];
+	protected guards: Array<any> = [];
 	protected http_server: HTTPServer;
 	protected ws_server: WSServer;
 	protected database: Database;
 	protected logger: Logger;
 	protected scheduler: Scheduler;
+	protected authenticator: Authenticator;
 	protected state: State;
 
 	/**
@@ -48,9 +52,10 @@ export class Framework {
 		this.helper = new FrameworkHelper();
 		this.options = this.helper.mergeOptions(options);
 		this.logger = new Logger();
+		this.authenticator = new Authenticator(this.guards, this.logger);
 		this.state = new State(this.options, this.logger);
 		this.database = new Database(this.options);
-		this.router = new Router(this.options);
+		this.router = new Router(this.options, this.authenticator);
 		this.http_server = new HTTPServer(this.options, this.router);
 		this.ws_server = new WSServer(this.options, this.http_server, this.router);
 		this.scheduler = new Scheduler(this.options);
@@ -111,7 +116,7 @@ export class Framework {
 
 		// Log launch message.
 		this.logger.notice('FRAMEWORK', `Application is listening at http://${this.options.hostname}:${this.options.port}/${this.options.ws_enable ? ` and ws://${this.options.hostname}:${this.options.port}${this.options.ws_path}` : ''}.`);
-		this.logger.notice('FRAMEWORK', `Registered ${this.controllers.length} controller(s), ${this.models.length} model(s), ${this.services.length} service(s), and ${this.providers.length} provider(s).`);
+		this.logger.notice('FRAMEWORK', `Registered ${this.controllers.length} controller(s), ${this.models.length} model(s), ${this.services.length} service(s), ${this.guards.length} guard(s), and ${this.providers.length} provider(s).`);
 	}
 
 	/**
@@ -145,65 +150,10 @@ export class Framework {
 			}
 		});
 
-		// Initialise the services.
-		this.services.forEach((service: any) => {
-
-			// Create service instance.
-			service.instance = new service.class();
-			service.instance.state = this.state;
-
-			// Proceed only if there are injections available.
-			if (service.injects.length === 0) return;
-
-			// Let's look for any matching classes.
-			service.injects.forEach((inject_name: string) => {
-
-				// Search for a model.
-				const model: any = this.helper.findMatching(this.models, inject_name);
-				if (model !== false) service.instance[inject_name] = model.instance;
-
-				// Search for a provider.
-				const provider: any = this.helper.findMatching(this.providers, inject_name);
-				if (provider !== false) {
-					if (provider.type === 'shared') {
-						service.instance[inject_name] = provider.instance;
-					} else if (provider.type === 'single') {
-						service.instance[inject_name] = new provider.class();
-						service.instance[inject_name].state = this.state;
-					}
-				}
-			});
-		});
-
-		// Initialise the controller instances and check injections.
-		this.controllers.forEach((controller: any) => {
-
-			// Create controller instance.
-			controller.instance = new controller.class();
-			controller.instance.state = this.state;
-
-			// Proceed only if there are injections available.
-			if (controller.injects.length === 0) return;
-
-			// Let's look for any matching classes.
-			controller.injects.forEach((inject_name: string) => {
-
-				// Search for a model.
-				const model: any = this.helper.findMatching(this.models, inject_name);
-				if (model !== false) controller.instance[inject_name] = model.instance;
-
-				// Search for a provider.
-				const provider: any = this.helper.findMatching(this.providers, inject_name);
-				if (provider !== false) {
-					if (provider.type === 'shared') {
-						controller.instance[inject_name] = provider.instance;
-					} else if (provider.type === 'single') {
-						controller.instance[inject_name] = new provider.class();
-						controller.instance[inject_name].state = this.state;
-					}
-				}
-			});
-		});
+		// Inject the injectables to suppoted classes.
+		this.helper.inject(this.services, { models: this.models, providers: this.providers, state: this.state });
+		this.helper.inject(this.controllers, { models: this.models, providers: this.providers, state: this.state });
+		this.helper.inject(this.guards, { models: this.models, providers: this.providers, state: this.state });
 
 		// Process the services in the scheduler.
 		this.scheduler.process(this.services);
@@ -295,6 +245,26 @@ export class Framework {
 		this.providers.push({
 			name: providerName,
 			type: providerType,
+			class: class_item,
+		});
+	}
+
+	/**
+	 * Takes the uninstatiated guard class and prepares it for
+	 * the framework to instantiate it and register it and prepare
+	 * it for use with the framework.
+	 * 
+	 * @param class_item The guard class.
+	 */
+	protected registerGuard(class_item: AbstractGuard): void {
+		const guardName: string = Reflect.getMetadata('name', class_item);
+		const guardIsFallBack: boolean = Reflect.getMetadata('is_fallback', class_item);
+		const guardInjects: Array<any> = Reflect.getMetadata('injects', class_item);
+
+		this.guards.push({
+			name: guardName,
+			is_fallback: guardIsFallBack,
+			injects: guardInjects,
 			class: class_item,
 		});
 	}

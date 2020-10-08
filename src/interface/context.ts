@@ -18,6 +18,7 @@ export interface IContext {
 	params: any,
 	query: any,
 	body: any,
+	authentication: any,
 	getRaw: () => IContextRaw,
 }
 

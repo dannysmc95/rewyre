@@ -166,6 +166,7 @@ export class WSServer {
 				params: this.helper.convertObject(request.params),
 				query: Object.assign({ ws_command: packet.command }, this.helper.convertObject(request.query)),
 				body: packet.content || {},
+				authentication: false,
 				getRaw: () => {return {
 					request: request,
 					socket: socket,

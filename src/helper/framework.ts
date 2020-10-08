@@ -1,4 +1,5 @@
 import { IOptions } from '../interface/options';
+import { State } from '../module/state';
 
 /**
  * The Framework helper, provides various functions that compliment the Framework
@@ -67,5 +68,44 @@ export class FrameworkHelper {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * This method will take an array of classes and a series of injectable
+	 * that will be used to inject "injectable" classes, this includes models
+	 * and providers at the moment.
+	 * 
+	 * @param class_items The array of classes to inject to.
+	 * @param injectables The injectables available.
+	 */
+	public inject(class_items: Array<any>, injectables: {models: Array<any>, providers: Array<any>, state: State}): void {
+		class_items.forEach((class_item: any) => {
+
+			// Create class instance.
+			class_item.instance = new class_item.class();
+			class_item.instance.state = injectables.state;
+
+			// Proceed only if there are injections available.
+			if (class_item.injects.length === 0) return;
+
+			// Let's look for any matching injectable classes.
+			class_item.injects.forEach((inject_name: string) => {
+
+				// Search for a model to inject.
+				const model: any = this.findMatching(injectables.models, inject_name);
+				if (model !== false) class_item.instance[inject_name] = model.instance;
+
+				// Search for a provider to inject.
+				const provider: any = this.findMatching(injectables.providers, inject_name);
+				if (provider !== false) {
+					if (provider.type === 'shared') {
+						class_item.instance[inject_name] = provider.instance;
+					} else if (provider.type === 'single') {
+						class_item.instance[inject_name] = new provider.class();
+						class_item.instance[inject_name].state = injectables.state;
+					}
+				}
+			});
+		});
 	}
 }

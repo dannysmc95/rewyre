@@ -80,6 +80,7 @@ export class HTTPServer {
 						params: this.helper.convertObject(request.params),
 						query: this.helper.convertObject(request.query),
 						body: request.body,
+						authentication: false,
 						getRaw: () => {return {
 							request: request,
 							response: response,

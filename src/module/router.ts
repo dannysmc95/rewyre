@@ -3,6 +3,7 @@ import { ErrorMessages } from '../enum/error-messages';
 import { IContext } from '../interface/context';
 import { IOptions } from '../interface/options';
 import { Logger } from './logger';
+import { Authenticator } from './authenticator';
 
 /**
  * The Router class manages the actual requests coming in from the
@@ -20,7 +21,7 @@ export class Router {
 	 * 
 	 * @param options The framework options.
 	 */
-	constructor(protected options: IOptions) {
+	constructor(protected options: IOptions, protected authenticator: Authenticator) {
 		this.logger = new Logger();
 	}
 
@@ -44,6 +45,10 @@ export class Router {
 				throw new Error(ErrorMessages.ENDPOINT_NOT_FOUND);
 			}
 
+			// Execute authenticator, if false, then stop processing.
+			const authStatus: boolean = await this.authenticator.process(context);
+			if (!authStatus) return;
+
 			// Execute the function.
 			const response: IReturn = await controller.instance[route.methodName](context);
 
@@ -63,6 +68,17 @@ export class Router {
 
 		} catch(err) {
 			this.logger.error('ROUTER', err.message, err);
+			if (context.type === 'http') {
+				context.getRaw().response?.status(500).end();
+			} else {
+				context.getRaw().socket?.send(JSON.stringify({
+					command: 'server_error',
+					content: {
+						status: 500,
+						message: 'Internal Server Error',
+					},
+				}));
+			}
 		}
 	}
 }
