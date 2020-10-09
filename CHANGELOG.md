@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.1.0](https://github.com/dannysmc95/rewyre/compare/v1.0.0...v1.1.0) - 2020-10-09
+
+### Commits
+
+- Made various changes to the structure of the project, including returning 500 errors, when something fails, alongside implementing authentication guards, based on the ones in the Symfony framework. [`0e8ab57`](https://github.com/dannysmc95/rewyre/commit/0e8ab576b90935b5353c0cbded7436fbf5e852a0)
+- Set the abstract classes to the abstract, as they were standard classes, created two available providers, one for crypto (encrypt, decrypt, hashPassword and validatePassword) and the auth provider which needs to be expanded on to support the @Authenticated decorator. [`49d01e3`](https://github.com/dannysmc95/rewyre/commit/49d01e387c5a70933cddbad53c961e9013374172)
+- Bumped package versions for @types/node @typescript-eslint/parser and @typescript-eslint/eslint-plugin to the latest versions.: [`3ffe5f5`](https://github.com/dannysmc95/rewyre/commit/3ffe5f5be0c6a35f0faf619211b77f2c86306c38)
+- Updated packages and bumped to release version 1. [`b2b7f59`](https://github.com/dannysmc95/rewyre/commit/b2b7f59123ec75e68d0c58dc9935c70a75b057ee)
+- Create CODE_OF_CONDUCT.md [`9bacff9`](https://github.com/dannysmc95/rewyre/commit/9bacff94966305df030ebb435155ee7f2f46edda)
+- Added various fixes to docs [`1200aa5`](https://github.com/dannysmc95/rewyre/commit/1200aa52571c8bf0a9929c12cfd88a5fff4d0012)
+- Update issue templates [`351b6d9`](https://github.com/dannysmc95/rewyre/commit/351b6d9ea12d40a4954c40cb71e9f6a9883467dd)
+- Updated changelog [`c80d893`](https://github.com/dannysmc95/rewyre/commit/c80d8935a074235517609549887e7bb8ee1e851c)
+- Create CONTRIBUTING.md [`4f56d13`](https://github.com/dannysmc95/rewyre/commit/4f56d13a0440818bd3fe09c1b86ab2f398472a5a)
+- Bumped version [`7fc58e5`](https://github.com/dannysmc95/rewyre/commit/7fc58e5f0eb525ec428c866125a74e7fed3c8df8)
+- Added various fixes to docs [`8e89bcf`](https://github.com/dannysmc95/rewyre/commit/8e89bcf5595e51e825090b4d1000ed0cc3b1e9cf)
+
 ## [v1.0.0](https://github.com/dannysmc95/rewyre/compare/v0.3.2...v1.0.0) - 2020-09-30
 
 ### Commits
