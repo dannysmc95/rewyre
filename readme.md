@@ -26,7 +26,7 @@ Below are some demos and examples you can try out to help with your development 
 
 ### Documentation
 
-The documentation is availabe here: [Documentation](https://github.com/dannysmc95/rewyre/tree/master/docs).
+The documentation is availabe here: [Documentation](https://github.com/dannysmc95/rewyre/wiki).
 
 > NOTE: The `rewyre-vue` project has not been updated to the latest rewyre stable release, but I plan to update that in the coming months, or you are welcome to create some pull requests instead.
 
