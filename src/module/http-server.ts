@@ -53,11 +53,15 @@ export class HTTPServer {
 	 * use of creating static directories to serve, this could be downloads,
 	 * assets for a webpage, or something else.
 	 * 
-	 * @param url_path The URL path.
 	 * @param folder_path The folder path.
+	 * @param url_path The URL path.
 	 */
-	public useStaticProxy(url_path: string, folder_path: string): void {
-		this.server.use(url_path, express.static(folder_path));
+	public useStaticProxy(folder_path: string, url_path?: string): void {
+		if (url_path) {
+			this.server.use(url_path, express.static(folder_path));
+		} else {
+			this.server.use(express.static(folder_path));
+		}
 	}
 
 	/**

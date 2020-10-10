@@ -92,11 +92,11 @@ export class Framework {
 	 * This method will create static routes and map them directly
 	 * to the underlying Express server.
 	 * 
-	 * @param url_path The URL path to access the static folder.
 	 * @param folder_path The path to the folder you wish to be accessible.
+	 * @param url_path [Optional] The URL path to access the static folder.
 	 */
-	public useStatic(url_path: string, folder_path: string): void {
-		this.http_server.useStaticProxy(url_path, folder_path);
+	public useStatic(folder_path: string, url_path?: string): void {
+		this.http_server.useStaticProxy(folder_path, url_path);
 	}
 
 	/**
