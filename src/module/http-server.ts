@@ -38,6 +38,29 @@ export class HTTPServer {
 	}
 
 	/**
+	 * This function is a simple proxy to the internal express server's
+	 * use function which allows you to apply middleware, including plugins,
+	 * middleware functions and more.
+	 * 
+	 * @param middleware The middleware function.
+	 */
+	public useProxy(middleware: (request: express.Request, response: express.Response, next: express.NextFunction) => void): void {
+		this.server.use(middleware);
+	}
+
+	/**
+	 * This function proxies the express.static functionality to allow the
+	 * use of creating static directories to serve, this could be downloads,
+	 * assets for a webpage, or something else.
+	 * 
+	 * @param url_path The URL path.
+	 * @param folder_path The folder path.
+	 */
+	public useStaticProxy(url_path: string, folder_path: string): void {
+		this.server.use(url_path, express.static(folder_path));
+	}
+
+	/**
 	 * This method will tell Express to start listening on the
 	 * given port and hostname inside of the framework options.
 	 */

@@ -16,6 +16,7 @@ import { Logger } from './logger';
 import { Scheduler } from './scheduler';
 import { State } from './state';
 import { Authenticator } from './authenticator';
+import { url } from 'inspector';
 
 /**
  * The framework is the core part of the rewyre package, the
@@ -84,7 +85,7 @@ export class Framework {
 	 * @param middleware The middleware function.
 	 */
 	public useMiddleware(middleware: (request: Request, response: Response, next: NextFunction) => void): void {
-		console.log('framework.useMiddleware', middleware);
+		this.http_server.useProxy(middleware);
 	}
 
 	/**
@@ -95,7 +96,7 @@ export class Framework {
 	 * @param folder_path The path to the folder you wish to be accessible.
 	 */
 	public useStatic(url_path: string, folder_path: string): void {
-		console.log('framework.useStatic', url_path, folder_path);
+		this.http_server.useStaticProxy(url_path, folder_path);
 	}
 
 	/**
