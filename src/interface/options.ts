@@ -31,6 +31,17 @@ export interface IOptions {
 	ws_access?: 'full' | 'partial';
 
 	/**
+	 * Email specific options.
+	 */
+	email_enable?: boolean;
+	email_host?: string;
+	email_port?: number;
+	email_auth?: any;
+	email_opt_pool?: boolean;
+	email_opt_secure?: boolean;
+	email_tls?: any;
+
+	/**
 	 * State specific options.
 	 */
 	state_flush_period?: number,

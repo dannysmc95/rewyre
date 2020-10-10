@@ -138,6 +138,7 @@ export class Framework {
 			const collection: Collection = this.database.getCollection(model.name);
 			model.instance = new model.class(model.name, model.type, model.fields, collection);
 			model.instance.state = this.state;
+			model.instance.options = this.options;
 		});
 
 		// Initialise the provider instances and check injections.
@@ -145,15 +146,16 @@ export class Framework {
 			if (provider.type === 'shared') {
 				provider.instance = new provider.class();
 				provider.instance.state = this.state;
+				provider.instance.options = this.options;
 			} else {
 				provider.instance = false;
 			}
 		});
 
 		// Inject the injectables to suppoted classes.
-		this.helper.inject(this.services, { models: this.models, providers: this.providers, state: this.state });
-		this.helper.inject(this.controllers, { models: this.models, providers: this.providers, state: this.state });
-		this.helper.inject(this.guards, { models: this.models, providers: this.providers, state: this.state });
+		this.helper.inject(this.services, { models: this.models, providers: this.providers, state: this.state, options: this.options });
+		this.helper.inject(this.controllers, { models: this.models, providers: this.providers, state: this.state, options: this.options });
+		this.helper.inject(this.guards, { models: this.models, providers: this.providers, state: this.state, options: this.options });
 
 		// Process the services in the scheduler.
 		this.scheduler.process(this.services);

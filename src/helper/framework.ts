@@ -34,6 +34,12 @@ export class FrameworkHelper {
 			ws_path: '/ws',
 			ws_access: 'full',
 
+			// Email Specific.
+			email_enable: false,
+			email_port: 465,
+			email_opt_secure: true,
+			email_opt_pool: false,
+
 			// State Specific.
 			state_flush_period: 30,
 			state_storage_type: 'file',
@@ -78,12 +84,13 @@ export class FrameworkHelper {
 	 * @param class_items The array of classes to inject to.
 	 * @param injectables The injectables available.
 	 */
-	public inject(class_items: Array<any>, injectables: {models: Array<any>, providers: Array<any>, state: State}): void {
+	public inject(class_items: Array<any>, injectables: {models: Array<any>, providers: Array<any>, state: State, options: IOptions}): void {
 		class_items.forEach((class_item: any) => {
 
 			// Create class instance.
 			class_item.instance = new class_item.class();
 			class_item.instance.state = injectables.state;
+			class_item.instance.options = injectables.options;
 
 			// Proceed only if there are injections available.
 			if (class_item.injects.length === 0) return;
@@ -103,6 +110,7 @@ export class FrameworkHelper {
 					} else if (provider.type === 'single') {
 						class_item.instance[inject_name] = new provider.class();
 						class_item.instance[inject_name].state = injectables.state;
+						class_item.instance[inject_name].options = injectables.options;
 					}
 				}
 			});

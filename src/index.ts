@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 
 import { ObjectID as ModelRecordID } from 'mongodb';
+import { SendMailOptions } from 'nodemailer';
 
 import { AbstractController } from './abstract/controller';
 import { AbstractGuard } from './abstract/guard';
@@ -39,6 +40,7 @@ import { State } from './module/state';
 import { WSServer } from './module/ws-server';
 
 import { CryptoProvider } from './provider/crypto';
+import { EmailProvider } from './provider/email';
 
 /**
  * The default entry into the rewyre library, everything is
@@ -94,7 +96,9 @@ export {
 
 	// Provider.
 	CryptoProvider,
+	EmailProvider,
 
 	// External.
 	ModelRecordID,
+	SendMailOptions,
 };
