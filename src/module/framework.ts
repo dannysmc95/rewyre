@@ -16,7 +16,6 @@ import { Logger } from './logger';
 import { Scheduler } from './scheduler';
 import { State } from './state';
 import { Authenticator } from './authenticator';
-import { url } from 'inspector';
 
 /**
  * The framework is the core part of the rewyre package, the
