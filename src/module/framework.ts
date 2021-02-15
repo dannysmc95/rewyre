@@ -1,5 +1,5 @@
 import { IOptions } from '../interface/options';
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction, Application } from 'express';
 import { FrameworkHelper } from '../helper/framework';
 import { ErrorMessages } from '../enum/error-messages';
 import { AbstractController } from '../abstract/controller';
@@ -96,6 +96,14 @@ export class Framework {
 	 */
 	public useStatic(folder_path: string, url_path?: string): void {
 		this.http_server.useStaticProxy(folder_path, url_path);
+	}
+
+	/**
+	 * Get the underlying HTTP server so that the user can extend and call
+	 * methods directly on the Express instance if needed.
+	 */
+	public getHttpServer(): Application {
+		return this.http_server.getInstance();
 	}
 
 	/**
