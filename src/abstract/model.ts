@@ -63,7 +63,7 @@ export abstract class AbstractModel {
 	public async insertMany(records: Array<any>): Promise<Array<string> | string> {
 		for (const index in records) {
 			const result: IValidateResponse = this.validate(records[index]);
-			if (!result.valid) return String(result.reason);
+			if (!result.valid) return String(`ERR:${result.reason}`);
 		}
 		const result: any = await this.collection.insertMany(records);
 		return Object.values(result.insertedIds);
@@ -146,6 +146,6 @@ export abstract class AbstractModel {
 				return { valid: false, reason: `Missing model key: ${fkey}.` };
 			}
 		}
-		return { valid: true} ;
+		return { valid: true };
 	}
 }
