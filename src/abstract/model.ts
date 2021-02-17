@@ -123,18 +123,26 @@ export abstract class AbstractModel {
 	 * @param record The record to validate.
 	 */
 	public validate(record: any): IValidateResponse {
-		for (const key in record) {
+
+		// Remove any undefined values.
+		const recordSorted: any = {};
+		Object.keys(record).forEach((key: string) => {
+			if (record[key] !== undefined) recordSorted[key] = record[key];
+		});
+
+		// Process the validation.
+		for (const key in recordSorted) {
 			const definition = (typeof this.fields[key] !== 'undefined' ? this.fields[key] : false);
 			if (definition !== false) {
-				if (typeof record[key] !== definition.replace('?', '')) {
-					return { valid: false, reason: `The key: ${key} should be of type: ${definition.replace('?', '')}, not type: ${typeof record[key]}.` };
+				if (typeof recordSorted[key] !== definition.replace('?', '')) {
+					return { valid: false, reason: `The key: ${key} should be of type: ${definition.replace('?', '')}, not type: ${typeof recordSorted[key]}.` };
 				}
 			} else {
 				return { valid: false, reason: `The key: ${key}, does not exist on this model.` };
 			}
 		}
 		for (const fkey in this.fields) {
-			if (typeof record[fkey] === 'undefined' && String(this.fields[fkey]).charAt(0) !== '?') {
+			if (typeof recordSorted[fkey] === 'undefined' && String(this.fields[fkey]).charAt(0) !== '?') {
 				return { valid: false, reason: `Missing model key: ${fkey}.` };
 			}
 		}
