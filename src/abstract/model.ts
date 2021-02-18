@@ -26,8 +26,8 @@ export abstract class AbstractModel {
 	 * 
 	 * @param query The query to pass.
 	 */
-	public async findOne(query: any): Promise<any> {
-		return await this.collection.findOne(query);
+	public async findOne(query: any, options?: any): Promise<any> {
+		return this.collection.findOne(query, options);
 	}
 
 	/**
@@ -35,9 +35,8 @@ export abstract class AbstractModel {
 	 * 
 	 * @param query The query to pass.
 	 */
-	public async find(query: any): Promise<Array<any>> {
-		const results: Array<any> = await this.collection.find(query).toArray();
-		return results;
+	public async find(query: any, options?: any): Promise<any[]> {
+		return await this.collection.find(query, options).toArray();
 	}
 
 	/**
@@ -60,7 +59,7 @@ export abstract class AbstractModel {
 	 * 
 	 * @param records Array of multiple records to pass.
 	 */
-	public async insertMany(records: Array<any>): Promise<Array<string> | string> {
+	public async insertMany(records: Array<any>): Promise<string[] | string> {
 		for (const index in records) {
 			const result: IValidateResponse = this.validate(records[index]);
 			if (!result.valid) return String(`ERR:${result.reason}`);
