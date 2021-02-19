@@ -10,6 +10,7 @@ export class ApiController extends AbstractController {
 	@Route('GET', '/tasks')
 	public async index(): Promise<IReturn> {
 		const tasks = await this.tasks.find({});
+		console.log('Count', await this.tasks.count({}));
 		return { status: 200, content: tasks };
 	}
 

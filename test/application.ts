@@ -13,6 +13,7 @@ import { DefaultGuard } from './guard/default';
 		db_enable: true,
 		db_database: 'todo-manager-demo',
 		ws_enable: true,
+		port: 3005,
 	});
 
 	// Register classes.
