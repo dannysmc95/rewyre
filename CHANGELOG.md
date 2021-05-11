@@ -5,6 +5,41 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.2.6](https://github.com/dannysmc95/rewyre/compare/v1.0.0...v1.2.6) - 2021-05-11
+
+### Commits
+
+- Removed nodemailer [`4f65c77`](https://github.com/dannysmc95/rewyre/commit/4f65c775ceef31bb9793b98ba7fbd4530baa68a6)
+- Started working on the build in ORM, previous versions were not tagged, only minor bug fixes [`2cf57f9`](https://github.com/dannysmc95/rewyre/commit/2cf57f9a70cdeb916b4ca72bcd7b85338e3f6784)
+- Removed documentation from inside the project, and moved to the github wiki instead. [`90ba284`](https://github.com/dannysmc95/rewyre/commit/90ba2846dcaa1b87cb67e3088b5c01c9d2fad356)
+- Made various changes to the structure of the project, including returning 500 errors, when something fails, alongside implementing authentication guards, based on the ones in the Symfony framework. [`0e8ab57`](https://github.com/dannysmc95/rewyre/commit/0e8ab576b90935b5353c0cbded7436fbf5e852a0)
+- Set the abstract classes to the abstract, as they were standard classes, created two available providers, one for crypto (encrypt, decrypt, hashPassword and validatePassword) and the auth provider which needs to be expanded on to support the @Authenticated decorator. [`49d01e3`](https://github.com/dannysmc95/rewyre/commit/49d01e387c5a70933cddbad53c961e9013374172)
+- Added a basic email provider that uses nodemailer [`1e66cb7`](https://github.com/dannysmc95/rewyre/commit/1e66cb7d019387b457c69731da0580780c8fcebb)
+- Bumped package versions for @types/node @typescript-eslint/parser and @typescript-eslint/eslint-plugin to the latest versions.: [`3ffe5f5`](https://github.com/dannysmc95/rewyre/commit/3ffe5f5be0c6a35f0faf619211b77f2c86306c38)
+- Updated packages and bumped to release version 1. [`b2b7f59`](https://github.com/dannysmc95/rewyre/commit/b2b7f59123ec75e68d0c58dc9935c70a75b057ee)
+- Create CODE_OF_CONDUCT.md [`9bacff9`](https://github.com/dannysmc95/rewyre/commit/9bacff94966305df030ebb435155ee7f2f46edda)
+- Updated nodemailer to be an optional dependency, to use it you must install it yourself. Also updated eslint and @types/node. [`e04ca74`](https://github.com/dannysmc95/rewyre/commit/e04ca748f9e0e5da0fba2190480706eec5261f59)
+- Added various fixes to docs [`1200aa5`](https://github.com/dannysmc95/rewyre/commit/1200aa52571c8bf0a9929c12cfd88a5fff4d0012)
+- Added amends to the abstract model to support more complex queries. [`8a86ef3`](https://github.com/dannysmc95/rewyre/commit/8a86ef327ab0ac89b5387fa6dea2eb02e5c6848c)
+- Update issue templates [`351b6d9`](https://github.com/dannysmc95/rewyre/commit/351b6d9ea12d40a4954c40cb71e9f6a9883467dd)
+- Added fixes to the useStatic and useMiddleware functions of the framework which were not correctly linked up, missed step in development. [`46d86de`](https://github.com/dannysmc95/rewyre/commit/46d86dedfa47b2e09467215152b65f6c8f07609e)
+- Set the new definition [`f00d0be`](https://github.com/dannysmc95/rewyre/commit/f00d0be35f338fce05d1842a8575a40f6fa91c4d)
+- Updated changelog [`c80d893`](https://github.com/dannysmc95/rewyre/commit/c80d8935a074235517609549887e7bb8ee1e851c)
+- Added fix to remove all undefined values in model field validation [`823d5da`](https://github.com/dannysmc95/rewyre/commit/823d5da34ab456453fda3add5ee0a8100d44696e)
+- Swapped the parameters for useStatic, so that the url_path can be optional and therefore allow a user to not be forced to define a url_path allowing them to set static folders with no prefix path. [`21fc5d9`](https://github.com/dannysmc95/rewyre/commit/21fc5d9c25cfef1869fd0fa3b9d5d2c1c4fbfa9f)
+- Updated changelog [`524cfe1`](https://github.com/dannysmc95/rewyre/commit/524cfe15fc9eb43f29d4b96f703e9dd4234a3be5)
+- Added options controls to find methods [`db08f99`](https://github.com/dannysmc95/rewyre/commit/db08f9947a0fab2f14193344e94b1b5b3367d67e)
+- Set nodemailer back to a dep and bumped the version to 1.2 [`51170d4`](https://github.com/dannysmc95/rewyre/commit/51170d4a3a18bf20cee46d4f96dd76427bbc44b7)
+- Updated changelog [`b363571`](https://github.com/dannysmc95/rewyre/commit/b36357164d3c00abcfb637ffba6b141ffc1d1504)
+- Create CONTRIBUTING.md [`4f56d13`](https://github.com/dannysmc95/rewyre/commit/4f56d13a0440818bd3fe09c1b86ab2f398472a5a)
+- Added new getHttpServer method to pull the underlying express instance [`40f8d49`](https://github.com/dannysmc95/rewyre/commit/40f8d49f7eaf779a74d390f437bf6a1781facc9f)
+- Various changes to the dashboard, admin header, and server manager [`c11b65d`](https://github.com/dannysmc95/rewyre/commit/c11b65d5dd911dd662dbf1733fb93ef78814c61b)
+- Updated documentation link [`1bb7fdb`](https://github.com/dannysmc95/rewyre/commit/1bb7fdb322a737cc8835d31b105774acc4b764e6)
+- Bumped version [`7fc58e5`](https://github.com/dannysmc95/rewyre/commit/7fc58e5f0eb525ec428c866125a74e7fed3c8df8)
+- Added various fixes to docs [`8e89bcf`](https://github.com/dannysmc95/rewyre/commit/8e89bcf5595e51e825090b4d1000ed0cc3b1e9cf)
+- Removed an unused import [`4ad301b`](https://github.com/dannysmc95/rewyre/commit/4ad301b502fed86072ad052bca3039cfb4f2760b)
+- Removed unused import [`9bee671`](https://github.com/dannysmc95/rewyre/commit/9bee671ea4b151f24e029bb855ec1948c11e96af)
+
 ## [v1.0.0](https://github.com/dannysmc95/rewyre/compare/v0.3.2...v1.0.0) - 2020-09-30
 
 ### Commits
