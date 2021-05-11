@@ -4,10 +4,6 @@
 
 The rewyre framework is built on top of express, and express-ws and utilises TypeScript to give you a powerful wiring tool to create API applications in a very short time. The framework uses TypeScript decorators to apply controller and routing functionality and apply additional controls.
 
-The package was originally called `aether-framework` and then changed to `@rewyre/core` and is now just named as `rewyre`, I apologise for this, I was very conflicted with what to name it.
-
-> **IMPORTANT** This project has been completely re-written from ground up for the latest version 1 release, this is because the project did not have enough flexibility than what it needed when it released in alpha, therefore this is the final version of the API and structure.
-
 <br />
 
 ## Installation

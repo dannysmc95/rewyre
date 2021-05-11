@@ -9,7 +9,7 @@ import { Provide } from '../decorator/provide';
 @Provide('crypto', 'single')
 export class CryptoProvider extends AbstractProvider {
 
-	protected hash_iterations = 872791;
+	protected hash_iterations = 1000;
 	protected hash_salt_length = 32;
 	protected hash_key_length = 64;
 	protected hash_algorithm = 'sha512';
