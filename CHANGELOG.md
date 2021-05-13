@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v2.0.0](https://github.com/dannysmc95/rewyre/compare/v1.2.6...v2.0.0) - 2021-05-13
+
+### Commits
+
+- Added support fot driver functionality for database management for both MySQL and MongoDB. [`cd12891`](https://github.com/dannysmc95/rewyre/commit/cd12891be9c1f395746b0f90d2b0b9ffd857e292)
+- Updated documentation, moved stuff around, and added doc blocks for new code [`5428940`](https://github.com/dannysmc95/rewyre/commit/5428940fa9ef164bae4d123d1c2d14d3d47365e2)
+- Fixing various code and adding support to add your own database drivers [`34d58f8`](https://github.com/dannysmc95/rewyre/commit/34d58f87269de208f5097d33cf472cb07d03cc26)
+- Fixed some bugs around custom drivers and making sure they are called correctly, including some test cases around it [`2cf3f7f`](https://github.com/dannysmc95/rewyre/commit/2cf3f7f59ffbb2c49b5a6a7a6b7e08f969fcd838)
+- Updated folder structure alongside updating the licensing information. [`0c29dae`](https://github.com/dannysmc95/rewyre/commit/0c29dae08333923667253b40e39ce57115a4fbde)
+- Updated changelog [`a7630da`](https://github.com/dannysmc95/rewyre/commit/a7630da3539f83bcaa8999ab4bd6a5a11ea22568)
+
 ## [v1.2.6](https://github.com/dannysmc95/rewyre/compare/v1.0.0...v1.2.6) - 2021-05-11
 
 ### Commits
