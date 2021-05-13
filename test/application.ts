@@ -1,11 +1,14 @@
 import { Framework, CryptoProvider, Drivers } from '../src/index';
 import { HomeController } from './controller/home';
 import { ApiController } from './controller/api';
+import { CustomController } from './controller/custom';
+import { UserController } from './controller/user';
 import { TasksModel } from './model/tasks';
 import { TaskService } from './service/task';
 import { MiscProvider } from './provider/misc';
 import { DefaultGuard } from './guard/default';
 import { UsersModel } from './model/users';
+import { LogsModel } from './model/logs';
 import { DatabaseDriverFile } from './driver/file';
 
 (async() => {
@@ -51,11 +54,14 @@ import { DatabaseDriverFile } from './driver/file';
 	application.register([
 		HomeController,
 		ApiController,
+		CustomController,
+		UserController,
 		DatabaseDriverFile,
 		TasksModel,
 		UsersModel,
 		TaskService,
 		MiscProvider,
+		LogsModel,
 		CryptoProvider,
 		DefaultGuard,
 	]);

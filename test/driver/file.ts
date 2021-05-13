@@ -16,7 +16,7 @@ export class DatabaseDriverFile implements IDatabaseDriver {
 
 	public async find(collection: string, query: any, options?: any): Promise<any[]> {
 		console.log(collection, query, options);
-		return [];
+		return ['hello'];
 	}
 
 	public async count(collection: string, query: any, options?: any): Promise<number> {
