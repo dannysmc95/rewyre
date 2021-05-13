@@ -11,7 +11,6 @@ import { Router } from './router';
 import { HTTPServer } from './http-server';
 import { WSServer } from './ws-server';
 import { Database } from './database';
-import { Collection } from 'mongodb';
 import { Logger } from './logger';
 import { Scheduler } from './scheduler';
 import { State } from './state';
@@ -54,7 +53,7 @@ export class Framework {
 		this.logger = new Logger();
 		this.authenticator = new Authenticator(this.guards, this.logger);
 		this.state = new State(this.options, this.logger);
-		this.database = new Database(this.options);
+		this.database = new Database(this.options, this.logger);
 		this.router = new Router(this.options, this.authenticator);
 		this.http_server = new HTTPServer(this.options, this.router);
 		this.ws_server = new WSServer(this.options, this.http_server, this.router);
@@ -123,7 +122,7 @@ export class Framework {
 		this.http_server.start();
 
 		// Log launch message.
-		this.logger.notice('FRAMEWORK', `Application is listening at http://${this.options.hostname}:${this.options.port}/${this.options.ws_enable ? ` and ws://${this.options.hostname}:${this.options.port}${this.options.ws_path}` : ''}.`);
+		this.logger.notice('FRAMEWORK', `Application is listening at http://${this.options.host}:${this.options.port}/${this.options.websocket ? ` and ws://${this.options.host}:${this.options.port}${this.options.websocket_path}` : ''}.`);
 		this.logger.notice('FRAMEWORK', `Registered ${this.controllers.length} controller(s), ${this.models.length} model(s), ${this.services.length} service(s), ${this.guards.length} guard(s), and ${this.providers.length} provider(s).`);
 	}
 
@@ -143,8 +142,7 @@ export class Framework {
 
 		// Initialise the model instances.
 		this.models.forEach((model: any) => {
-			const collection: Collection = this.database.getCollection(model.name);
-			model.instance = new model.class(model.name, model.type, model.fields, collection);
+			model.instance = new model.class(model.name, model.type, model.fields, this.database.getDatabase(model.unique));
 			model.instance.state = this.state;
 			model.instance.options = this.options;
 		});
@@ -211,12 +209,14 @@ export class Framework {
 	protected registerModel(class_item: AbstractModel): void {
 		const modelName: string = Reflect.getMetadata('name', class_item);
 		const modelFields: any = Reflect.getMetadata('fields', class_item);
+		const modelUnique: string = Reflect.getMetadata('database', class_item);
 		const modelType: 'general' | 'user' = Reflect.getMetadata('type', class_item);
 
 		this.models.push({
 			name: modelName,
 			fields: modelFields,
 			type: modelType,
+			unique: modelUnique,
 			class: class_item,
 		});
 	}

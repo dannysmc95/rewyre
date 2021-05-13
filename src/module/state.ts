@@ -37,7 +37,7 @@ export class State {
 	 */
 	public async initialise(): Promise<void> {
 		try {
-			if (this.options.db_enable && this.options.state_storage_type === 'database') {
+			if (this.options.database && this.options.state_storage_type === 'database') {
 				const pstate: any = await this.collection?.findOne({name: 'rewyre-state'}) || {};
 				if (typeof pstate === 'undefined') {
 					this.state = {};
@@ -80,7 +80,7 @@ export class State {
 	 * it will attempt to flush the data to storage.
 	 */
 	protected async flush(): Promise<void> {
-		if (this.options.db_enable && this.options.state_storage_type === 'database') {
+		if (this.options.database && this.options.state_storage_type === 'database') {
 			await this.collection?.updateOne({name: 'rewyre-state'}, this.state, { upsert: true });
 		} else {
 			await fs.writeFile(this.file_path, JSON.stringify(this.state), 'utf-8');

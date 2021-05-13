@@ -1,7 +1,7 @@
-import { Collection, MongoClient, MongoError, Db } from 'mongodb';
-import { ErrorMessages } from '../enum/error-messages';
-import { IOptions } from '../interface/options';
+import { IDatabaseDriver } from '../interface/database-driver';
+import { IDatabaseItem, IOptions } from '../interface/options';
 import { Logger } from './logger';
+import { resolve } from 'path';
 
 /**
  * The database class is used specifically for the Mongo database
@@ -11,10 +11,9 @@ import { Logger } from './logger';
  */
 export class Database {
 
-	protected database!: Db;
-	protected logger: Logger;
-	protected database_uri!: string;
-	protected mongo_options: any = { useUnifiedTopology: true, useNewUrlParser: true };
+	protected drivers: Map<string, any> = new Map();
+	protected databases: Map<string, IDatabaseDriver> = new Map();
+	protected default = '';
 
 	/**
 	 * Creates an instance of the database class which contains and
@@ -23,55 +22,46 @@ export class Database {
 	 * 
 	 * @param options The framework options.
 	 */
-	constructor(protected options: IOptions) {
-		this.logger = new Logger();
-		this.buildDatabaseUri();
-	}
+	constructor(protected options: IOptions, protected logger: Logger) {}
 
 	/**
-	 * Will build a database URI from the given framework settings
-	 * and will include authentication with the URI if available or
-	 * if enabled through the framework settings.
-	 */
-	public buildDatabaseUri(): void {
-		if (!this.options.db_authenticate) {
-			this.database_uri = `mongodb://${this.options.db_hostname}:${this.options.db_password}/${this.options.db_database}`;
-		} else {
-			if (this.options.db_username && this.options.db_password) {
-				this.database_uri = `mongodb://${this.options.db_username}:${this.options.db_password}@${this.options.db_hostname}:${this.options.db_password}/${this.options.db_database}`;
-			}
-		}
-	}
-
-	/**
-	 * Initialises the database, this will actually make the initial
-	 * request and then create a client and then a database connection
-	 * defined by the settings, the default database is: `rewyre` and
-	 * can be changed in the framework settings.
+	 * This method will initialise and import any required drivers and then
+	 * prepare the drivers to be used.
+	 * 
+	 * @returns void
 	 */
 	public async initialise(): Promise<void> {
-		await new Promise((resolve) => {
-			try {
-				MongoClient.connect(this.database_uri, this.mongo_options, (err: MongoError, client: MongoClient) => {
-					if (err) throw new Error(ErrorMessages.DATABASE_CONNECTION_FAILED);
-					const mongo_instance: MongoClient = client;
-					this.database = mongo_instance.db(this.options.db_database);
-					resolve(true);
-				});
-			} catch(err) {
-				this.logger.error('DATABASE', err.message, err);
-			}
+		if (!this.options.database) return;
+
+		// Setup the drivers and import the classes.
+		for (const index in this.options.databases) {
+			const databaseConfig = this.options.databases[index];
+			if (this.drivers.has(databaseConfig.driver)) return;
+			const basepath = resolve(__dirname, '../driver');
+			const filepath = resolve(basepath, `database-${databaseConfig.driver}.ts`);
+			this.drivers.set(databaseConfig.driver, await import(filepath));
+		}
+
+		// Now let's create instances of the drivers.
+		this.options.databases?.forEach((databaseConfig: IDatabaseItem) => {
+			if (!this.drivers.has(databaseConfig.driver)) throw new Error(`Missing driver for ${databaseConfig.driver}.`);
+			const driver = this.drivers.get(databaseConfig.driver);
+			const className = Object.keys(driver)[0];
+			this.databases.set(databaseConfig.unique, new driver[className](databaseConfig));
+			if (databaseConfig.default) this.default = databaseConfig.unique;
 		});
 	}
 
 	/**
-	 * Returns a collection from the Mongo database instance based
-	 * on the given collection name, will create one if it does not
-	 * exist.
+	 * This will return an existing database instance based on the given unique
+	 * name if it exists.
 	 * 
-	 * @param collection_name The name of the collection.
+	 * @param unique The unique key.
+	 * @returns The database instance.
 	 */
-	public getCollection(collection_name: string): Collection {
-		return this.database.collection(collection_name);
+	public getDatabase(unique: string | boolean): any {
+		if (unique === false) return this.databases.get(this.default);
+		if (!this.databases.has(String(unique))) throw new Error(`No database of unique name: ${String(unique)} found.`);
+		return this.databases.get(String(unique));
 	}
 }

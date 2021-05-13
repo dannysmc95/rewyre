@@ -51,7 +51,7 @@ export class WSServer {
 	 */
 	public process(controllers: Array<any>): void {
 		this.controllers = controllers;
-		if (this.options.ws_enable) {
+		if (this.options.websocket) {
 			this.initialise();
 		}
 	}
@@ -62,7 +62,7 @@ export class WSServer {
 	 * be managed correctly.
 	 */
 	protected initialise(): void {
-		this.server.ws(this.options.ws_path || '/ws', (socket: WS, request: Request) => {
+		this.server.ws(this.options.websocket_path || '/ws', (socket: WS, request: Request) => {
 
 			// On Socket Open.
 			this.onOpen(socket, request);

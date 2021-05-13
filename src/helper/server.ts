@@ -33,8 +33,8 @@ export class ServerHelper {
 	 * @param route The specific route to verify.
 	 */
 	public checkWebSocketAccess(options: IOptions, controller: any, route: any): boolean {
-		if (!options.ws_enable) return false;
-		if (options.ws_access === 'full') return true;
+		if (!options.websocket) return false;
+		if (options.websocket_access === 'full') return true;
 		if (controller.websocket && route.websocket) {
 			return true;
 		}

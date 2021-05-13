@@ -1,4 +1,4 @@
-import { IOptions } from '../interface/options';
+import { IDatabaseItem, IOptions } from '../interface/options';
 import { State } from '../module/state';
 
 /**
@@ -20,35 +20,36 @@ export class FrameworkHelper {
 
 			// Framework Specific.
 			port: 3000,
-			hostname: 'localhost',
+			host: 'localhost',
 
 			// Database Specific.
-			db_enable: true,
-			db_database: 'rewyre-application',
-			db_port: 27017,
-			db_hostname: 'localhost',
-			db_authenticate: false,
+			database: false,
+			databases: [],
 
 			// WebSocket Specific.
-			ws_enable: false,
-			ws_path: '/ws',
-			ws_access: 'full',
-
-			// Email Specific.
-			email_enable: false,
-			email_port: 465,
-			email_opt_secure: true,
-			email_opt_pool: false,
+			websocket: false,
+			websocket_path: '/ws',
+			websocket_access: 'partial',
 
 			// State Specific.
 			state_flush_period: 30,
 			state_storage_type: 'file',
-
-			// Extra Specific.
-			enable_audit: false,
-			enable_debug: false,
 		}
-		return Object.assign(defaultOptions, options);
+		const mergedOptions: IOptions = Object.assign(defaultOptions, options);
+		this.validateOptions(mergedOptions);
+		return mergedOptions;
+	}
+
+	public validateOptions(options: IOptions): void {
+		
+		// Validate database.
+		if (options.database === true) {
+			let hasDefault = false;
+			options.databases?.forEach((database: IDatabaseItem) => {
+				if (database.default === true) hasDefault = true;
+			});
+			if (!hasDefault) throw new Error('At least one database must be set as default.');
+		}
 	}
 
 	/**

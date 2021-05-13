@@ -1,4 +1,4 @@
-import { Collection } from 'mongodb';
+import { IDatabaseDriver } from '../interface/database-driver';
 import { IValidateResponse } from '../interface/validate-response';
 
 /**
@@ -16,18 +16,18 @@ export abstract class AbstractModel {
 	 * @param name The model name.
 	 * @param type The model type.
 	 * @param fields The fields in the model.
-	 * @param collection The linked Mongo database collection.
+	 * @param database The linked database driver instance.
 	 * @param state The state module.
 	 */
-	constructor(public name: string, public type: string, public fields: any, public collection: Collection) {}
+	constructor(public name: string, public type: string, public fields: any, public database: IDatabaseDriver) {}
 
 	/**
 	 * Returns the collection used by this model, this can be used for more
 	 * advanced searches, with filtering, and more, this has been done to
 	 * prevent too much complexity in the base model.
 	 */
-	public getCollection(): Collection {
-		return this.collection;
+	public getInstance(): IDatabaseDriver {
+		return this.database;
 	}
 
 	/**
@@ -37,7 +37,7 @@ export abstract class AbstractModel {
 	 * @param options Any options to pass.
 	 */
 	public async findOne(query: any, options?: any): Promise<any> {
-		return await this.collection.findOne(query, options);
+		return await this.database.findOne(this.name, query, options);
 	}
 
 	/**
@@ -47,7 +47,7 @@ export abstract class AbstractModel {
 	 * @param options Any options to pass.
 	 */
 	public async find(query: any, options?: any): Promise<any[]> {
-		return await this.collection.find(query, options).toArray();
+		return await this.database.find(this.name, query, options);
 	}
 
 	/**
@@ -57,7 +57,7 @@ export abstract class AbstractModel {
 	 * @param options Any options to pass.
 	 */
 	public async count(query: any, options?: any): Promise<number> {
-		return (await this.collection.countDocuments(query, options) as any);
+		return await this.database.count(this.name, query, options);
 	}
 
 	/**
@@ -66,14 +66,10 @@ export abstract class AbstractModel {
 	 * @param record The record to pass.
 	 * @param options Any options to pass.
 	 */
-	public async insertOne(record: any, options?: any): Promise<string> {
+	public async insertOne(record: any, options?: any): Promise<string | number> {
 		const result: IValidateResponse = this.validate(record);
-		if (result.valid) {
-			const result: any = await this.collection.insertOne(record, options);
-			return result.insertedId;
-		} else {
-			return String(result.reason);
-		}
+		if (!result.valid) return String(result.reason);
+		return await this.database.insertOne(this.name, record, options);
 	}
 
 	/**
@@ -82,13 +78,12 @@ export abstract class AbstractModel {
 	 * @param records Array of multiple records to pass.
 	 * @param options Any options to pass.
 	 */
-	public async insertMany(records: Array<any>, options?: any): Promise<string[] | string> {
+	public async insertMany(records: Array<any>, options?: any): Promise<number[] | string[]> {
 		for (const index in records) {
 			const result: IValidateResponse = this.validate(records[index]);
-			if (!result.valid) return String(result.reason);
+			if (!result.valid && result.reason) return [result.reason];
 		}
-		const result: any = await this.collection.insertMany(records, options);
-		return Object.values(result.insertedIds);
+		return await this.database.insertMany(this.name, records, options);
 	}
 
 	/**
@@ -100,8 +95,7 @@ export abstract class AbstractModel {
 	 * @param options The options to apply to MongoDB.
 	 */
 	public async updateOne(query: any, update: any, options?: any): Promise<boolean> {
-		const result: any = await this.collection.updateOne(query, { $set: update }, options);
-		return (result.result.ok === 1 ? true : false);
+		return await this.database.updateOne(this.name, query, update, options);
 	}
 
 	/**
@@ -113,8 +107,7 @@ export abstract class AbstractModel {
 	 * @param options The options to apply to MongoDB.
 	 */
 	public async updateMany(query: any, update: any, options?: any): Promise<boolean> {
-		const result: any = await this.collection.updateMany(query, { $set: update }, options);
-		return (result.result.ok === 1 ? true : false);
+		return await this.database.updateMany(this.name, query, update, options);
 	}
 
 	/**
@@ -124,8 +117,7 @@ export abstract class AbstractModel {
 	 * @param options Any options to pass.
 	 */
 	public async deleteOne(query: any, options?: any): Promise<boolean> {
-		const result: any = await this.collection.deleteOne(query, options);
-		return (result.result.ok === 1 ? true : false);
+		return await this.database.deleteOne(this.name, query, options);
 	}
 
 	/**
@@ -135,8 +127,7 @@ export abstract class AbstractModel {
 	 * @param options Any options to pass.
 	 */
 	public async deleteMany(query: any, options?: any): Promise<boolean> {
-		const result: any = await this.collection.deleteMany(query, options);
-		return (result.result.ok === 1 ? true : false);
+		return await this.database.deleteMany(this.name, query, options);
 	}
 
 	/**

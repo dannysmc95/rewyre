@@ -12,14 +12,16 @@
  * @param name The name of the model, used for injection.
  * @param type The type of model you are defining, options: general, user.
  * @param fields The fields is an object of key, values defining the model.
+ * @param database The database field is false for the default, or the name of the specific database to use.
  */
-export function Model(name: string, type: 'general' | 'user', fields: any): any {
+export function Model(name: string, type: 'general' | 'user', fields: any, database: boolean | string = false): any {
 	return (target: any): void => {
 
 		// Define base class information.
 		Reflect.defineMetadata('class_type', 'model', target);
 		Reflect.defineMetadata('name', name, target);
 		Reflect.defineMetadata('type', type, target);
+		Reflect.defineMetadata('database', database, target);
 		Reflect.defineMetadata('fields', fields, target);
 	}
 }
