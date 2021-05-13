@@ -8,7 +8,7 @@
  * 
  * @returns Function
  */
- export function Catch(): any {
+export function Catch(): any {
 	return (target: any, propertyKey: string, descriptor: PropertyDescriptor): void => {
 		const originalMethod = descriptor.value;
 		descriptor.value = function(...args: Array<any>) {

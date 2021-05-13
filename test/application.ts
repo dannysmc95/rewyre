@@ -6,6 +6,7 @@ import { TaskService } from './service/task';
 import { MiscProvider } from './provider/misc';
 import { DefaultGuard } from './guard/default';
 import { UsersModel } from './model/users';
+import { DatabaseDriverFile } from './driver/file';
 
 (async() => {
 
@@ -33,6 +34,16 @@ import { UsersModel } from './model/users';
 				driver: Drivers.MYSQL,
 				pass: '!!REWYREFRAMEWORK!!',
 			},
+			{
+				unique: 'file',
+				host: 'localhost',
+				port: 3306,
+				user: 'rewyre',
+				name: 'rewyre',
+				driver: 'file',	// Define the custom driver engine name.
+				pass: '!!REWYREFRAMEWORK!!',
+				customDriver: true,
+			},
 		],
 	});
 
@@ -40,6 +51,7 @@ import { UsersModel } from './model/users';
 	application.register([
 		HomeController,
 		ApiController,
+		DatabaseDriverFile,
 		TasksModel,
 		UsersModel,
 		TaskService,

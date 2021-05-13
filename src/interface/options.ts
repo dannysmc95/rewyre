@@ -45,12 +45,13 @@ export interface IOptions {
  */
 export interface IDatabaseItem {
 	unique: string;
-	name: string;
-	port: number;
+	name?: string;
+	port?: number;
 	host?: string;
 	user?: string;
 	pass?: string;
 	driver: string;
 	workers?: number;
 	default?: boolean;
+	customDriver?: boolean;
 }

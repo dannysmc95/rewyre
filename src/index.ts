@@ -10,6 +10,7 @@ import { AbstractService } from './abstract/service';
 
 import { Catch } from './decorator/catch';
 import { Controller } from './decorator/controller';
+import { Driver } from './decorator/driver';
 import { Guard } from './decorator/guard';
 import { Inject } from './decorator/inject';
 import { Model } from './decorator/model';
@@ -30,7 +31,7 @@ import { IContext, IContextRaw } from './interface/context';
 import { IDatabaseDriver } from './interface/database-driver';
 import { IDriver } from './interface/driver';
 import { IGuard } from './interface/guard';
-import { IOptions } from './interface/options';
+import { IOptions, IDatabaseItem } from './interface/options';
 import { IReturn } from './interface/return';
 import { IService } from './interface/service';
 import { IValidateResponse } from './interface/validate-response';
@@ -64,14 +65,15 @@ export {
 	AbstractService,
 
 	// Decorator.
+	Catch,
 	Controller,
+	Driver,
 	Guard,
 	Inject,
 	Model,
 	Provide,
 	Route,
 	Service,
-	Catch,
 
 	// Driver.
 	DatabaseDriverMongo,
@@ -89,6 +91,7 @@ export {
 	IContext,
 	IContextRaw,
 	IDatabaseDriver,
+	IDatabaseItem,
 	IDriver,
 	IGuard,
 	IOptions,

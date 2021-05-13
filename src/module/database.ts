@@ -13,6 +13,7 @@ export class Database {
 
 	protected drivers: Map<string, any> = new Map();
 	protected databases: Map<string, IDatabaseDriver> = new Map();
+	protected custom: Map<string, any> = new Map();
 	protected default = '';
 
 	/**
@@ -36,18 +37,23 @@ export class Database {
 		// Setup the drivers and import the classes.
 		for (const index in this.options.databases) {
 			const databaseConfig = this.options.databases[index];
-			if (this.drivers.has(databaseConfig.driver)) return;
-			const basepath = resolve(__dirname, '../driver');
-			const filepath = resolve(basepath, `database-${databaseConfig.driver}.ts`);
-			this.drivers.set(databaseConfig.driver, await import(filepath));
+			if (this.drivers.has(databaseConfig.driver)) continue;
+			if (!databaseConfig.customDriver) {
+				const basepath = resolve(__dirname, '../driver');
+				const filepath = resolve(basepath, `database-${databaseConfig.driver}.ts`);
+				const databaseModule = await import(filepath);
+				const className = Object.keys(databaseModule)[0];
+				this.drivers.set(databaseConfig.driver, databaseModule[className]);
+			} else {
+				this.drivers.set(databaseConfig.driver, this.custom.get(databaseConfig.driver));
+			}
 		}
 
 		// Now let's create instances of the drivers.
 		this.options.databases?.forEach((databaseConfig: IDatabaseItem) => {
 			if (!this.drivers.has(databaseConfig.driver)) throw new Error(`Missing driver for ${databaseConfig.driver}.`);
 			const driver = this.drivers.get(databaseConfig.driver);
-			const className = Object.keys(driver)[0];
-			this.databases.set(databaseConfig.unique, new driver[className](databaseConfig));
+			this.databases.set(databaseConfig.unique, new driver(databaseConfig));
 			if (databaseConfig.default) this.default = databaseConfig.unique;
 		});
 	}
@@ -63,5 +69,18 @@ export class Database {
 		if (unique === false) return this.databases.get(this.default);
 		if (!this.databases.has(String(unique))) throw new Error(`No database of unique name: ${String(unique)} found.`);
 		return this.databases.get(String(unique));
+	}
+
+	/**
+	 * This method will take a list of drivers (from the framework usually that
+	 * were imported) and then initialise them inside of the database module so
+	 * they can be called upon via models, etc.
+	 * 
+	 * @param drivers The array of drivers.
+	 */
+	public customDrivers(drivers: Array<any>): any {
+		drivers.forEach((driver: any) => {
+			this.custom.set(driver.name, driver.class);
+		});
 	}
 }

@@ -15,6 +15,7 @@ import { Logger } from './logger';
 import { Scheduler } from './scheduler';
 import { State } from './state';
 import { Authenticator } from './authenticator';
+import { IDatabaseDriver } from '..';
 
 /**
  * The framework is the core part of the rewyre package, the
@@ -32,6 +33,7 @@ export class Framework {
 	protected services: Array<any> = [];
 	protected providers: Array<any> = [];
 	protected guards: Array<any> = [];
+	protected drivers: Array<any> = [];
 	protected http_server: HTTPServer;
 	protected ws_server: WSServer;
 	protected database: Database;
@@ -138,6 +140,7 @@ export class Framework {
 	protected async process(): Promise<void> {
 
 		// Initialise the database.
+		this.database.customDrivers(this.drivers);
 		await this.database.initialise();
 
 		// Initialise the model instances.
@@ -275,6 +278,22 @@ export class Framework {
 			name: guardName,
 			is_fallback: guardIsFallBack,
 			injects: guardInjects,
+			class: class_item,
+		});
+	}
+
+	/**
+	 * Takes the driver definition and prepares it ready to be
+	 * initialised into the framework. This will then be called on
+	 * when the driver is called on.
+	 * 
+	 * @param class_item The guard class.
+	 */
+	 protected registerDriver(class_item: IDatabaseDriver): void {
+		const driverName: string = Reflect.getMetadata('name', class_item);
+
+		this.drivers.push({
+			name: driverName,
 			class: class_item,
 		});
 	}
