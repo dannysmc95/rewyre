@@ -1,6 +1,6 @@
 {
   "name": "rewyre",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A fast and flexible wiring tool for developing RESTful and WebSocket APIs using TypeScript decorators.",
   "main": "lib/index.js",
   "publishConfig": {
@@ -10,7 +10,7 @@
     "build": "rm -rf lib/ && node_modules/.bin/tsc",
     "build:watch": "rm -rf lib/ && node_modules/.bin/tsc --watch",
     "lint": "node_modules/.bin/eslint . --ext .ts",
-    "test": "node -r ts-node/register --max_old_space_size=2048 ./test/application.ts",
+    "test": "ENV=dev node -r ts-node/register --max_old_space_size=2048 ./test/application.ts",
     "preprepareOnly": "npm run lint && npm run build",
     "changelog": "auto-changelog --template keepachangelog --commit-limit false --hide-credit"
   },

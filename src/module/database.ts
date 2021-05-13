@@ -40,7 +40,7 @@ export class Database {
 			if (this.drivers.has(databaseConfig.driver)) continue;
 			if (!databaseConfig.customDriver) {
 				const basepath = resolve(__dirname, '../driver');
-				const filepath = resolve(basepath, `database-${databaseConfig.driver}.ts`);
+				const filepath = resolve(basepath, `database-${databaseConfig.driver}.${String(process.env.ENV === 'dev' ? 'ts' : 'js')}`);
 				const databaseModule = await import(filepath);
 				const className = Object.keys(databaseModule)[0];
 				this.drivers.set(databaseConfig.driver, databaseModule[className]);

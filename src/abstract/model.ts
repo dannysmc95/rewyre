@@ -28,8 +28,8 @@ export abstract class AbstractModel {
 	 * 
 	 * @returns Object
 	 */
-	public getInstance(): IDatabaseDriver {
-		return this.database;
+	public getInstance(): any {
+		return this.database.getInstance();
 	}
 
 	/**
