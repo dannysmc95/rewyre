@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v2.0.2](https://github.com/dannysmc95/rewyre/compare/v2.0.1...v2.0.2) - 2021-05-13
+
+### Commits
+
+- Changed from using peer to using main [`2e64051`](https://github.com/dannysmc95/rewyre/commit/2e640518751557fe2d62f246ddfe98519a90b998)
+- Bumped version number [`a891f13`](https://github.com/dannysmc95/rewyre/commit/a891f134f5064f8c5bae7c3af5a5bafbf28f323d)
+
+## [v2.0.1](https://github.com/dannysmc95/rewyre/compare/v2.0.0...v2.0.1) - 2021-05-13
+
+### Commits
+
+- Updated changelog [`d6e464d`](https://github.com/dannysmc95/rewyre/commit/d6e464d83e36208742a913d8289ad5cb252726ab)
+- Fixed error with using the database dynamic import and fixed error with getInstance returning the driver instead of the driver's instance [`f1ec26d`](https://github.com/dannysmc95/rewyre/commit/f1ec26d8dc8aa98d1a70d24481b5c40424f209a0)
+
 ## [v2.0.0](https://github.com/dannysmc95/rewyre/compare/v1.2.6...v2.0.0) - 2021-05-13
 
 ### Commits
