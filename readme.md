@@ -8,6 +8,16 @@ The rewyre framework is built on top of express, and express-ws and utilises Typ
 <br /><br />
 
 
+## Important Changes
+
+> See the docs/migrating/v1-v2.md for more information regarding the move to V2.
+
+> The framework's version 2 release is now licensed under MIT.
+
+
+<br /><br />
+
+
 ## Installation
 
 You can install from NPM with:
