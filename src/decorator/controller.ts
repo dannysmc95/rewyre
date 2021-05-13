@@ -8,6 +8,7 @@
  * @param prefix The controller path prefix.
  * @param namespace The namespace string for the controller.
  * @param websocket [Optional] Whether to allow WebSocket for this controller, only applicable when WebSocket is enabled.
+ * @returns Function
  */
 export function Controller(prefix: string, namespace: string, websocket = false): any {
 	return (target: any) => {

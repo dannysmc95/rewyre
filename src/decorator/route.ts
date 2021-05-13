@@ -9,6 +9,7 @@
  * @param method The HTTP method as a string.
  * @param path The path to that method, is appended after the controller prefix.
  * @param websocket Whether to allow websocket connections to the method, defaults to false.
+ * @returns Function
  */
 export function Route(method: string, path: string, websocket = false): any {
 	return (target: any, propertyKey: string): void => {

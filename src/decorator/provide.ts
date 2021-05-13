@@ -6,6 +6,7 @@
  * 
  * @param name The name of the provider.
  * @param type The type of initialisation.
+ * @returns Function
  */
 export function Provide(name: string, type: 'single' | 'shared' = 'shared'): any {
 	return (target: any) => {

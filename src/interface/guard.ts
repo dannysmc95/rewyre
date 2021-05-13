@@ -1,5 +1,9 @@
 import { Request } from 'express';
 
+/**
+ * Defines the guard and how to implement it, containing all expected
+ * parameters and the return type.
+ */
 export interface IGuard {
 	supports: (request: Request) => Promise<boolean>,
 	getCredentials: (request: Request) => Promise<any>,

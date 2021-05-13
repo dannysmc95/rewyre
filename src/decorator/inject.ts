@@ -5,6 +5,7 @@
  * or providers as properties inside of your class, see docs for more information.
  * 
  * @param modelNames The name or array of names of models/providers you wish to inject to this class (controller or service).
+ * @returns Function
  */
 export function Inject(classItems: Array<string> | string): any {
 	return (target: any) => {

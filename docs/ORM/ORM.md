@@ -1,5 +1,7 @@
 # Rewyre ORM
 
+> This still not finished and although some of the code exists, it is far from alpha stage.
+
 Possible design idea for an ORM.
 
 ```typescript

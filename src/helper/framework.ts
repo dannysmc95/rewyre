@@ -40,6 +40,11 @@ export class FrameworkHelper {
 		return mergedOptions;
 	}
 
+	/**
+	 * Specifically validates the database options given to make sure there is at least one default.
+	 * 
+	 * @param options The framework options.
+	 */
 	public validateOptions(options: IOptions): void {
 		
 		// Validate database.

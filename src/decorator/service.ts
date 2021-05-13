@@ -6,6 +6,7 @@
  * 
  * @param name The name of the service.
  * @param schedule The schedule for the service.
+ * @returns Function
  */
 export function Service(name: string, schedule: number): any {
 	return (target: any) => {

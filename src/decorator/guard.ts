@@ -7,6 +7,7 @@
  * 
  * @param name The name of the guard.
  * @param isFallback Whether to use this guard always to fallback to.
+ * @returns Function
  */
 export function Guard(name: string, isFallback = false): any {
 	return (target: any) => {

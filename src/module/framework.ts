@@ -287,9 +287,9 @@ export class Framework {
 	 * initialised into the framework. This will then be called on
 	 * when the driver is called on.
 	 * 
-	 * @param class_item The guard class.
+	 * @param class_item The driver class.
 	 */
-	 protected registerDriver(class_item: IDatabaseDriver): void {
+	protected registerDriver(class_item: IDatabaseDriver): void {
 		const driverName: string = Reflect.getMetadata('name', class_item);
 
 		this.drivers.push({

@@ -2,9 +2,11 @@
 
 ## Introduction
 
-The rewyre framework is built on top of express, and express-ws and utilises TypeScript and decorators to give you a powerful wiring tool to create API applications in a very short time.
+The rewyre framework is built on top of express, and express-ws and utilises TypeScript and decorators to give you a powerful wiring tool to create API applications in a very short time with built-in support for MySQL/MongoDB for models.
+
 
 <br /><br />
+
 
 ## Installation
 
@@ -14,7 +16,9 @@ You can install from NPM with:
 npm install --save rewyre
 ```
 
+
 <br /><br />
+
 
 ## Getting Started
 
@@ -79,7 +83,9 @@ class UsersModel extends AbstractModel {}
 
 ```
 
+
 <br /><br />
+
 
 ## Available Features
 
@@ -94,24 +100,32 @@ The below lists the features and their stable state, this framework's API will n
 | Controllers | Controller classes and the `@Controller` decorator are both implemented. | `Stable` |
 | Controller Routes | Controller routes are and the `@Route` decorator are both implemented. | `Stable` |
 | Models | Model classes and the `@Model` decorator are both implemented. | `Stable` |
-| Drivers | Database drivers allow you to use one of the many drivers implemented into the framework. |
+| Drivers | Database drivers allow you to use one of the many implemented into the framework. |
+| Custom Drivers | Define your own database drivers to implement other databases into your framework. |
 | Multiple Databases | Your models can use any database, including multiple, have data in many databases? Write a model around a specific database instead or just fallback to the default. |
 | Injections | Injections are done using a single `@Inject` decorator and you can inject one or many, you can inject models and providers to any service or controller as required. | `Stable` |
 | Services | Service classes and the `@Service` decorator are both implemented and services can run on a loop based on seconds. | `Stable` |
 | Providers | Providers and the `@Provide` decorator are both implemented, the provider allows you to create built in helper classes that can be injected to controllers, and services. | `Stable` |
 
+
 <br /><br />
+
 
 ## Upcoming Features
 
-There is _some_ functionality left to implement including:
+Upcoming features that are planned, some features may come out quicker due to technical requirements.
 
 * **Authentication Decorator** - To implement an authentication decorator for out-of-the-box permissions.
-* **Threaded Decorator** - To add support for controllers being run in a different thread, to long processes.
+* **Threaded Decorator** - To add support for controllers being run in a different thread, for long processes.
 * **Plugin Support** - There is a plan to add plugin support, but I am not sure what this will look like yet.
+* ~~**Multiple Databases** - Support for using multiple databases using database drivers alongside your own.~~
+* **ORM** - To implement a clean ORM solution using the built in functionality and utilising decorators.
+* **ORM Validation** - To implement ORM validation decorators to support automatic validation and serialisation.
+
 
 <br /><br />
 
+
 ## Future Plans
 
-The future for this library is big, I have many plans to add lots of new features and more decorators to add additional features, and I plan to turn this (slowly) into a full out-of-the-box TypeScript based framework for building Node.JS server side applications. This framework can handle any structure and can be included into other applications like Vue.JS Server-Side Rendering. You can use this framework for API first structure or even to use it to build a basic website, using Express routing.
+The future for this library is big, I have many plans to add lots of new features and more decorators to add additional features, and I plan to turn this (slowly) into a full out-of-the-box TypeScript based framework for building Node.JS server side applications. This framework will be able to handle any structure and can be included into other applications like Vue.JS Server-Side Rendering alongside using it render HTML based applications instead of only API based.

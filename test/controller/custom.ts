@@ -1,4 +1,4 @@
-import { Controller, AbstractController, Route, IReturn, Inject, IContext, ModelRecordID } from '../../src/index';
+import { Controller, AbstractController, Route, IReturn, Inject } from '../../src/index';
 import { LogsModel } from '../model/logs';
 
 @Inject(['logs'])

@@ -1,6 +1,9 @@
-import { IDriver } from './driver';
-
-export interface IDatabaseDriver extends IDriver {
+/**
+ * Defines the structure of the database driver and how to implement it so
+ * that anyone can build their own driver for the database.
+ */
+export interface IDatabaseDriver {
+	engine: string;
 	findOne: (collection: string, query: any, options?: any) => Promise<any>;
 	find: (collection: string, query: any, options?: any) => Promise<any[]>;
 	count: (collection: string, query: any, options?: any) => Promise<number>;

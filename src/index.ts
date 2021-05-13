@@ -29,7 +29,6 @@ import { ServerHelper } from './helper/server';
 
 import { IContext, IContextRaw } from './interface/context';
 import { IDatabaseDriver } from './interface/database-driver';
-import { IDriver } from './interface/driver';
 import { IGuard } from './interface/guard';
 import { IOptions, IDatabaseItem } from './interface/options';
 import { IReturn } from './interface/return';
@@ -92,7 +91,6 @@ export {
 	IContextRaw,
 	IDatabaseDriver,
 	IDatabaseItem,
-	IDriver,
 	IGuard,
 	IOptions,
 	IReturn,

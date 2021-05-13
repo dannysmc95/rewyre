@@ -40,6 +40,7 @@ export abstract class AbstractGuard implements IGuard {
 	 * given context, return true or false respectively.
 	 * 
 	 * @param request The request object.
+	 * @returns Promise<boolean>
 	 */
 	public async supports(request: Request): Promise<boolean> {
 		if (typeof request.headers[this.token_name] !== 'undefined' && request.headers[this.token_name] !== 'undefined') {
@@ -56,6 +57,7 @@ export abstract class AbstractGuard implements IGuard {
 	 * additional information, which will passed to the additional methods.
 	 * 
 	 * @param request The request object.
+	 * @returns Promise<any>
 	 */
 	public async getCredentials(request: Request): Promise<any> {
 		return {
@@ -71,6 +73,7 @@ export abstract class AbstractGuard implements IGuard {
 	 * event.
 	 * 
 	 * @param credentials The credentials related to the request.
+	 * @returns Promise<any>
 	 */
 	public async getUser(credentials: any): Promise<any> {
 		return { token: credentials.token };
@@ -86,6 +89,7 @@ export abstract class AbstractGuard implements IGuard {
 	 * @param request The request object.
 	 * @param credentials The credentials for the request.
 	 * @param user The returned user object.
+	 * @returns Promise<boolean>
 	 */
 	public async checkCredentials(request: Request, credentials: any, user: any): Promise<boolean> {
 		if (credentials.token !== '' && user.token !== '') return true;
@@ -102,6 +106,7 @@ export abstract class AbstractGuard implements IGuard {
 	 * @param request The request object.
 	 * @param credentials The credentials for the request.
 	 * @param user The user relating to the request, if available.
+	 * @returns Promise<void>
 	 */
 	public async onAuthenticationSuccess(request: Request, credentials: any, user: any): Promise<void> {
 		this.logger.notice('GUARD', `Authentication success for token: ${credentials.token}:${user.token}.`);
@@ -115,6 +120,7 @@ export abstract class AbstractGuard implements IGuard {
 	 * 
 	 * @param request The request object.
 	 * @param credentials The credentials for the request.
+	 * @returns Promise<void>
 	 */
 	public async onAuthenticationFailure(request: Request, credentials: any, user?: any): Promise<void> {
 		this.logger.warn('GUARD', `Authentication failure for the following token: ${credentials.token} and user data: ${JSON.stringify(user)}.`);
