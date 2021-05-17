@@ -109,7 +109,7 @@ export abstract class AbstractGuard implements IGuard {
 	 * @returns Promise<void>
 	 */
 	public async onAuthenticationSuccess(request: Request, credentials: any, user: any): Promise<void> {
-		this.logger.notice('GUARD', `Authentication success for token: ${credentials.token}:${user.token}.`);
+		// this.logger.notice('GUARD', `Authentication success for token: ${credentials.token}:${user.token}.`);
 	}
 
 	/**
@@ -123,6 +123,6 @@ export abstract class AbstractGuard implements IGuard {
 	 * @returns Promise<void>
 	 */
 	public async onAuthenticationFailure(request: Request, credentials: any, user?: any): Promise<void> {
-		this.logger.warn('GUARD', `Authentication failure for the following token: ${credentials.token} and user data: ${JSON.stringify(user)}.`);
+		// this.logger.warn('GUARD', `Authentication failure for the following token: ${credentials.token} and user data: ${JSON.stringify(user)}.`);
 	}
 }
