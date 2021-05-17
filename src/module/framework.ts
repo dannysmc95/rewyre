@@ -162,6 +162,7 @@ export class Framework {
 		});
 
 		// Inject the injectables to suppoted classes.
+		this.helper.inject(this.providers, { models: this.models, providers: this.providers, state: this.state, options: this.options });
 		this.helper.inject(this.services, { models: this.models, providers: this.providers, state: this.state, options: this.options });
 		this.helper.inject(this.controllers, { models: this.models, providers: this.providers, state: this.state, options: this.options });
 		this.helper.inject(this.guards, { models: this.models, providers: this.providers, state: this.state, options: this.options });
@@ -254,10 +255,12 @@ export class Framework {
 	protected registerProvider(class_item: AbstractProvider): void {
 		const providerName: string = Reflect.getMetadata('name', class_item);
 		const providerType: 'single' | 'shared' = Reflect.getMetadata('type', class_item);
+		const providerInjects: Array<any> = Reflect.getMetadata('injects', class_item);
 
 		this.providers.push({
 			name: providerName,
 			type: providerType,
+			injects: providerInjects,
 			class: class_item,
 		});
 	}
