@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v2.1.0](https://github.com/dannysmc95/rewyre/compare/v2.0.2...v2.1.0) - 2021-05-17
+
+### Commits
+
+- Updated test application to show the new injections for providers [`1cc0574`](https://github.com/dannysmc95/rewyre/commit/1cc05749a63a687fdd9e41129a58e2f7515e3ba3)
+- Updated changelog [`b4c21ce`](https://github.com/dannysmc95/rewyre/commit/b4c21ceb4d0e92472eb7924958ad81b27585e1b8)
+- Added support for providers to be able to define injections [`347fb0e`](https://github.com/dannysmc95/rewyre/commit/347fb0e798d3e31f7dd83639251ceb857cc3bc6c)
+- Disabled the default spam when you use the default authentication guard [`21475f9`](https://github.com/dannysmc95/rewyre/commit/21475f9f43d44c5b1f8277693fef3a1891bc2fe2)
+- Bumped minor version due to the change type [`9515a63`](https://github.com/dannysmc95/rewyre/commit/9515a63ccfe98671005602c58411e91d29e2078f)
+
 ## [v2.0.2](https://github.com/dannysmc95/rewyre/compare/v2.0.1...v2.0.2) - 2021-05-13
 
 ### Commits
