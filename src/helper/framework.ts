@@ -94,7 +94,7 @@ export class FrameworkHelper {
 		class_items.forEach((class_item: any) => {
 
 			// Create class instance.
-			class_item.instance = new class_item.class();
+			if (!class_item.instance) class_item.instance = new class_item.class();
 			class_item.instance.state = injectables.state;
 			class_item.instance.options = injectables.options;
 
