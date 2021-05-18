@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v2.1.1](https://github.com/dannysmc95/rewyre/compare/v2.1.0...v2.1.1) - 2021-05-18
+
+### Commits
+
+- Rewritten changelog [`b8fc33f`](https://github.com/dannysmc95/rewyre/commit/b8fc33fe5be4639f4b33b0fc4be34bd49c7fa9e5)
+- Bumped version [`fc6c861`](https://github.com/dannysmc95/rewyre/commit/fc6c8612db76041cf393e9e57e26edf088532fb9)
+- Added fix to prevent providers from being reinitialised when they are injected to. [`8d16c6a`](https://github.com/dannysmc95/rewyre/commit/8d16c6a1a6175920c5b292031d845a0af98ef279)
+
 ## [v2.1.0](https://github.com/dannysmc95/rewyre/compare/v2.0.2...v2.1.0) - 2021-05-17
 
 ### Commits
