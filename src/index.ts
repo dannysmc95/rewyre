@@ -1,7 +1,6 @@
 import 'reflect-metadata';
 
-import { ObjectID as ModelRecordID } from 'mongodb';
-const MongoRecordID = ModelRecordID;
+import { ObjectID } from 'mongodb';
 
 import { AbstractController } from './abstract/controller';
 import { AbstractGuard } from './abstract/guard';
@@ -47,6 +46,17 @@ import { State } from './module/state';
 import { WSServer } from './module/ws-server';
 
 import { CryptoProvider } from './provider/crypto';
+
+/* ===== Deprecations ===== */
+
+/**
+ * Used in conjunction with the Mongo database driver, and allows
+ * you to define a document's ID.
+ * 
+ * @deprecated ModelRecordID has now been deprecated in favour of ObjectID which is re-exported by the framework.
+ * @since v2.1.2
+ */
+const ModelRecordID = ObjectID;
 
 /**
  * The default entry into the rewyre library, everything is
@@ -114,5 +124,5 @@ export {
 
 	// External.
 	ModelRecordID,
-	MongoRecordID,
+	ObjectID,
 };

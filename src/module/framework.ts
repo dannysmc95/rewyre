@@ -171,7 +171,7 @@ export class Framework {
 			state: this.state,
 			options: this.options,
 			builtins: {
-				websocket: this.ws_helper
+				websocket: this.ws_helper,
 			},
 		};
 
