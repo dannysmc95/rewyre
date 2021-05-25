@@ -26,6 +26,7 @@ import { ErrorMessages } from './enum/error-messages';
 
 import { FrameworkHelper } from './helper/framework';
 import { ServerHelper } from './helper/server';
+import { WSHelper } from './helper/ws-helper';
 
 import { IContext, IContextRaw } from './interface/context';
 import { IDatabaseDriver } from './interface/database-driver';
@@ -96,6 +97,7 @@ export {
 	// Helper.
 	FrameworkHelper,
 	ServerHelper,
+	WSHelper,
 
 	// Interface.
 	IContext,
