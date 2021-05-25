@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v2.1.3](https://github.com/dannysmc95/rewyre/compare/v2.1.2...v2.1.3) - 2021-05-25
+
+### Commits
+
+- Updated changelog [`9f7dcf0`](https://github.com/dannysmc95/rewyre/commit/9f7dcf000f77e9ecddbf0b95c33c097c4a12712d)
+- Added new version to fix broken package upload [`3284920`](https://github.com/dannysmc95/rewyre/commit/32849204aafff60426cd02ba2016d5da0279858a)
+
 ## [v2.1.2](https://github.com/dannysmc95/rewyre/compare/v2.1.1...v2.1.2) - 2021-05-25
 
 ### Commits
