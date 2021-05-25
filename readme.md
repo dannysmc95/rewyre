@@ -17,7 +17,7 @@
 The rewyre framework is built on top of express, and express-ws and utilises TypeScript and decorators to give you a powerful wiring tool to create API applications in a very short time with built-in support for MySQL/MongoDB for models.
 
 
-<br /><br />
+<br />
 
 
 ## Important Changes
@@ -27,7 +27,7 @@ The rewyre framework is built on top of express, and express-ws and utilises Typ
 > The framework's version 2 release is now licensed under MIT.
 
 
-<br /><br />
+<br />
 
 
 ## Installation
@@ -39,7 +39,7 @@ npm install --save rewyre
 ```
 
 
-<br /><br />
+<br />
 
 
 ## Getting Started
@@ -106,7 +106,7 @@ class UsersModel extends AbstractModel {}
 ```
 
 
-<br /><br />
+<br />
 
 
 ## Available Features
@@ -130,7 +130,7 @@ The below lists the features and their stable state, this framework's API will n
 | Providers | Providers and the `@Provide` decorator are both implemented, the provider allows you to create built in helper classes that can be injected to controllers, and services. | `Stable` |
 
 
-<br /><br />
+<br />
 
 
 ## Upcoming Features
@@ -145,7 +145,7 @@ Upcoming features that are planned, some features may come out quicker due to te
 * **ORM Validation** - To implement ORM validation decorators to support automatic validation and serialisation.
 
 
-<br /><br />
+<br />
 
 
 ## Future Plans
