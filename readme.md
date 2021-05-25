@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-	Spectra UI is a library full of functional and themeable components for Vue 3 and written in TypeScript.
+	Rewyre is a fast and flexible wiring tool for developing RESTful and WebSocket APIs using TypeScript decorators.
 </p>
 
 <p align="center">
