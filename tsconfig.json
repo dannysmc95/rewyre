@@ -17,5 +17,5 @@
 		"types": ["node"],
 		"typeRoots": [ "node_modules/@types" ]
 	},
-	"exclude": [ "test" ]
+	"exclude": [ "test", "lib", "docs" ]
 }
