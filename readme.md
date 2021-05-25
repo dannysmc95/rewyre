@@ -1,6 +1,18 @@
-# Rewyre Framework
+<p align="center">
+	<a href="#">
+		<img width="300" src="https://github.com/dannysmc95/rewyre/blob/master/rewyre-logo.svg">
+	</a>
+</p>
 
-## Introduction
+<p align="center">
+	Spectra UI is a library full of functional and themeable components for Vue 3 and written in TypeScript.
+</p>
+
+<p align="center">
+	<img src="https://img.shields.io/npm/v/rewyre?color=blue">
+	<img src="https://img.shields.io/npm/l/rewyre">
+	<img src="https://img.shields.io/npm/dw/rewyre">
+</p>
 
 The rewyre framework is built on top of express, and express-ws and utilises TypeScript and decorators to give you a powerful wiring tool to create API applications in a very short time with built-in support for MySQL/MongoDB for models.
 
