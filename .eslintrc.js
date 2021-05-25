@@ -90,5 +90,6 @@ module.exports = {
 		'generator-star-spacing': 0,
 		'one-var': 0,
 		'no-mixed-operators': 0,
+		'eol-last': ['error', 'always'],
 	}
 }
