@@ -20,5 +20,5 @@ export function Controller(prefix: string, namespace: string, websocket = false)
 		Reflect.defineMetadata('websocket', websocket, target);
 		if (!Reflect.hasMetadata('routes', target)) Reflect.defineMetadata('routes', [], target);
 		if (!Reflect.hasMetadata('injects', target)) Reflect.defineMetadata('injects', [], target);
-	}
+	};
 }

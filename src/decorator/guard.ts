@@ -17,5 +17,5 @@ export function Guard(name: string, isFallback = false): any {
 		Reflect.defineMetadata('name', name, target);
 		Reflect.defineMetadata('is_fallback', isFallback, target);
 		if (!Reflect.hasMetadata('injects', target)) Reflect.defineMetadata('injects', [], target);
-	}
+	};
 }

@@ -23,7 +23,7 @@ export class Database {
 	 * 
 	 * @param options The framework options.
 	 */
-	constructor(protected options: IOptions, protected logger: Logger) {}
+	public constructor(protected options: IOptions, protected logger: Logger) {}
 
 	/**
 	 * This method will initialise and import any required drivers and then

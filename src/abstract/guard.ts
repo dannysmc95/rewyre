@@ -27,7 +27,7 @@ export abstract class AbstractGuard implements IGuard {
 	 * Creates an instance of the of the guard class, that can be used with
 	 * the internal authentication module.
 	 */
-	constructor() {
+	public constructor() {
 		this.logger = new Logger();
 	}
 
@@ -108,7 +108,7 @@ export abstract class AbstractGuard implements IGuard {
 	 * @param user The user relating to the request, if available.
 	 * @returns Promise<void>
 	 */
-	public async onAuthenticationSuccess(request: Request, credentials: any, user: any): Promise<void> {
+	public async onAuthenticationSuccess(): Promise<void> {
 		// this.logger.notice('GUARD', `Authentication success for token: ${credentials.token}:${user.token}.`);
 	}
 
@@ -122,7 +122,7 @@ export abstract class AbstractGuard implements IGuard {
 	 * @param credentials The credentials for the request.
 	 * @returns Promise<void>
 	 */
-	public async onAuthenticationFailure(request: Request, credentials: any, user?: any): Promise<void> {
+	public async onAuthenticationFailure(): Promise<void> {
 		// this.logger.warn('GUARD', `Authentication failure for the following token: ${credentials.token} and user data: ${JSON.stringify(user)}.`);
 	}
 }

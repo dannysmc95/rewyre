@@ -21,7 +21,7 @@ export class Router {
 	 * 
 	 * @param options The framework options.
 	 */
-	constructor(protected options: IOptions, protected authenticator: Authenticator) {
+	public constructor(protected options: IOptions, protected authenticator: Authenticator) {
 		this.logger = new Logger();
 	}
 

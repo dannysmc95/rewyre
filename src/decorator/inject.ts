@@ -27,5 +27,5 @@ export function Inject(classItems: Array<string> | string): any {
 
 		// Re-assign the models array back to meta.
 		Reflect.defineMetadata('injects', models, target);
-	}
+	};
 }

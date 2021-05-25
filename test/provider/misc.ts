@@ -8,7 +8,7 @@ export class MiscProvider extends AbstractProvider {
 	protected logger: Logger;
 	public tasks!: TasksModel;
 
-	constructor() {
+	public constructor() {
 		super();
 		this.logger = new Logger();
 	}

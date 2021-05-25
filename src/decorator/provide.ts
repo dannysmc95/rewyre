@@ -16,5 +16,5 @@ export function Provide(name: string, type: 'single' | 'shared' = 'shared'): any
 		Reflect.defineMetadata('name', name, target);
 		Reflect.defineMetadata('type', type, target);
 		if (!Reflect.hasMetadata('injects', target)) Reflect.defineMetadata('injects', [], target);
-	}
+	};
 }

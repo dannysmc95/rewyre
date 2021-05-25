@@ -11,7 +11,7 @@ import { UsersModel } from './model/users';
 import { LogsModel } from './model/logs';
 import { DatabaseDriverFile } from './driver/file';
 
-(async() => {
+(async () => {
 
 	// Create an instance of the framework.
 	const application: Framework = new Framework({

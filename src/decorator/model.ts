@@ -24,5 +24,5 @@ export function Model(name: string, type: 'general' | 'user', fields: any, datab
 		Reflect.defineMetadata('type', type, target);
 		Reflect.defineMetadata('database', database, target);
 		Reflect.defineMetadata('fields', fields, target);
-	}
+	};
 }

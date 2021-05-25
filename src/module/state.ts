@@ -1,4 +1,4 @@
-import { IOptions } from "../interface/options";
+import { IOptions } from '../interface/options';
 import { Logger } from './logger';
 import { promises as fs } from 'fs';
 import { resolve } from 'path';
@@ -24,7 +24,7 @@ export class State {
 	 * @param options The framework options.
 	 * @param logger The logger module.
 	 */
-	constructor(protected options: IOptions, protected logger: Logger, protected collection?: Collection) {
+	public constructor(protected options: IOptions, protected logger: Logger, protected collection?: Collection) {
 		this.createInterval();
 		this.file_path = resolve(__dirname, '../../state.json');
 	}

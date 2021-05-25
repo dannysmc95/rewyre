@@ -12,5 +12,5 @@ export function Entity(): any {
 		// Define base class information.
 		Reflect.defineMetadata('class_type', 'entity', target);
 		if (!Reflect.hasMetadata('properties', target)) Reflect.defineMetadata('properties', [], target);
-	}
+	};
 }

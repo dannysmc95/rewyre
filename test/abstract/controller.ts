@@ -7,7 +7,7 @@ export class CustomController extends AbstractController {
 
 	protected wrapper: string;
 
-	constructor() {
+	public constructor() {
 		super();
 		this.wrapper = readFileSync(resolve(__dirname, '../view/wrapper.html'), 'utf-8');
 	}

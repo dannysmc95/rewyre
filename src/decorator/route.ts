@@ -32,5 +32,5 @@ export function Route(method: string, path: string, websocket = false): any {
 
 		// Re-assign the route meta.
 		Reflect.defineMetadata('routes', routes, target.constructor);
-	}
+	};
 }

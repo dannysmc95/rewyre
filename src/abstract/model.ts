@@ -19,7 +19,7 @@ export abstract class AbstractModel {
 	 * @param database The linked database driver instance.
 	 * @param state The state module.
 	 */
-	constructor(public name: string, public type: string, public fields: any, public database: IDatabaseDriver) {}
+	public constructor(public name: string, public type: string, public fields: any, public database: IDatabaseDriver) {}
 
 	/**
 	 * Returns the collection used by this model, this can be used for more

@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 
 import { ObjectID as ModelRecordID } from 'mongodb';
+const MongoRecordID = ModelRecordID;
 
 import { AbstractController } from './abstract/controller';
 import { AbstractGuard } from './abstract/guard';
@@ -113,4 +114,5 @@ export {
 
 	// External.
 	ModelRecordID,
+	MongoRecordID,
 };

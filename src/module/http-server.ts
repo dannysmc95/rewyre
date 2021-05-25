@@ -1,7 +1,6 @@
 import { IOptions } from '../interface/options';
 import * as express from 'express';
 import * as cookieParser from 'cookie-parser';
-import * as bodyParser from 'body-parser';
 import { normalize } from 'path';
 import { ServerHelper } from '../helper/server';
 import { Router } from './router';
@@ -24,7 +23,7 @@ export class HTTPServer {
 	 * 
 	 * @param options The framework options.
 	 */
-	constructor(protected options: IOptions, protected router: Router) {
+	public constructor(protected options: IOptions, protected router: Router) {
 		this.helper = new ServerHelper();
 		this.server = express();
 		this.setupDefaultMiddleware();
@@ -108,10 +107,12 @@ export class HTTPServer {
 						query: this.helper.convertObject(request.query),
 						body: request.body,
 						authentication: false,
-						getRaw: () => {return {
-							request: request,
-							response: response,
-						}},
+						getRaw: () => {
+							return {
+								request: request,
+								response: response,
+							};
+						},
 					};
 
 					// Pass to the dispatcher.
@@ -128,7 +129,7 @@ export class HTTPServer {
 	 */
 	protected setupDefaultMiddleware(): void {
 		this.server.use(cookieParser());
-		this.server.use(bodyParser.urlencoded({ extended: true }));
-		this.server.use(bodyParser.json());
+		this.server.use(express.urlencoded({ extended: true }));
+		this.server.use(express.json());
 	}
 }

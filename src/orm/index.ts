@@ -11,4 +11,4 @@ export {
 	Column,
 	Repository,
 	Manager,
-}
+};

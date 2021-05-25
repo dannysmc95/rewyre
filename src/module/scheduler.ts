@@ -1,4 +1,4 @@
-import { IOptions } from "../interface/options";
+import { IOptions } from '../interface/options';
 
 /**
  * The scheduler class is for managing the services defined by the user
@@ -15,7 +15,7 @@ export class Scheduler {
 	 * 
 	 * @param options The framework options.
 	 */
-	constructor(protected options: IOptions) {}
+	public constructor(protected options: IOptions) {}
 
 	/**
 	 * Will setup the services locally to the class, then will call

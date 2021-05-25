@@ -20,7 +20,7 @@ export class WSServer {
 
 	protected controllers: Array<any> = [];
 	protected server!: expressWs.Application;
-	protected connections: any = {};
+	protected connections: {[key: string]: {socket: WS, request: Request, subscriptions: Array<string>, session: any}} = {};
 	protected logger: Logger;
 	protected helper: ServerHelper;
 
@@ -34,7 +34,7 @@ export class WSServer {
 	 * @param http_server The HTTPServer instance.
 	 * @param router The router instance.
 	 */
-	constructor(protected options: IOptions, protected http_server: HTTPServer, protected router: Router) {
+	public constructor(protected options: IOptions, protected http_server: HTTPServer, protected router: Router) {
 		this.logger = new Logger();
 		this.helper = new ServerHelper();
 		const server: any = this.http_server.getInstance();
@@ -54,6 +54,17 @@ export class WSServer {
 		if (this.options.websocket) {
 			this.initialise();
 		}
+	}
+
+	/**
+	 * This method returns an object, that is indexed by sec-websocket-key and
+	 * contains the socket instance, the initial request, the subscriptions array
+	 * and an open session object to assign data.
+	 * 
+	 * @returns Object of connections.
+	 */
+	public getConnections(): {[key: string]: {socket: WS, request: Request, subscriptions: Array<string>, session: any}} {
+		return this.connections;
 	}
 
 	/**
@@ -97,6 +108,7 @@ export class WSServer {
 		this.connections[uniqueId] = {
 			socket: socket,
 			request: request,
+			session: {},
 			subscriptions: [],
 		};
 
@@ -167,10 +179,12 @@ export class WSServer {
 				query: Object.assign({ ws_command: packet.command }, this.helper.convertObject(request.query)),
 				body: packet.content || {},
 				authentication: false,
-				getRaw: () => {return {
-					request: request,
-					socket: socket,
-				}},
+				getRaw: () => {
+					return {
+						request: request,
+						socket: socket,
+					};
+				},
 			};
 
 			// Pass to the dispatcher.

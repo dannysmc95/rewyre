@@ -16,6 +16,7 @@ import { Scheduler } from './scheduler';
 import { State } from './state';
 import { Authenticator } from './authenticator';
 import { IDatabaseDriver } from '..';
+import { WSHelper } from '../helper/ws-helper';
 
 /**
  * The framework is the core part of the rewyre package, the
@@ -36,6 +37,7 @@ export class Framework {
 	protected drivers: Array<any> = [];
 	protected http_server: HTTPServer;
 	protected ws_server: WSServer;
+	protected ws_helper: WSHelper;
 	protected database: Database;
 	protected logger: Logger;
 	protected scheduler: Scheduler;
@@ -49,7 +51,7 @@ export class Framework {
 	 * 
 	 * @param options The framework options.
 	 */
-	constructor(options?: IOptions) {
+	public constructor(options?: IOptions) {
 		this.helper = new FrameworkHelper();
 		this.options = this.helper.mergeOptions(options);
 		this.logger = new Logger();
@@ -59,6 +61,7 @@ export class Framework {
 		this.router = new Router(this.options, this.authenticator);
 		this.http_server = new HTTPServer(this.options, this.router);
 		this.ws_server = new WSServer(this.options, this.http_server, this.router);
+		this.ws_helper = new WSHelper(this.options, this.ws_server);
 		this.scheduler = new Scheduler(this.options);
 	}
 
@@ -161,11 +164,22 @@ export class Framework {
 			}
 		});
 
+		// Define the injectables.
+		const injectables = {
+			models: this.models,
+			providers: this.providers,
+			state: this.state,
+			options: this.options,
+			builtins: {
+				websocket: this.ws_helper
+			},
+		};
+
 		// Inject the injectables to suppoted classes.
-		this.helper.inject(this.providers, { models: this.models, providers: this.providers, state: this.state, options: this.options });
-		this.helper.inject(this.services, { models: this.models, providers: this.providers, state: this.state, options: this.options });
-		this.helper.inject(this.controllers, { models: this.models, providers: this.providers, state: this.state, options: this.options });
-		this.helper.inject(this.guards, { models: this.models, providers: this.providers, state: this.state, options: this.options });
+		this.helper.inject(this.providers, injectables);
+		this.helper.inject(this.services, injectables);
+		this.helper.inject(this.controllers, injectables);
+		this.helper.inject(this.guards, injectables);
 
 		// Process the services in the scheduler.
 		this.scheduler.process(this.services);
@@ -221,6 +235,7 @@ export class Framework {
 			fields: modelFields,
 			type: modelType,
 			unique: modelUnique,
+			class_type: 'model',
 			class: class_item,
 		});
 	}
@@ -241,6 +256,7 @@ export class Framework {
 			name: serviceName,
 			schedule: serviceSchedule,
 			injects: serviceInjects,
+			class_type: 'service',
 			class: class_item,
 		});
 	}
@@ -261,6 +277,7 @@ export class Framework {
 			name: providerName,
 			type: providerType,
 			injects: providerInjects,
+			class_type: 'provider',
 			class: class_item,
 		});
 	}
@@ -281,6 +298,7 @@ export class Framework {
 			name: guardName,
 			is_fallback: guardIsFallBack,
 			injects: guardInjects,
+			class_type: 'guard',
 			class: class_item,
 		});
 	}
@@ -298,6 +316,7 @@ export class Framework {
 		this.drivers.push({
 			name: driverName,
 			class: class_item,
+			class_type: 'driver',
 		});
 	}
 }

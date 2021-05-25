@@ -18,7 +18,7 @@ export class Authenticator {
 	 * 
 	 * @param guards The array of available guards.
 	 */
-	constructor(protected guards: Array<any>, protected logger: Logger) {}
+	public constructor(protected guards: Array<any>, protected logger: Logger) {}
 
 	/**
 	 * This function takes the controller, route and context, in which it

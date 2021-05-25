@@ -16,5 +16,5 @@ export function Service(name: string, schedule: number): any {
 		Reflect.defineMetadata('name', name, target);
 		Reflect.defineMetadata('schedule', schedule, target);
 		if (!Reflect.hasMetadata('injects', target)) Reflect.defineMetadata('injects', [], target);
-	}
+	};
 }

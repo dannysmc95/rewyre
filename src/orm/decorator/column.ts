@@ -15,12 +15,12 @@ export function Column(options: any): any {
 		// Define the getter.
 		const getter = function() {
 			return value;
-		}
+		};
 
 		// Define the setter.
 		const setter = function(newValue: any) {
 			value = newValue;
-		}
+		};
 
 		// Define the getter and setters.
 		Object.defineProperty(target, propertyKey, {
@@ -34,7 +34,7 @@ export function Column(options: any): any {
 		}
 
 		// Define the existing properties.
-		const propertyType = Reflect.getMetadata("design:type", target, propertyKey);
+		const propertyType = Reflect.getMetadata('design:type', target, propertyKey);
 		const properties: Array<any> = Reflect.getMetadata('properties', target.constructor);
 
 		// Create a new route for this method.
@@ -47,5 +47,5 @@ export function Column(options: any): any {
 
 		// Re-assign the route meta.
 		Reflect.defineMetadata('properties', properties, target.constructor);
-	}
+	};
 }
