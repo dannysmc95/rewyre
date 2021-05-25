@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v2.1.2](https://github.com/dannysmc95/rewyre/compare/v2.1.1...v2.1.2) - 2021-05-25
+
+### Commits
+
+- Removed the deprecated body-parser library in favour of express's built in json/body-parser support. [`c911204`](https://github.com/dannysmc95/rewyre/commit/c911204d08d41ecc7cf246f897f231ede830d13c)
+- Renewed the eslint file moving to the .eslintrc.js file and fixing all changes based on the new config. [`d4de7de`](https://github.com/dannysmc95/rewyre/commit/d4de7debd15206f2a3931a24d13258543a6aded3)
+- Added deprecated marker to ModelRecordID in favour of the re-exported ObjectID. [`c46eacc`](https://github.com/dannysmc95/rewyre/commit/c46eacc8397d09d8a488755ba7c0549c80fe2848)
+- Added additional eslint changes. [`8aafa16`](https://github.com/dannysmc95/rewyre/commit/8aafa16cb347a260fc6f7acda4aa84294f9d9964)
+- Added the new WSHelper built-in helper, this helper is injected to all services, providers, controllers and guards and allows you to send messages as and when to websocket connections [`4cb297c`](https://github.com/dannysmc95/rewyre/commit/4cb297c5211cb110fd029e286be34a3a5008d532)
+- Updated changelog [`0bf1e17`](https://github.com/dannysmc95/rewyre/commit/0bf1e17e78cd263da6cd823cd40aa6c00d537545)
+- Bumped the package version. [`a5adb05`](https://github.com/dannysmc95/rewyre/commit/a5adb059b415bc1b6ccefbc211b5c8d7c90876da)
+- Added additional exclusions from tsconfig. [`4186ce4`](https://github.com/dannysmc95/rewyre/commit/4186ce4cdf07b3257e62786cc03b6e213b31bfd9)
+
 ## [v2.1.1](https://github.com/dannysmc95/rewyre/compare/v2.1.0...v2.1.1) - 2021-05-18
 
 ### Commits
