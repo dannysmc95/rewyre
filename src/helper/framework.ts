@@ -34,7 +34,7 @@ export class FrameworkHelper {
 			// State Specific.
 			state_flush_period: 30,
 			state_storage_type: 'file',
-		}
+		};
 		const mergedOptions: IOptions = Object.assign(defaultOptions, options);
 		this.validateOptions(mergedOptions);
 		return mergedOptions;
@@ -46,7 +46,7 @@ export class FrameworkHelper {
 	 * @param options The framework options.
 	 */
 	public validateOptions(options: IOptions): void {
-		
+
 		// Validate database.
 		if (options.database === true) {
 			let hasDefault = false;
@@ -90,13 +90,18 @@ export class FrameworkHelper {
 	 * @param class_items The array of classes to inject to.
 	 * @param injectables The injectables available.
 	 */
-	public inject(class_items: Array<any>, injectables: {models: Array<any>, providers: Array<any>, state: State, options: IOptions}): void {
+	public inject(class_items: Array<any>, injectables: {models: Array<any>, providers: Array<any>, state: State, options: IOptions, builtins: any}): void {
 		class_items.forEach((class_item: any) => {
 
 			// Create class instance.
 			if (!class_item.instance) class_item.instance = new class_item.class();
 			class_item.instance.state = injectables.state;
 			class_item.instance.options = injectables.options;
+
+			// Inject builtins.
+			Object.keys(injectables.builtins).forEach((key: string) => {
+				class_item.instance[key] = injectables.builtins[key];
+			});
 
 			// Proceed only if there are injections available.
 			if (class_item.injects.length === 0) return;
@@ -117,6 +122,9 @@ export class FrameworkHelper {
 						class_item.instance[inject_name] = new provider.class();
 						class_item.instance[inject_name].state = injectables.state;
 						class_item.instance[inject_name].options = injectables.options;
+						Object.keys(injectables.builtins).forEach((key: string) => {
+							class_item.instance[key] = injectables.builtins[key];
+						});
 					}
 				}
 			});
