@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v2.2.0](https://github.com/dannysmc95/rewyre/compare/v2.1.3...v2.2.0) - 2021-05-26
+
+### Commits
+
+- Added new logger system into the framework, allowing for custom loggers and logging level controls alongside extending the framework to output verbose information. [`0043f1c`](https://github.com/dannysmc95/rewyre/commit/0043f1c4d2ba2490d8884887d671e80c4ca157fa)
+- Fixed linting errors, alongside adding additional methods to the WSHelper class to cater for session, subscription and packet management. [`439f86b`](https://github.com/dannysmc95/rewyre/commit/439f86be7ff6d73f2e25140cdbfbb64c3038c097)
+- Added new logo and updated readme.md [`41e0f9c`](https://github.com/dannysmc95/rewyre/commit/41e0f9c4bde90c04f3c39bdea255e067d70d6a76)
+- Added new logo and updated readme.md [`460c9c8`](https://github.com/dannysmc95/rewyre/commit/460c9c817b636846d5cffe235e67b2f8d48f9811)
+- Updated changelog [`032b09a`](https://github.com/dannysmc95/rewyre/commit/032b09aa34fa3a65c2ce97e7ba51266a43746d12)
+- Bumped package to version 2.2.0 with the new Logger and WSHelper changes. [`98e80cd`](https://github.com/dannysmc95/rewyre/commit/98e80cd2f9d7a685488bc6fc3f28ca225421d8f5)
+- Added export for the WSHelper [`4a73d8f`](https://github.com/dannysmc95/rewyre/commit/4a73d8f88c632c36c5a624e940ae563d27493aef)
+- Added new logo and updated readme.md [`7994e70`](https://github.com/dannysmc95/rewyre/commit/7994e705a250e2956af77bbb3b577a259e818998)
+- Added new logo and updated readme.md [`4dfabf5`](https://github.com/dannysmc95/rewyre/commit/4dfabf585419a03f7d2cc63283f46ab8b4ef1366)
+
 ## [v2.1.3](https://github.com/dannysmc95/rewyre/compare/v2.1.2...v2.1.3) - 2021-05-25
 
 ### Commits
