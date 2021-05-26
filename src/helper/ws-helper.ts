@@ -1,5 +1,6 @@
 import { WSServer } from '../module/ws-server';
 import { IOptions } from '../interface/options';
+import { ILogger } from '../interface/logger';
 
 /**
  * The WSHelper class offers functionality to access the websocket
@@ -15,7 +16,7 @@ export class WSHelper {
 	 * @param options The options object.
 	 * @param server The websocket server instance.
 	 */
-	public constructor(protected options: IOptions, protected server: WSServer) {}
+	public constructor(protected options: IOptions, protected server: WSServer, protected logger: ILogger) {}
 
 	/**
 	 * This method will broadcast a message to all connected websocket

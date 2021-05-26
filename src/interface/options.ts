@@ -1,3 +1,5 @@
+import { ILogger } from './logger';
+
 /**
  * The options interface that defines the available
  * configuration options for the rewyre framework.
@@ -18,6 +20,8 @@
 export interface IOptions {
 	port?: number;
 	host?: string;
+	logger?: ILogger;
+	log_levels?: Array<'info' | 'warn' | 'error' | 'verbose' | 'debug'>;
 	database?: boolean;
 	databases?: Array<IDatabaseItem>;
 	websocket?: boolean;

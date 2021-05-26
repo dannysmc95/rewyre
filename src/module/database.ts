@@ -1,6 +1,6 @@
 import { IDatabaseDriver } from '../interface/database-driver';
 import { IDatabaseItem, IOptions } from '../interface/options';
-import { Logger } from './logger';
+import { ILogger } from '../interface/logger';
 import { resolve } from 'path';
 
 /**
@@ -23,7 +23,7 @@ export class Database {
 	 * 
 	 * @param options The framework options.
 	 */
-	public constructor(protected options: IOptions, protected logger: Logger) {}
+	public constructor(protected options: IOptions, protected logger: ILogger) {}
 
 	/**
 	 * This method will initialise and import any required drivers and then
@@ -33,6 +33,7 @@ export class Database {
 	 */
 	public async initialise(): Promise<void> {
 		if (!this.options.database) return;
+		this.logger.verbose('DATABASE', 'Setting up database drivers.');
 
 		// Setup the drivers and import the classes.
 		for (const index in this.options.databases) {
@@ -50,6 +51,7 @@ export class Database {
 		}
 
 		// Now let's create instances of the drivers.
+		this.logger.verbose('DATABASE', 'Initialising database drivers.');
 		this.options.databases?.forEach((databaseConfig: IDatabaseItem) => {
 			if (!this.drivers.has(databaseConfig.driver)) throw new Error(`Missing driver for ${databaseConfig.driver}.`);
 			const driver = this.drivers.get(databaseConfig.driver);

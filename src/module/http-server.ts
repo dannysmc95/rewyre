@@ -5,6 +5,7 @@ import { normalize } from 'path';
 import { ServerHelper } from '../helper/server';
 import { Router } from './router';
 import { IContext } from '../interface/context';
+import { ILogger } from '../interface/logger';
 
 /**
  * The HTTPServer is the wrapper around the express server,
@@ -23,7 +24,7 @@ export class HTTPServer {
 	 * 
 	 * @param options The framework options.
 	 */
-	public constructor(protected options: IOptions, protected router: Router) {
+	public constructor(protected options: IOptions, protected router: Router, protected logger: ILogger) {
 		this.helper = new ServerHelper();
 		this.server = express();
 		this.setupDefaultMiddleware();
@@ -92,7 +93,9 @@ export class HTTPServer {
 	 */
 	protected buildRoutes(): void {
 		this.controllers.forEach((controller: any) => {
+			this.logger.verbose('HTTP', `Building controller for prefix: ${controller.prefix}.`);
 			controller.routes.forEach((route: any) => {
+				this.logger.verbose('HTTP', `Building route for: ${route.path}.`);
 
 				// Create the express route.
 				this.server[route.requestMethod](normalize(controller.prefix + route.path), (request: express.Request, response: express.Response) => {

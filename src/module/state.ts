@@ -1,8 +1,8 @@
 import { IOptions } from '../interface/options';
-import { Logger } from './logger';
 import { promises as fs } from 'fs';
 import { resolve } from 'path';
 import { Collection } from 'mongodb';
+import { ILogger } from '../interface/logger';
 
 /**
  * The state is a global object in which you can get and set data to
@@ -18,13 +18,11 @@ export class State {
 	protected file_path: string;
 
 	/**
-	 * Creates an instance of the state with the framework options and
-	 * the logger to be able to manage itself.
+	 * Creates an instance of the state with the framework options.
 	 * 
 	 * @param options The framework options.
-	 * @param logger The logger module.
 	 */
-	public constructor(protected options: IOptions, protected logger: Logger, protected collection?: Collection) {
+	public constructor(protected options: IOptions, protected logger: ILogger, protected collection?: Collection) {
 		this.createInterval();
 		this.file_path = resolve(__dirname, '../../state.json');
 	}
@@ -38,6 +36,7 @@ export class State {
 	public async initialise(): Promise<void> {
 		try {
 			if (this.options.database && this.options.state_storage_type === 'database') {
+				this.logger.verbose('STATE', 'Loading state from database.');
 				const pstate: any = await this.collection?.findOne({name: 'rewyre-state'}) || {};
 				if (typeof pstate === 'undefined') {
 					this.state = {};
@@ -45,10 +44,12 @@ export class State {
 					this.state = pstate;
 				}
 			} else {
+				this.logger.verbose('STATE', 'Loading state from file.');
 				const baseState: any = await fs.readFile(this.file_path, 'utf-8');
 				this.state = JSON.parse(baseState);
 			}
 		} catch(err) {
+			this.logger.verbose('STATE', 'Failed to load the state from any external place, defaulting to empty.');
 			this.state = {};
 		}
 	}

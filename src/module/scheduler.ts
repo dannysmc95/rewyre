@@ -1,3 +1,4 @@
+import { ILogger } from '../interface/logger';
 import { IOptions } from '../interface/options';
 
 /**
@@ -15,7 +16,7 @@ export class Scheduler {
 	 * 
 	 * @param options The framework options.
 	 */
-	public constructor(protected options: IOptions) {}
+	public constructor(protected options: IOptions, protected logger: ILogger) {}
 
 	/**
 	 * Will setup the services locally to the class, then will call
@@ -36,6 +37,7 @@ export class Scheduler {
 	protected setupSchedules(): void {
 		this.services.forEach((service: any) => {
 			service.timer = setInterval(() => {
+				this.logger.verbose('SHEDULER', `Scheduled service: ${service.name} is being executed.`);
 				service.instance.execute();
 			}, parseInt(service.schedule) * 1000);
 		});

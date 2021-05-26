@@ -3,11 +3,11 @@ import { IOptions } from '../interface/options';
 import * as expressWs from 'express-ws';
 import * as WS from 'ws';
 import { Request } from 'express';
-import { Logger } from './logger';
 import { Router } from './router';
 import { ErrorMessages } from '../enum/error-messages';
 import { ServerHelper } from '../helper/server';
 import { IContext } from '../interface/context';
+import { ILogger } from '../interface/logger';
 
 /**
  * The WSServer class controls the world of WebSocket servers, this
@@ -21,7 +21,6 @@ export class WSServer {
 	protected controllers: Array<any> = [];
 	protected server!: expressWs.Application;
 	protected connections: {[key: string]: {socket: WS, request: Request, subscriptions: Array<string>, session: any}} = {};
-	protected logger: Logger;
 	protected helper: ServerHelper;
 
 	/**
@@ -34,8 +33,7 @@ export class WSServer {
 	 * @param http_server The HTTPServer instance.
 	 * @param router The router instance.
 	 */
-	public constructor(protected options: IOptions, protected http_server: HTTPServer, protected router: Router) {
-		this.logger = new Logger();
+	public constructor(protected options: IOptions, protected http_server: HTTPServer, protected router: Router, protected logger: ILogger) {
 		this.helper = new ServerHelper();
 		const server: any = this.http_server.getInstance();
 		expressWs(server);
@@ -113,8 +111,8 @@ export class WSServer {
 		};
 
 		// Notify console.
-		this.logger.notice('WEBSOCKET', `Connection received with ID: ${uniqueId}.`);
-		this.logger.notice('WEBSOCKET', `Information, connection count: ${Object.keys(this.connections).length}.`);
+		this.logger.info('WEBSOCKET', `Connection received with ID: ${uniqueId}.`);
+		this.logger.info('WEBSOCKET', `Information, connection count: ${Object.keys(this.connections).length}.`);
 	}
 
 	/**
@@ -128,8 +126,8 @@ export class WSServer {
 	protected onClose(socket: WS, request: Request, code: number, reason: string): void {
 		const uniqueId = String(request.headers['sec-websocket-key']);
 		delete this.connections[uniqueId];
-		this.logger.notice('WEBSOCKET', `Connection closed with code ${code}${reason !== '' ? ` and reason: ${reason}.` : '.'}`);
-		this.logger.notice('WEBSOCKET', `Information, connection count: ${Object.keys(this.connections).length}.`);
+		this.logger.info('WEBSOCKET', `Connection closed with code ${code}${reason !== '' ? ` and reason: ${reason}.` : '.'}`);
+		this.logger.info('WEBSOCKET', `Information, connection count: ${Object.keys(this.connections).length}.`);
 	}
 
 	/**
@@ -143,7 +141,7 @@ export class WSServer {
 		const uniqueId = String(request.headers['sec-websocket-key']);
 		delete this.connections[uniqueId];
 		this.logger.error('WEBSOCKET', `Connection incurred an error: ${err.message}.`, err);
-		this.logger.notice('WEBSOCKET', `Information, connection count: ${Object.keys(this.connections).length}.`);
+		this.logger.info('WEBSOCKET', `Information, connection count: ${Object.keys(this.connections).length}.`);
 	}
 
 	/**

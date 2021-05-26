@@ -2,8 +2,8 @@ import { IReturn } from '../interface/return';
 import { ErrorMessages } from '../enum/error-messages';
 import { IContext } from '../interface/context';
 import { IOptions } from '../interface/options';
-import { Logger } from './logger';
 import { Authenticator } from './authenticator';
+import { ILogger } from '../interface/logger';
 
 /**
  * The Router class manages the actual requests coming in from the
@@ -13,17 +13,13 @@ import { Authenticator } from './authenticator';
  */
 export class Router {
 
-	protected logger: Logger;
-
 	/**
 	 * Creates a new router instance with the provided framework
 	 * options, and exposes one main function called dispatch.
 	 * 
 	 * @param options The framework options.
 	 */
-	public constructor(protected options: IOptions, protected authenticator: Authenticator) {
-		this.logger = new Logger();
-	}
+	public constructor(protected options: IOptions, protected authenticator: Authenticator, protected logger: ILogger) {}
 
 	/**
 	 * The dispatch method is the key part of executing the actual
@@ -38,10 +34,12 @@ export class Router {
 	 * @param context The context from the HTTP/WS server.
 	 */
 	public async dispatch(controller: any, route: any, context: IContext): Promise<void> {
+		this.logger.verbose('ROUTER', `Received routing request for: ${String(controller.prefix + controller.route).replace('//', '/')}.`);
 		try {
 
 			// Validate the endpoint.
 			if (typeof controller.instance[route.methodName] === 'undefined') {
+				this.logger.verbose('ROUTER', `No endpoint found for ${String(controller.prefix + controller.route).replace('//', '/')}.`);
 				throw new Error(ErrorMessages.ENDPOINT_NOT_FOUND);
 			}
 
@@ -67,7 +65,7 @@ export class Router {
 			}
 
 		} catch(err) {
-			this.logger.error('ROUTER', err.message, err);
+			this.logger.verbose('ROUTER', 'There was an error calling the route.', err);
 			if (context.type === 'http') {
 				context.getRaw().response?.status(500).end();
 			} else {

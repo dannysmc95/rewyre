@@ -1,4 +1,5 @@
 import { IDatabaseItem, IOptions } from '../interface/options';
+import { Logger } from '../module/logger';
 import { State } from '../module/state';
 
 /**
@@ -34,9 +35,19 @@ export class FrameworkHelper {
 			// State Specific.
 			state_flush_period: 30,
 			state_storage_type: 'file',
+
+			// Logger Specific.
+			log_levels: ['info', 'warn', 'error'],
 		};
+
+		// Merge the options then validate them.
 		const mergedOptions: IOptions = Object.assign(defaultOptions, options);
 		this.validateOptions(mergedOptions);
+
+		// If no logger given, define the standard one.
+		if (!mergedOptions.logger) mergedOptions.logger = new Logger(mergedOptions.log_levels);
+
+		// Return the merged options.
 		return mergedOptions;
 	}
 

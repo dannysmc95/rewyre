@@ -1,7 +1,7 @@
 import { IContext } from '../interface/context';
 import { IGuard } from '../interface/guard';
 import { Request } from 'express';
-import { Logger } from './logger';
+import { ILogger } from '../interface/logger';
 
 /**
  * The authenticator class is a module for rewyre that manages guards
@@ -18,7 +18,7 @@ export class Authenticator {
 	 * 
 	 * @param guards The array of available guards.
 	 */
-	public constructor(protected guards: Array<any>, protected logger: Logger) {}
+	public constructor(protected guards: Array<any>, protected logger: ILogger) {}
 
 	/**
 	 * This function takes the controller, route and context, in which it
@@ -33,17 +33,24 @@ export class Authenticator {
 		try {
 
 			// Now let's find an available guard.
+			this.logger.verbose('GUARD', 'Received guard request.');
 			const guard: IGuard | null = await this.findGuardMatch(context.getRaw().request);
 
-			// If gaurd is not null, then return true as no guard available so allow requests.
-			if (guard === null) return true;
+			// If guard is not null, then return true as no guard available so allow requests.
+			if (guard === null) {
+				this.logger.verbose('GUARD', 'No guard available, allowing connection.');
+				return true;
+			}
 
 			// Now let's process the guard steps.
+			this.logger.verbose('GUARD', 'Guard found, getting credentials.');
 			const credentials: any = await guard.getCredentials(context.getRaw().request);
 
 			// Now get the user related to this guard.
+			this.logger.verbose('GUARD', 'Getting user from request.');
 			const user: any = await guard.getUser(credentials);
 			if (user === false) {
+				this.logger.verbose('GUARD', 'No user received, rejecting.');
 				await guard.onAuthenticationFailure(context.getRaw().request, credentials);
 				if (context.type === 'http') {
 					context.getRaw().response?.status(401).end();
@@ -60,8 +67,10 @@ export class Authenticator {
 			}
 
 			// Check the validatity of the credentials.
+			this.logger.verbose('GUARD', 'Validating credentials.');
 			const verified: boolean = await guard.checkCredentials(context.getRaw().request, credentials, user);
 			if (verified === false) {
+				this.logger.verbose('GUARD', 'Credentials failed, rejecting.');
 				await guard.onAuthenticationFailure(context.getRaw().request, credentials, user);
 				if (context.type === 'http') {
 					context.getRaw().response?.status(401).end();
@@ -78,12 +87,13 @@ export class Authenticator {
 			}
 
 			// If validation succeeds, assign the authentication object, call the success event and return true.
+			this.logger.verbose('GUARD', 'Guard check was successful, allowing.');
 			context.authentication = user;
 			await guard.onAuthenticationSuccess(context.getRaw().request, credentials, user);
 			return true;
 
 		} catch(err) {
-			this.logger.error('GUARD', `There was an error processing a guard: ${err.message}.`, err);
+			this.logger.error('GUARD', 'There was an error with running the guard.', err);
 			if (context.type === 'http') {
 				context.getRaw().response?.status(500).end();
 			} else {

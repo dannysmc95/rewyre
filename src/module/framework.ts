@@ -11,12 +11,13 @@ import { Router } from './router';
 import { HTTPServer } from './http-server';
 import { WSServer } from './ws-server';
 import { Database } from './database';
-import { Logger } from './logger';
 import { Scheduler } from './scheduler';
 import { State } from './state';
 import { Authenticator } from './authenticator';
-import { IDatabaseDriver } from '..';
+import { IDatabaseDriver } from '../interface/database-driver';
+import { ILogger } from '../interface/logger';
 import { WSHelper } from '../helper/ws-helper';
+import { performance } from 'perf_hooks';
 
 /**
  * The framework is the core part of the rewyre package, the
@@ -39,10 +40,10 @@ export class Framework {
 	protected ws_server: WSServer;
 	protected ws_helper: WSHelper;
 	protected database: Database;
-	protected logger: Logger;
 	protected scheduler: Scheduler;
 	protected authenticator: Authenticator;
 	protected state: State;
+	protected logger: ILogger;
 
 	/**
 	 * Creates a new instance of the rewyre framework, with the
@@ -52,17 +53,24 @@ export class Framework {
 	 * @param options The framework options.
 	 */
 	public constructor(options?: IOptions) {
+
+		// Create helper and merge options.
 		this.helper = new FrameworkHelper();
 		this.options = this.helper.mergeOptions(options);
-		this.logger = new Logger();
+
+		// Validate and assign logger.
+		if (!this.options.logger) throw new Error('No valid logger given.');
+		this.logger = this.options.logger;
+
+		// Now load the other modules.
 		this.authenticator = new Authenticator(this.guards, this.logger);
 		this.state = new State(this.options, this.logger);
 		this.database = new Database(this.options, this.logger);
-		this.router = new Router(this.options, this.authenticator);
-		this.http_server = new HTTPServer(this.options, this.router);
-		this.ws_server = new WSServer(this.options, this.http_server, this.router);
-		this.ws_helper = new WSHelper(this.options, this.ws_server);
-		this.scheduler = new Scheduler(this.options);
+		this.router = new Router(this.options, this.authenticator, this.logger);
+		this.http_server = new HTTPServer(this.options, this.router, this.logger);
+		this.ws_server = new WSServer(this.options, this.http_server, this.router, this.logger);
+		this.ws_helper = new WSHelper(this.options, this.ws_server, this.logger);
+		this.scheduler = new Scheduler(this.options, this.logger);
 	}
 
 	/**
@@ -76,6 +84,7 @@ export class Framework {
 		class_list.forEach((class_item: AbstractController | AbstractModel | AbstractService) => {
 			if (!Reflect.hasMetadata('class_type', class_item)) throw new Error(ErrorMessages.NO_CLASS_TYPE);
 			const classType: string = Reflect.getMetadata('class_type', class_item);
+			this.logger.verbose('FRAMEWORK', `Registering class type: ${classType}.`);
 			this[`register${this.helper.capitalise(classType)}`](class_item);
 		});
 	}
@@ -88,6 +97,7 @@ export class Framework {
 	 * @param middleware The middleware function.
 	 */
 	public useMiddleware(middleware: (request: Request, response: Response, next: NextFunction) => void): void {
+		this.logger.verbose('FRAMEWORK', `Accepting middleware registration.`);
 		this.http_server.useProxy(middleware);
 	}
 
@@ -99,6 +109,7 @@ export class Framework {
 	 * @param url_path [Optional] The URL path to access the static folder.
 	 */
 	public useStatic(folder_path: string, url_path?: string): void {
+		this.logger.verbose('FRAMEWORK', `Accepting static registration.`);
 		this.http_server.useStaticProxy(folder_path, url_path);
 	}
 
@@ -118,17 +129,22 @@ export class Framework {
 	public async start(): Promise<void> {
 
 		// Process the registered classes.
+		const rwLaunchStart = performance.now();
+		this.logger.verbose('FRAMEWORK', 'Starting application, launching setup (process).');
 		await this.process();
 
 		// Initialise the state.
+		this.logger.verbose('FRAMEWORK', 'Starting application, launching state initialisation.');
 		await this.state.initialise();
 
 		// Now start the servers.
+		this.logger.verbose('FRAMEWORK', 'Starting application, launching HTTP/WS service.');
 		this.http_server.start();
 
 		// Log launch message.
-		this.logger.notice('FRAMEWORK', `Application is listening at http://${this.options.host}:${this.options.port}/${this.options.websocket ? ` and ws://${this.options.host}:${this.options.port}${this.options.websocket_path}` : ''}.`);
-		this.logger.notice('FRAMEWORK', `Registered ${this.controllers.length} controller(s), ${this.models.length} model(s), ${this.services.length} service(s), ${this.guards.length} guard(s), and ${this.providers.length} provider(s).`);
+		this.logger.verbose('FRAMEWORK', `Application launched successfully in ${parseFloat(String(performance.now() - rwLaunchStart)).toFixed(2)}ms.`);
+		this.logger.info('FRAMEWORK', `Application is listening at http://${this.options.host}:${this.options.port}/${this.options.websocket ? ` and ws://${this.options.host}:${this.options.port}${this.options.websocket_path}` : ''}.`);
+		this.logger.info('FRAMEWORK', `Registered ${this.controllers.length} controller(s), ${this.models.length} model(s), ${this.services.length} service(s), ${this.guards.length} guard(s), and ${this.providers.length} provider(s).`);
 	}
 
 	/**
@@ -143,10 +159,12 @@ export class Framework {
 	protected async process(): Promise<void> {
 
 		// Initialise the database.
+		this.logger.verbose('PROCESS', 'Starting database initialisation.');
 		this.database.customDrivers(this.drivers);
 		await this.database.initialise();
 
 		// Initialise the model instances.
+		this.logger.verbose('PROCESS', 'Starting model initialisation.');
 		this.models.forEach((model: any) => {
 			model.instance = new model.class(model.name, model.type, model.fields, this.database.getDatabase(model.unique));
 			model.instance.state = this.state;
@@ -154,6 +172,7 @@ export class Framework {
 		});
 
 		// Initialise the provider instances and check injections.
+		this.logger.verbose('PROCESS', 'Starting providers initialisation.');
 		this.providers.forEach((provider: any) => {
 			if (provider.type === 'shared') {
 				provider.instance = new provider.class();
@@ -176,18 +195,22 @@ export class Framework {
 		};
 
 		// Inject the injectables to suppoted classes.
+		this.logger.verbose('PROCESS', 'Starting injection process.');
 		this.helper.inject(this.providers, injectables);
 		this.helper.inject(this.services, injectables);
 		this.helper.inject(this.controllers, injectables);
 		this.helper.inject(this.guards, injectables);
 
 		// Process the services in the scheduler.
+		this.logger.verbose('PROCESS', 'Starting scheduled initialisation.');
 		this.scheduler.process(this.services);
 
 		// Process the controllers for HTTP.
+		this.logger.verbose('PROCESS', 'Starting HTTP server initialisation.');
 		this.http_server.process(this.controllers);
 
 		// Process the controllers for WS.
+		this.logger.verbose('PROCESS', 'Starting WS server initialisation.');
 		this.ws_server.process(this.controllers);
 	}
 

@@ -1,4 +1,4 @@
-import { Controller, AbstractController, Route, IReturn, Inject, IContext, ModelRecordID } from '../../src/index';
+import { Controller, AbstractController, Route, IReturn, Inject, IContext, ObjectID } from '../../src/index';
 import { TasksModel } from '../model/tasks';
 
 @Inject(['tasks'])
@@ -28,13 +28,13 @@ export class ApiController extends AbstractController {
 
 	@Route('DELETE', '/task/:id')
 	public async delete(context: IContext): Promise<IReturn> {
-		await this.tasks.deleteOne({ _id: new ModelRecordID(context.params.id) });
+		await this.tasks.deleteOne({ _id: new ObjectID(context.params.id) });
 		return { status: 204 };
 	}
 
 	@Route('PATCH', '/task/complete/:id')
 	public async complete(context: IContext): Promise<IReturn> {
-		await this.tasks.updateOne({ _id: new ModelRecordID(context.params.id) }, { to_complete: true });
+		await this.tasks.updateOne({ _id: new ObjectID(context.params.id) }, { to_complete: true });
 		return { status: 200 };
 	}
 }

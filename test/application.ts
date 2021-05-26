@@ -17,6 +17,7 @@ import { DatabaseDriverFile } from './driver/file';
 	const application: Framework = new Framework({
 		port: 3005,
 		database: true,
+		log_levels: ['info', 'warn', 'error', 'verbose', 'debug'],
 		websocket: true,
 		websocket_access: 'full',
 		databases: [

@@ -32,6 +32,7 @@ import { IContext, IContextRaw } from './interface/context';
 import { IDatabaseDriver } from './interface/database-driver';
 import { IGuard } from './interface/guard';
 import { IOptions, IDatabaseItem } from './interface/options';
+import { ILogger } from './interface/logger';
 import { IReturn } from './interface/return';
 import { IService } from './interface/service';
 import { IValidateResponse } from './interface/validate-response';
@@ -54,7 +55,7 @@ import { CryptoProvider } from './provider/crypto';
  * Used in conjunction with the Mongo database driver, and allows
  * you to define a document's ID.
  * 
- * @deprecated ModelRecordID has now been deprecated in favour of ObjectID which is re-exported by the framework.
+ * @deprecated ModelRecordID has now been deprecated in favour of ObjectID from the mongodb package which is re-exported by the framework.
  * @since v2.1.2
  */
 const ModelRecordID = ObjectID;
@@ -105,6 +106,7 @@ export {
 	IDatabaseDriver,
 	IDatabaseItem,
 	IGuard,
+	ILogger,
 	IOptions,
 	IReturn,
 	IService,
