@@ -31,8 +31,9 @@ import { WSHelper } from './helper/ws-helper';
 import { IContext, IContextRaw } from './interface/context';
 import { IDatabaseDriver } from './interface/database-driver';
 import { IGuard } from './interface/guard';
-import { IOptions, IDatabaseItem } from './interface/options';
 import { ILogger } from './interface/logger';
+import { IOptions, IDatabaseItem } from './interface/options';
+import { IPacket, IPacketContent } from './interface/packet';
 import { IReturn } from './interface/return';
 import { IService } from './interface/service';
 import { IValidateResponse } from './interface/validate-response';
@@ -108,6 +109,8 @@ export {
 	IGuard,
 	ILogger,
 	IOptions,
+	IPacket,
+	IPacketContent,
 	IReturn,
 	IService,
 	IValidateResponse,

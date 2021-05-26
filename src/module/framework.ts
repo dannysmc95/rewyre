@@ -97,7 +97,7 @@ export class Framework {
 	 * @param middleware The middleware function.
 	 */
 	public useMiddleware(middleware: (request: Request, response: Response, next: NextFunction) => void): void {
-		this.logger.verbose('FRAMEWORK', `Accepting middleware registration.`);
+		this.logger.verbose('FRAMEWORK', 'Accepting middleware registration.');
 		this.http_server.useProxy(middleware);
 	}
 
@@ -109,7 +109,7 @@ export class Framework {
 	 * @param url_path [Optional] The URL path to access the static folder.
 	 */
 	public useStatic(folder_path: string, url_path?: string): void {
-		this.logger.verbose('FRAMEWORK', `Accepting static registration.`);
+		this.logger.verbose('FRAMEWORK', 'Accepting static registration.');
 		this.http_server.useStaticProxy(folder_path, url_path);
 	}
 
@@ -191,6 +191,7 @@ export class Framework {
 			options: this.options,
 			builtins: {
 				websocket: this.ws_helper,
+				logger: this.logger,
 			},
 		};
 

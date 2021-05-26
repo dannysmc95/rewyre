@@ -1,5 +1,6 @@
 import { Request } from 'express';
 import { IGuard } from '../interface/guard';
+import { ILogger } from '../interface/logger';
 
 /**
  * The abstract guard class is the default guard authenticator that uses the standard
@@ -19,13 +20,8 @@ import { IGuard } from '../interface/guard';
  */
 export abstract class AbstractGuard implements IGuard {
 
+	public logger!: ILogger;
 	protected token_name = 'X-Rewyre-Token';
-
-	/**
-	 * Creates an instance of the of the guard class, that can be used with
-	 * the internal authentication module.
-	 */
-	public constructor() {}
 
 	/**
 	 * This method is called for each request, and will return a boolean
@@ -104,7 +100,9 @@ export abstract class AbstractGuard implements IGuard {
 	 * @param user The user relating to the request, if available.
 	 * @returns Promise<void>
 	 */
-	public async onAuthenticationSuccess(): Promise<void> {}
+	public async onAuthenticationSuccess(): Promise<void> {
+		this.logger.verbose('GUARD', 'Default guard, authentication success.');
+	}
 
 	/**
 	 * This function is called depending on the outcome of the checkCredentials
@@ -116,5 +114,7 @@ export abstract class AbstractGuard implements IGuard {
 	 * @param credentials The credentials for the request.
 	 * @returns Promise<void>
 	 */
-	public async onAuthenticationFailure(): Promise<void> {}
+	public async onAuthenticationFailure(): Promise<void> {
+		this.logger.verbose('GUARD', 'Default guard, authentication failure.');
+	}
 }
