@@ -23,6 +23,9 @@ export class HTTPServer {
 	 * from here this will be able to manipulate and manage the HTTP server.
 	 * 
 	 * @param options The framework options.
+	 * @param router The router instance.
+	 * @param logger The logger instance.
+	 * @returns HTTPServer.
 	 */
 	public constructor(protected options: IOptions, protected router: Router, protected logger: ILogger) {
 		this.helper = new ServerHelper();
@@ -32,6 +35,8 @@ export class HTTPServer {
 
 	/**
 	 * Returns the instance of the Express server.
+	 * 
+	 * @returns express.Application.
 	 */
 	public getInstance(): express.Application {
 		return this.server;
@@ -43,6 +48,7 @@ export class HTTPServer {
 	 * middleware functions and more.
 	 * 
 	 * @param middleware The middleware function.
+	 * @returns void.
 	 */
 	public useProxy(middleware: (request: express.Request, response: express.Response, next: express.NextFunction) => void): void {
 		this.server.use(middleware);
@@ -55,6 +61,7 @@ export class HTTPServer {
 	 * 
 	 * @param folder_path The folder path.
 	 * @param url_path The URL path.
+	 * @returns void.
 	 */
 	public useStaticProxy(folder_path: string, url_path?: string): void {
 		if (url_path) {
@@ -67,6 +74,8 @@ export class HTTPServer {
 	/**
 	 * This method will tell Express to start listening on the
 	 * given port and hostname inside of the framework options.
+	 * 
+	 * @returns void.
 	 */
 	public start(): void {
 		this.server.listen(this.options.port);
@@ -79,6 +88,7 @@ export class HTTPServer {
 	 * 
 	 * @param controllers The array of controllers.
 	 * @param models The array of models.
+	 * @returns void.
 	 */
 	public process(controllers: Array<any>): void {
 		this.controllers = controllers;
@@ -90,6 +100,8 @@ export class HTTPServer {
 	 * for the HTTP server's context, it will then create a function that
 	 * will call the dispatch method of the router, which will actually do
 	 * the processing and error catching for that route.
+	 * 
+	 * @returns void.
 	 */
 	protected buildRoutes(): void {
 		this.controllers.forEach((controller: any) => {
@@ -129,6 +141,8 @@ export class HTTPServer {
 	 * Internal function that defines all the default middleware we
 	 * require for the application, this includes a cookie parser,
 	 * the body parser for URL encoded content and JSON content.
+	 * 
+	 * @returns void.
 	 */
 	protected setupDefaultMiddleware(): void {
 		this.server.use(cookieParser());

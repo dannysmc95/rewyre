@@ -15,6 +15,8 @@ export class Scheduler {
 	 * Creates an instance of the scheduler class.
 	 * 
 	 * @param options The framework options.
+	 * @param logger The logger instance.
+	 * @returns Scheduler.
 	 */
 	public constructor(protected options: IOptions, protected logger: ILogger) {}
 
@@ -23,6 +25,7 @@ export class Scheduler {
 	 * the next method to create the interval timers for each service.
 	 * 
 	 * @param services The array of services.
+	 * @returns void.
 	 */
 	public process(services: Array<any>): void {
 		this.services = services;
@@ -33,6 +36,8 @@ export class Scheduler {
 	 * Will loop the services and setup interval timers for each service
 	 * to make sure they are called at the X amount of seconds as defined
 	 * when creating the service.
+	 * 
+	 * @returns void.
 	 */
 	protected setupSchedules(): void {
 		this.services.forEach((service: any) => {

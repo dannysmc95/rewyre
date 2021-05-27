@@ -12,6 +12,7 @@ export class Logger implements ILogger {
 	 * This will create an instance of the logger with the given parameters.
 	 * 
 	 * @param levels The array of allowed levels to log.
+	 * @returns Logger.
 	 */
 	public constructor(allowedLevels?: Array<'info' | 'warn' | 'error' | 'verbose' | 'debug'>) {
 		if (!allowedLevels) {

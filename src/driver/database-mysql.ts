@@ -18,6 +18,7 @@ export class DatabaseDriverMysql implements IDatabaseDriver {
 	 * called directly and only the framework will do this.
 	 * 
 	 * @param details The database config.
+	 * @returns DatabaseDriverMysql.
 	 */
 	public constructor(protected details: IDatabaseItem) {
 
@@ -43,7 +44,7 @@ export class DatabaseDriverMysql implements IDatabaseDriver {
 	 * @param collection The collection name.
 	 * @param query The query to search for.
 	 * @param options Any options to pass (including projection).
-	 * @returns Promise<any>
+	 * @returns Promise<any>.
 	 */
 	public async findOne(collection: string, query: any, options?: any): Promise<any> {
 		const projection = options && options.$projection || false;
@@ -60,7 +61,7 @@ export class DatabaseDriverMysql implements IDatabaseDriver {
 	 * @param collection The collection name.
 	 * @param query The query to search for.
 	 * @param options Any options to pass (including projection).
-	 * @returns Promise<any>
+	 * @returns Promise<any>.
 	 */
 	public async find(collection: string, query: any, options?: any): Promise<any[]> {
 		const projection = options && options.$projection || false;
@@ -76,7 +77,7 @@ export class DatabaseDriverMysql implements IDatabaseDriver {
 	 * 
 	 * @param collection The collection name.
 	 * @param query The query to search for.
-	 * @returns Promise<number>
+	 * @returns Promise<number>.
 	 */
 	public async count(collection: string, query: any): Promise<number> {
 		const searchParams: Array<string> = Object.keys(query).map((key: string) => `${escapeId(key)} = ${escape(query[key])}`);
@@ -90,7 +91,7 @@ export class DatabaseDriverMysql implements IDatabaseDriver {
 	 * 
 	 * @param collection The collection name.
 	 * @param record The record to insert.
-	 * @returns Promise<string | number>
+	 * @returns Promise<string | number>.
 	 */
 	public async insertOne(collection: string, record: any): Promise<string | number> {
 		const columns: Array<string> = Object.keys(record).map((key: string) => escapeId(key));
@@ -105,7 +106,7 @@ export class DatabaseDriverMysql implements IDatabaseDriver {
 	 * 
 	 * @param collection The collection name.
 	 * @param records The record to insert.
-	 * @returns Promise<string[] | number[]>
+	 * @returns Promise<string[] | number[]>.
 	 */
 	public async insertMany(collection: string, records: Array<any>): Promise<string[] | number[]> {
 		if (records.length === 0) return ['No records to insert.'];
@@ -128,7 +129,7 @@ export class DatabaseDriverMysql implements IDatabaseDriver {
 	 * @param collection The collection name.
 	 * @param query: The query to search for.
 	 * @param update The update to make.
-	 * @returns Promise<boolean>
+	 * @returns Promise<boolean>.
 	 */
 	public async updateOne(collection: string, query: any, update: any): Promise<boolean> {
 		const searchParams: Array<string> = Object.keys(query).map((key: string) => `${escapeId(key)} = ${escape(query[key])}`);
@@ -144,7 +145,7 @@ export class DatabaseDriverMysql implements IDatabaseDriver {
 	 * @param collection The collection name.
 	 * @param query: The query to search for.
 	 * @param update The update to make.
-	 * @returns Promise<boolean>
+	 * @returns Promise<boolean>.
 	 */
 	public async updateMany(collection: string, query: any, update: any): Promise<boolean> {
 		const searchParams: Array<string> = Object.keys(query).map((key: string) => `${escapeId(key)} = ${escape(query[key])}`);
@@ -159,7 +160,7 @@ export class DatabaseDriverMysql implements IDatabaseDriver {
 	 * 
 	 * @param collection The collection name.
 	 * @param query: The query to search for.
-	 * @returns Promise<boolean>
+	 * @returns Promise<boolean>.
 	 */
 	public async deleteOne(collection: string, query: any): Promise<boolean> {
 		const searchParams: Array<string> = Object.keys(query).map((key: string) => `${escapeId(key)} = ${escape(query[key])}`);
@@ -173,7 +174,7 @@ export class DatabaseDriverMysql implements IDatabaseDriver {
 	 * 
 	 * @param collection The collection name.
 	 * @param query: The query to search for.
-	 * @returns Promise<boolean>
+	 * @returns Promise<boolean>.
 	 */
 	public async deleteMany(collection: string, query: any): Promise<boolean> {
 		const searchParams: Array<string> = Object.keys(query).map((key: string) => `${escapeId(key)} = ${escape(query[key])}`);
@@ -185,7 +186,7 @@ export class DatabaseDriverMysql implements IDatabaseDriver {
 	/**
 	 * Will return the database instance directly for more customisation.
 	 * 
-	 * @returns The database instance.
+	 * @returns Mysql.
 	 */
 	public getInstance(): any {
 		return this.instance;
@@ -196,7 +197,7 @@ export class DatabaseDriverMysql implements IDatabaseDriver {
 	 * statement.
 	 * 
 	 * @param projection The projection to use.
-	 * @returns string
+	 * @returns string.
 	 */
 	protected getProjection(projection: any): string {
 		if (projection === false) return '*';
@@ -210,7 +211,7 @@ export class DatabaseDriverMysql implements IDatabaseDriver {
 	 * 
 	 * @param query The SQL query to run.
 	 * @param values The values to pass along.
-	 * @returns Object/Array
+	 * @returns Object/Array.
 	 */
 	protected async exec(query: string, values?: Array<any>): Promise<any> {
 		return new Promise((resolve, reject) => {

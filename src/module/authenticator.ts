@@ -17,6 +17,8 @@ export class Authenticator {
 	 * all routes.
 	 * 
 	 * @param guards The array of available guards.
+	 * @param logger The logger instance.
+	 * @returns Authenticator.
 	 */
 	public constructor(protected guards: Array<any>, protected logger: ILogger) {}
 
@@ -28,6 +30,7 @@ export class Authenticator {
 	 * @param controller The controller object.
 	 * @param route The route object.
 	 * @param context The request context.
+	 * @returns Promise<boolean>.
 	 */
 	public async process(context: IContext): Promise<boolean> {
 		try {
@@ -114,6 +117,7 @@ export class Authenticator {
 	 * or reverts to the fallback if available.
 	 * 
 	 * @param request The request object.
+	 * @returns IGuard | null.
 	 */
 	protected async findGuardMatch(request: Request): Promise<IGuard | null> {
 

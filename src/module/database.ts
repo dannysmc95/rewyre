@@ -22,6 +22,8 @@ export class Database {
 	 * to add additional functionality.
 	 * 
 	 * @param options The framework options.
+	 * @param logger The logger instance.
+	 * @returns Database.
 	 */
 	public constructor(protected options: IOptions, protected logger: ILogger) {}
 
@@ -65,7 +67,7 @@ export class Database {
 	 * name if it exists.
 	 * 
 	 * @param unique The unique key.
-	 * @returns The database instance.
+	 * @returns DatabaseDriver<any>.
 	 */
 	public getDatabase(unique: string | boolean): any {
 		if (unique === false) return this.databases.get(this.default);
@@ -79,8 +81,9 @@ export class Database {
 	 * they can be called upon via models, etc.
 	 * 
 	 * @param drivers The array of drivers.
+	 * @returns void.
 	 */
-	public customDrivers(drivers: Array<any>): any {
+	public customDrivers(drivers: Array<any>): void {
 		drivers.forEach((driver: any) => {
 			this.custom.set(driver.name, driver.class);
 		});

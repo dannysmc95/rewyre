@@ -18,6 +18,9 @@ export class Router {
 	 * options, and exposes one main function called dispatch.
 	 * 
 	 * @param options The framework options.
+	 * @param authenticator The authenticator instance.
+	 * @param logger The logger instance.
+	 * @returns Router.
 	 */
 	public constructor(protected options: IOptions, protected authenticator: Authenticator, protected logger: ILogger) {}
 
@@ -32,6 +35,7 @@ export class Router {
 	 * @param controller The controller definition.
 	 * @param route The route definition.
 	 * @param context The context from the HTTP/WS server.
+	 * @returns Promise<void>.
 	 */
 	public async dispatch(controller: any, route: any, context: IContext): Promise<void> {
 		this.logger.verbose('ROUTER', `Received routing request for: ${String(controller.prefix + controller.route).replace('//', '/')}.`);

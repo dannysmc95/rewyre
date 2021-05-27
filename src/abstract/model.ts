@@ -26,7 +26,7 @@ export abstract class AbstractModel {
 	 * advanced searches, with filtering, and more, this has been done to
 	 * prevent too much complexity in the base model.
 	 * 
-	 * @returns Object
+	 * @returns Object.
 	 */
 	public getInstance(): any {
 		return this.database.getInstance();
@@ -37,7 +37,7 @@ export abstract class AbstractModel {
 	 * 
 	 * @param query The query to pass.
 	 * @param options Any options to pass.
-	 * @returns Promise<any>
+	 * @returns Promise<any>.
 	 */
 	public async findOne(query: any, options?: any): Promise<any> {
 		return await this.database.findOne(this.name, query, options);
@@ -48,7 +48,7 @@ export abstract class AbstractModel {
 	 * 
 	 * @param query The query to pass.
 	 * @param options Any options to pass.
-	 * @returns Promise<any[]>
+	 * @returns Promise<any[]>.
 	 */
 	public async find(query: any, options?: any): Promise<any[]> {
 		return await this.database.find(this.name, query, options);
@@ -59,7 +59,7 @@ export abstract class AbstractModel {
 	 * 
 	 * @param query The query to pass.
 	 * @param options Any options to pass.
-	 * @returns Promise<number>
+	 * @returns Promise<number>.
 	 */
 	public async count(query: any, options?: any): Promise<number> {
 		return await this.database.count(this.name, query, options);
@@ -70,7 +70,7 @@ export abstract class AbstractModel {
 	 * 
 	 * @param record The record to pass.
 	 * @param options Any options to pass.
-	 * @returns Promise<string | number>
+	 * @returns Promise<string | number>.
 	 */
 	public async insertOne(record: any, options?: any): Promise<string | number> {
 		const result: IValidateResponse = this.validate(record);
@@ -83,7 +83,7 @@ export abstract class AbstractModel {
 	 * 
 	 * @param records Array of multiple records to pass.
 	 * @param options Any options to pass.
-	 * @returns Promise<number[] | string[]>
+	 * @returns Promise<number[] | string[]>.
 	 */
 	public async insertMany(records: Array<any>, options?: any): Promise<number[] | string[]> {
 		for (const index in records) {
@@ -100,7 +100,7 @@ export abstract class AbstractModel {
 	 * @param query The query to search against.
 	 * @param update The update changes to apply to the match.
 	 * @param options The options to apply to MongoDB.
-	 * @returns Promise<boolean>
+	 * @returns Promise<boolean>.
 	 */
 	public async updateOne(query: any, update: any, options?: any): Promise<boolean> {
 		return await this.database.updateOne(this.name, query, update, options);
@@ -113,7 +113,7 @@ export abstract class AbstractModel {
 	 * @param query The query to search against.
 	 * @param update The update changes to apply to the match.
 	 * @param options The options to apply to MongoDB.
-	 * @returns Promise<boolean>
+	 * @returns Promise<boolean>.
 	 */
 	public async updateMany(query: any, update: any, options?: any): Promise<boolean> {
 		return await this.database.updateMany(this.name, query, update, options);
@@ -124,7 +124,7 @@ export abstract class AbstractModel {
 	 * 
 	 * @param query The query to match against.
 	 * @param options Any options to pass.
-	 * @returns Promise<boolean>
+	 * @returns Promise<boolean>.
 	 */
 	public async deleteOne(query: any, options?: any): Promise<boolean> {
 		return await this.database.deleteOne(this.name, query, options);
@@ -135,7 +135,7 @@ export abstract class AbstractModel {
 	 * 
 	 * @param query The query to match against.
 	 * @param options Any options to pass.
-	 * @returns Promise<boolean>
+	 * @returns Promise<boolean>.
 	 */
 	public async deleteMany(query: any, options?: any): Promise<boolean> {
 		return await this.database.deleteMany(this.name, query, options);
@@ -147,7 +147,7 @@ export abstract class AbstractModel {
 	 * in any controller to do manual verification.
 	 * 
 	 * @param record The record to validate.
-	 * @returns Object
+	 * @returns Object.
 	 */
 	public validate(record: any): IValidateResponse {
 

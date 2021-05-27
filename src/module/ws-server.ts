@@ -32,6 +32,8 @@ export class WSServer {
 	 * @param options The framework options.
 	 * @param http_server The HTTPServer instance.
 	 * @param router The router instance.
+	 * @param logger The logger instance.
+	 * @returns WSServer.
 	 */
 	public constructor(protected options: IOptions, protected http_server: HTTPServer, protected router: Router, protected logger: ILogger) {
 		this.helper = new ServerHelper();
@@ -46,6 +48,7 @@ export class WSServer {
 	 * the outputs to the correct local methods.
 	 * 
 	 * @param controllers The array of controllers.
+	 * @returns void.
 	 */
 	public process(controllers: Array<any>): void {
 		this.controllers = controllers;
@@ -59,7 +62,7 @@ export class WSServer {
 	 * contains the socket instance, the initial request, the subscriptions array
 	 * and an open session object to assign data.
 	 * 
-	 * @returns Object of connections.
+	 * @returns Object.
 	 */
 	public getConnections(): {[key: string]: {socket: WS, request: Request, subscriptions: Array<string>, session: any}} {
 		return this.connections;
@@ -69,6 +72,8 @@ export class WSServer {
 	 * Creates the WebSocket server and creates the events that the framework
 	 * needs to listen to and then sends them to the correct local methods to
 	 * be managed correctly.
+	 * 
+	 * @returns void.
 	 */
 	protected initialise(): void {
 		this.server.ws(this.options.websocket_path || '/ws', (socket: WS, request: Request) => {
@@ -98,6 +103,7 @@ export class WSServer {
 	 * 
 	 * @param socket The socket instance.
 	 * @param request The express request.
+	 * @returns void.
 	 */
 	protected onOpen(socket: WS, request: Request): void {
 
@@ -122,6 +128,7 @@ export class WSServer {
 	 * @param request The express request.
 	 * @param code The close code.
 	 * @param reason The reason for closure, can be empty.
+	 * @returns void.
 	 */
 	protected onClose(socket: WS, request: Request, code: number, reason: string): void {
 		const uniqueId = String(request.headers['sec-websocket-key']);
@@ -136,6 +143,7 @@ export class WSServer {
 	 * @param socket The socket instance.
 	 * @param request The express request.
 	 * @param err The connection error.
+	 * @returns void.
 	 */
 	protected onError(socket: WS, request: Request, err: Error): void {
 		const uniqueId = String(request.headers['sec-websocket-key']);
@@ -150,6 +158,7 @@ export class WSServer {
 	 * @param socket The socket instance.
 	 * @param request The express request.
 	 * @param message The received message.
+	 * @returns void.
 	 */
 	protected onMessage(socket: WS, request: Request, message: string): void {
 		try {
@@ -204,6 +213,7 @@ export class WSServer {
 	 * 
 	 * @param namespace The controller namespace.
 	 * @param method The controller method.
+	 * @returns Array<any>.
 	 */
 	protected getControllerAndRoute(namespace: string, method: string): Array<any> {
 		let controller: any = false,

@@ -21,6 +21,9 @@ export class State {
 	 * Creates an instance of the state with the framework options.
 	 * 
 	 * @param options The framework options.
+	 * @param logger The logger instance.
+	 * @param collection The collection.
+	 * @returns State.
 	 */
 	public constructor(protected options: IOptions, protected logger: ILogger, protected collection?: Collection) {
 		this.createInterval();
@@ -32,6 +35,8 @@ export class State {
 	 * this includes verifying a valid state, this will also check the
 	 * options as to whether to save to file or mongo depending on the
 	 * enabled options.
+	 * 
+	 * @returns Promise<void>.
 	 */
 	public async initialise(): Promise<void> {
 		try {
@@ -59,6 +64,7 @@ export class State {
 	 * in the state, and return the contents.
 	 * 
 	 * @param lookup The dot notation lookup.
+	 * @returns any.
 	 */
 	public get(lookup: string): any {
 		return this.dotExec(lookup, this.state);
@@ -70,6 +76,7 @@ export class State {
 	 * 
 	 * @param lookup The dot notation lookup.
 	 * @param data The data to set.
+	 * @returns any.
 	 */
 	public set(lookup: string, data: any): any {
 		return this.dotExec(lookup, this.state, data);
@@ -79,6 +86,8 @@ export class State {
 	 * The core functionality that flushes the state to file or database
 	 * depending on the options, this function is called periodically and
 	 * it will attempt to flush the data to storage.
+	 * 
+	 * @returns Promise<void>.
 	 */
 	protected async flush(): Promise<void> {
 		if (this.options.database && this.options.state_storage_type === 'database') {
@@ -91,6 +100,8 @@ export class State {
 	/**
 	 * Create the perdiodic interval for the flushing of the state, and
 	 * uses the options as the base point.
+	 * 
+	 * @returns void.
 	 */
 	protected createInterval(): void {
 		this.timer = setInterval(() => {
@@ -105,6 +116,7 @@ export class State {
 	 * @param lookup The dot notation lookup.
 	 * @param state The object state to work on.
 	 * @param data The data to set if applied.
+	 * @returns any.
 	 */
 	protected dotExec(lookup: any, state: any, data?: any): any {
 		if (typeof lookup === 'string') {

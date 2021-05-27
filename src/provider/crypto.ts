@@ -21,6 +21,7 @@ export class CryptoProvider extends AbstractProvider {
 	 * SHA512 algorithm.
 	 * 
 	 * @param password The password to hash.
+	 * @returns Promise<string>.
 	 */
 	public async hashPassword(password: string): Promise<string> {
 		const salt: string = randomBytes(this.hash_salt_length).toString('hex');
@@ -35,6 +36,7 @@ export class CryptoProvider extends AbstractProvider {
 	 * 
 	 * @param password The user provided password.
 	 * @param hashed_password The already hashed password.
+	 * @returns Promise<boolean>.
 	 */
 	public async validatePassword(password: string, hashed_password: string): Promise<boolean> {
 		const [ hashed, salt, iterations,, key_length, hash_algorithm ] = hashed_password.split(':');
@@ -52,6 +54,7 @@ export class CryptoProvider extends AbstractProvider {
 	 * 
 	 * @param key The encryption key to use.
 	 * @param data The data as a string to encrypt.
+	 * @returns Promise<string>.
 	 */
 	public async encrypt(key: string, data: string): Promise<string> {
 		const key_hash: string = createHash('md5').update(key).digest('hex');
@@ -68,6 +71,7 @@ export class CryptoProvider extends AbstractProvider {
 	 * 
 	 * @param key The decryption key to use.
 	 * @param data The data as a string to decrypt.
+	 * @returns Promise<string>.
 	 */
 	public async decrypt(key: string, data: string): Promise<string> {
 		const [ encrypted, iv ] = data.split(':');
@@ -87,6 +91,7 @@ export class CryptoProvider extends AbstractProvider {
 	 * @param iterations The iteration count.
 	 * @param key_length The length of the key.
 	 * @param digest Which algorithm to use.
+	 * @returns Promise<string>.
 	 */
 	protected async pbkdf2(password: string, salt: string, iterations: number, key_length: number, digest: string): Promise<string> {
 		return await new Promise((resolve, reject) => {

@@ -51,6 +51,7 @@ export class Framework {
 	 * not start the server, only prepares it.
 	 * 
 	 * @param options The framework options.
+	 * @returns Framework.
 	 */
 	public constructor(options?: IOptions) {
 
@@ -79,6 +80,9 @@ export class Framework {
 	 * apply class types for the register function to pick up,
 	 * as long as their is a rewyre specific decorator on the
 	 * class, then the register command will manage it.
+	 * 
+	 * @param class_list An array of the modules.
+	 * @returns void.
 	 */
 	public register(class_list: Array<AbstractController | AbstractModel | AbstractService>): void {
 		class_list.forEach((class_item: AbstractController | AbstractModel | AbstractService) => {
@@ -95,6 +99,7 @@ export class Framework {
 	 * WebSocket connections.
 	 * 
 	 * @param middleware The middleware function.
+	 * @returns void.
 	 */
 	public useMiddleware(middleware: (request: Request, response: Response, next: NextFunction) => void): void {
 		this.logger.verbose('FRAMEWORK', 'Accepting middleware registration.');
@@ -107,6 +112,7 @@ export class Framework {
 	 * 
 	 * @param folder_path The path to the folder you wish to be accessible.
 	 * @param url_path [Optional] The URL path to access the static folder.
+	 * @returns void.
 	 */
 	public useStatic(folder_path: string, url_path?: string): void {
 		this.logger.verbose('FRAMEWORK', 'Accepting static registration.');
@@ -116,6 +122,8 @@ export class Framework {
 	/**
 	 * Get the underlying HTTP server so that the user can extend and call
 	 * methods directly on the Express instance if needed.
+	 * 
+	 * @returns express.Application.
 	 */
 	public getHttpServer(): Application {
 		return this.http_server.getInstance();
@@ -125,6 +133,8 @@ export class Framework {
 	 * This will start the framework, including starting the HTTP
 	 * and WebSocket (if applicable) server and prepare the registered
 	 * classes, that being controllers, models, services, etc.
+	 * 
+	 * @returns Promise<void>.
 	 */
 	public async start(): Promise<void> {
 
@@ -155,6 +165,8 @@ export class Framework {
 	 * been completed, they are passed to the HTTP server and then the WS
 	 * server to be processed to have executors applied to them, from there
 	 * we shall start the HTTP and WS servers.
+	 * 
+	 * @returns Promise<void>.
 	 */
 	protected async process(): Promise<void> {
 
@@ -221,6 +233,7 @@ export class Framework {
 	 * routes, etc.
 	 * 
 	 * @param class_item The controller class.
+	 * @returns void.
 	 */
 	protected registerController(class_item: AbstractController): void {
 		const controllerPrefix: string = Reflect.getMetadata('prefix', class_item);
@@ -247,6 +260,7 @@ export class Framework {
 	 * model definitions, etc.
 	 * 
 	 * @param class_item The model class.
+	 * @return void.
 	 */
 	protected registerModel(class_item: AbstractModel): void {
 		const modelName: string = Reflect.getMetadata('name', class_item);
@@ -270,6 +284,7 @@ export class Framework {
 	 * manager so that it get's called when required.
 	 * 
 	 * @param class_item The controller class.
+	 * @returns void.
 	 */
 	protected registerService(class_item: AbstractService): void {
 		const serviceName: string = Reflect.getMetadata('name', class_item);
@@ -291,6 +306,7 @@ export class Framework {
 	 * it to the requiring controllers.
 	 * 
 	 * @param class_item The provider class.
+	 * @returns void.
 	 */
 	protected registerProvider(class_item: AbstractProvider): void {
 		const providerName: string = Reflect.getMetadata('name', class_item);
@@ -312,6 +328,7 @@ export class Framework {
 	 * it for use with the framework.
 	 * 
 	 * @param class_item The guard class.
+	 * @returns void.
 	 */
 	protected registerGuard(class_item: AbstractGuard): void {
 		const guardName: string = Reflect.getMetadata('name', class_item);
@@ -333,6 +350,7 @@ export class Framework {
 	 * when the driver is called on.
 	 * 
 	 * @param class_item The driver class.
+	 * @returns void.
 	 */
 	protected registerDriver(class_item: IDatabaseDriver): void {
 		const driverName: string = Reflect.getMetadata('name', class_item);

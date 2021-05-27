@@ -15,6 +15,7 @@ export class FrameworkHelper {
 	 * the defaults.
 	 * 
 	 * @param options The framework options.
+	 * @returns IOptions.
 	 */
 	public mergeOptions(options?: IOptions): IOptions {
 		const defaultOptions: IOptions = {
@@ -55,6 +56,7 @@ export class FrameworkHelper {
 	 * Specifically validates the database options given to make sure there is at least one default.
 	 * 
 	 * @param options The framework options.
+	 * @returns void.
 	 */
 	public validateOptions(options: IOptions): void {
 
@@ -72,6 +74,7 @@ export class FrameworkHelper {
 	 * Will capitalise the first letter of a string.
 	 * 
 	 * @param text The text to capitalise.
+	 * @returns string.
 	 */
 	public capitalise(text: string): string {
 		return text.charAt(0).toUpperCase() + text.substring(1);
@@ -83,6 +86,7 @@ export class FrameworkHelper {
 	 * 
 	 * @param classItems The definitions to search.
 	 * @param className The definition to find.
+	 * @returns object|boolean.
 	 */
 	public findMatching(classItems: Array<any>, className: string): any {
 		for (const index in classItems) {
@@ -100,6 +104,7 @@ export class FrameworkHelper {
 	 * 
 	 * @param class_items The array of classes to inject to.
 	 * @param injectables The injectables available.
+	 * @returns void.
 	 */
 	public inject(class_items: Array<any>, injectables: {models: Array<any>, providers: Array<any>, state: State, options: IOptions, builtins: any}): void {
 		class_items.forEach((class_item: any) => {
