@@ -1,5 +1,5 @@
-import { IOptions } from '../interface/options';
 import { Request, Response, NextFunction, Application } from 'express';
+import { IOptions } from '../interface/options';
 import { FrameworkHelper } from '../helper/framework';
 import { ErrorMessages } from '../enum/error-messages';
 import { AbstractController } from '../abstract/controller';
@@ -12,11 +12,13 @@ import { HTTPServer } from './http-server';
 import { WSServer } from './ws-server';
 import { Database } from './database';
 import { Scheduler } from './scheduler';
+import { HookManager } from './hook-manager';
 import { State } from './state';
 import { Authenticator } from './authenticator';
 import { IDatabaseDriver } from '../interface/database-driver';
 import { ILogger } from '../interface/logger';
 import { WSHelper } from '../helper/ws-helper';
+import { HookTypes } from '../type/hook';
 import { performance } from 'perf_hooks';
 
 /**
@@ -42,6 +44,7 @@ export class Framework {
 	protected database: Database;
 	protected scheduler: Scheduler;
 	protected authenticator: Authenticator;
+	protected hooks: HookManager;
 	protected state: State;
 	protected logger: ILogger;
 
@@ -63,15 +66,18 @@ export class Framework {
 		if (!this.options.logger) throw new Error('No valid logger given.');
 		this.logger = this.options.logger;
 
+		// Setup the hook manager.
+		this.hooks = new HookManager(this.logger);
+
 		// Now load the other modules.
 		this.authenticator = new Authenticator(this.guards, this.logger);
 		this.state = new State(this.options, this.logger);
 		this.database = new Database(this.options, this.logger);
 		this.router = new Router(this.options, this.authenticator, this.logger);
-		this.http_server = new HTTPServer(this.options, this.router, this.logger);
-		this.ws_server = new WSServer(this.options, this.http_server, this.router, this.logger);
+		this.http_server = new HTTPServer(this.options, this.router, this.logger, this.hooks);
+		this.ws_server = new WSServer(this.options, this.http_server, this.router, this.logger, this.hooks);
 		this.ws_helper = new WSHelper(this.options, this.ws_server, this.logger);
-		this.scheduler = new Scheduler(this.options, this.logger);
+		this.scheduler = new Scheduler(this.options, this.logger, this.hooks);
 	}
 
 	/**
@@ -130,6 +136,19 @@ export class Framework {
 	}
 
 	/**
+	 * This method will register a hook against the hook manager, which will be called
+	 * in turns, hook should be registered as the first thing after creating an instance
+	 * of the framework.
+	 * 
+	 * @param type The hook type to register against.
+	 * @param func The function to call for this hook.
+	 * @returns void.
+	 */
+	public registerHook(type: HookTypes, func: Function): void {
+		this.hooks.register(type, func);
+	}
+
+	/**
 	 * This will start the framework, including starting the HTTP
 	 * and WebSocket (if applicable) server and prepare the registered
 	 * classes, that being controllers, models, services, etc.
@@ -141,15 +160,19 @@ export class Framework {
 		// Process the registered classes.
 		const rwLaunchStart = performance.now();
 		this.logger.verbose('FRAMEWORK', 'Starting application, launching setup (process).');
+		this.hooks.dispatch('init', 'pre_init');
 		await this.process();
 
 		// Initialise the state.
 		this.logger.verbose('FRAMEWORK', 'Starting application, launching state initialisation.');
 		await this.state.initialise();
+		this.hooks.dispatch('init', 'post_init');
 
 		// Now start the servers.
 		this.logger.verbose('FRAMEWORK', 'Starting application, launching HTTP/WS service.');
+		this.hooks.dispatch('start', 'pre_start');
 		this.http_server.start();
+		this.hooks.dispatch('start', 'post_start');
 
 		// Log launch message.
 		this.logger.verbose('FRAMEWORK', `Application launched successfully in ${parseFloat(String(performance.now() - rwLaunchStart)).toFixed(2)}ms.`);
@@ -243,15 +266,19 @@ export class Framework {
 		const controllerInjects: Array<any> = Reflect.getMetadata('injects', class_item);
 		const controllerThreaded: boolean = Reflect.getMetadata('threaded', class_item) || false;
 
-		this.controllers.push({
+		const classModuleObject = {
 			prefix: controllerPrefix,
 			namespace: controllerNamespace,
 			routes: controllerRoutes,
 			websocket: controllerWSEnable,
 			injects: controllerInjects,
 			threaded: controllerThreaded,
+			class_type: 'controller',
 			class: class_item,
-		});
+		};
+
+		this.hooks.dispatch('register', classModuleObject);
+		this.controllers.push(classModuleObject);
 	}
 
 	/**
@@ -268,14 +295,17 @@ export class Framework {
 		const modelUnique: string = Reflect.getMetadata('database', class_item);
 		const modelType: 'general' | 'user' = Reflect.getMetadata('type', class_item);
 
-		this.models.push({
+		const classModuleObject = {
 			name: modelName,
 			fields: modelFields,
 			type: modelType,
 			unique: modelUnique,
 			class_type: 'model',
 			class: class_item,
-		});
+		};
+
+		this.hooks.dispatch('register', classModuleObject);
+		this.models.push(classModuleObject);
 	}
 
 	/**
@@ -291,13 +321,16 @@ export class Framework {
 		const serviceSchedule: number = Reflect.getMetadata('schedule', class_item);
 		const serviceInjects: Array<any> = Reflect.getMetadata('injects', class_item);
 
-		this.services.push({
+		const classModuleObject = {
 			name: serviceName,
 			schedule: serviceSchedule,
 			injects: serviceInjects,
 			class_type: 'service',
 			class: class_item,
-		});
+		};
+
+		this.hooks.dispatch('register', classModuleObject);
+		this.services.push(classModuleObject);
 	}
 
 	/**
@@ -313,13 +346,16 @@ export class Framework {
 		const providerType: 'single' | 'shared' = Reflect.getMetadata('type', class_item);
 		const providerInjects: Array<any> = Reflect.getMetadata('injects', class_item);
 
-		this.providers.push({
+		const classModuleObject = {
 			name: providerName,
 			type: providerType,
 			injects: providerInjects,
 			class_type: 'provider',
 			class: class_item,
-		});
+		};
+
+		this.hooks.dispatch('register', classModuleObject);
+		this.providers.push(classModuleObject);
 	}
 
 	/**
@@ -335,13 +371,16 @@ export class Framework {
 		const guardIsFallBack: boolean = Reflect.getMetadata('is_fallback', class_item);
 		const guardInjects: Array<any> = Reflect.getMetadata('injects', class_item);
 
-		this.guards.push({
+		const classModuleObject = {
 			name: guardName,
 			is_fallback: guardIsFallBack,
 			injects: guardInjects,
 			class_type: 'guard',
 			class: class_item,
-		});
+		};
+
+		this.hooks.dispatch('register', classModuleObject);
+		this.guards.push(classModuleObject);
 	}
 
 	/**
@@ -355,10 +394,13 @@ export class Framework {
 	protected registerDriver(class_item: IDatabaseDriver): void {
 		const driverName: string = Reflect.getMetadata('name', class_item);
 
-		this.drivers.push({
+		const classModuleObject = {
 			name: driverName,
 			class: class_item,
 			class_type: 'driver',
-		});
+		};
+
+		this.hooks.dispatch('register', classModuleObject);
+		this.drivers.push(classModuleObject);
 	}
 }

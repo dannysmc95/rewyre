@@ -6,6 +6,7 @@ import { ServerHelper } from '../helper/server';
 import { Router } from './router';
 import { IContext } from '../interface/context';
 import { ILogger } from '../interface/logger';
+import { HookManager } from './hook-manager';
 
 /**
  * The HTTPServer is the wrapper around the express server,
@@ -27,7 +28,7 @@ export class HTTPServer {
 	 * @param logger The logger instance.
 	 * @returns HTTPServer.
 	 */
-	public constructor(protected options: IOptions, protected router: Router, protected logger: ILogger) {
+	public constructor(protected options: IOptions, protected router: Router, protected logger: ILogger, protected hooks: HookManager) {
 		this.helper = new ServerHelper();
 		this.server = express();
 		this.setupDefaultMiddleware();
@@ -129,6 +130,9 @@ export class HTTPServer {
 							};
 						},
 					};
+
+					// Call the hook.
+					this.hooks.dispatch('http', context);
 
 					// Pass to the dispatcher.
 					this.router.dispatch(controller, route, context);

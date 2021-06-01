@@ -38,12 +38,12 @@ export class Router {
 	 * @returns Promise<void>.
 	 */
 	public async dispatch(controller: any, route: any, context: IContext): Promise<void> {
-		this.logger.verbose('ROUTER', `Received routing request for: ${String(controller.prefix + controller.route).replace('//', '/')}.`);
+		this.logger.verbose('ROUTER', `Received routing request for: ${String(controller.prefix + route.path).replace('//', '/')}.`);
 		try {
 
 			// Validate the endpoint.
 			if (typeof controller.instance[route.methodName] === 'undefined') {
-				this.logger.verbose('ROUTER', `No endpoint found for ${String(controller.prefix + controller.route).replace('//', '/')}.`);
+				this.logger.verbose('ROUTER', `No endpoint found for ${String(controller.prefix + route.path).replace('//', '/')}.`);
 				throw new Error(ErrorMessages.ENDPOINT_NOT_FOUND);
 			}
 

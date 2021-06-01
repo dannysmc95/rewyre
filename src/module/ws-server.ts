@@ -8,6 +8,7 @@ import { ErrorMessages } from '../enum/error-messages';
 import { ServerHelper } from '../helper/server';
 import { IContext } from '../interface/context';
 import { ILogger } from '../interface/logger';
+import { HookManager } from './hook-manager';
 
 /**
  * The WSServer class controls the world of WebSocket servers, this
@@ -35,7 +36,7 @@ export class WSServer {
 	 * @param logger The logger instance.
 	 * @returns WSServer.
 	 */
-	public constructor(protected options: IOptions, protected http_server: HTTPServer, protected router: Router, protected logger: ILogger) {
+	public constructor(protected options: IOptions, protected http_server: HTTPServer, protected router: Router, protected logger: ILogger, protected hooks: HookManager) {
 		this.helper = new ServerHelper();
 		const server: any = this.http_server.getInstance();
 		expressWs(server);
@@ -193,6 +194,9 @@ export class WSServer {
 					};
 				},
 			};
+
+			// Call the hook.
+			this.hooks.dispatch('ws', context);
 
 			// Pass to the dispatcher.
 			this.router.dispatch(controller, route, context);
