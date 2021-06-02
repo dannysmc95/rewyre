@@ -46,6 +46,8 @@ npm install --save rewyre
 
 Below is a simple example showing a database connection and a simple find, for a more in-depth example, have a look at the `test` folder in the source, which has a simple to-do demo.
 
+**Note**: _The expectation is that this framework is to be used with TypeScript specifically and that you would you use your own tooling for building and compiling it, of course, you can use JavaScript and babel instead, but it is suggested to use TypeScript, for help with setting up, look at the tsconfig.json file inside of the test folder._
+
 ```typescript
 // Import the parts we need.
 import { Framework, Drivers, Controller, Route, IReturn, Model, AbstractModel, AbstractController } from 'rewyre';

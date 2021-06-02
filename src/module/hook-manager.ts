@@ -1,5 +1,5 @@
 import { ILogger } from '../interface/logger';
-import { HookTypes } from '../type/hook';
+import { HookTypes } from '../type/general';
 
 export class HookManager {
 
