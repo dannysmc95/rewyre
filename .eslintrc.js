@@ -49,6 +49,12 @@ module.exports = {
 		'@typescript-eslint/no-useless-constructor': ['error'],
 		'@typescript-eslint/explicit-member-accessibility': ['error'],
 		'@typescript-eslint/camelcase': 0,
+		'@typescript-eslint/ban-types': ['error', {
+			'types': {
+				'Function': false,
+			},
+			'extendDefaults' : true,
+		}],
 		'@typescript-eslint/naming-convention': ['error',
 			{ selector: 'default', format: ['PascalCase', 'camelCase', 'snake_case', 'UPPER_CASE'] },
 			{ selector: 'function', format: ['PascalCase', 'camelCase'], leadingUnderscore: 'forbid' },
