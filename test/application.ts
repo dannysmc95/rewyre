@@ -10,6 +10,7 @@ import { DefaultGuard } from './guard/default';
 import { UsersModel } from './model/users';
 import { LogsModel } from './model/logs';
 import { DatabaseDriverFile } from './driver/file';
+import ExamplePlugin from './plugin/some-plugin/index';
 
 (async () => {
 
@@ -50,6 +51,9 @@ import { DatabaseDriverFile } from './driver/file';
 			},
 		],
 	});
+
+	// Register the plugin.
+	application.use(ExamplePlugin);
 
 	// Register a HTTP hook (this method will be called on every HTTP request).
 	application.registerHook('http', (context: IContext) => {
