@@ -59,7 +59,7 @@ class HomeController extends AbstractController {
 
 	@Route('GET', '/')
 	public async index(): Promise<IReturn> {
-		const users = this.users.find({});
+		const users = await this.users.find({});
 		return { status: 200, content: users };
 	}
 }
