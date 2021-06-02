@@ -124,8 +124,10 @@ The below lists the features and their stable state, this framework's API will n
 | Controllers | Controller classes and the `@Controller` decorator are both implemented. | `Stable` |
 | Controller Routes | Controller routes are and the `@Route` decorator are both implemented. | `Stable` |
 | Models | Model classes and the `@Model` decorator are both implemented. | `Stable` |
-| Drivers | Database drivers allow you to use one of the many implemented into the framework. |
-| Custom Drivers | Define your own database drivers to implement other databases into your framework. |
+| Drivers | Database drivers allow you to use one of the many implemented into the framework. | `Stable` |
+| Custom Drivers | Define your own database drivers to implement other databases into your framework. | `Stable` |
+| Framework Hooks | Allows you to hook functions into internal events. | `Beta` |
+| Plugin Support | See documentation but plugins are now implemented to allow you to package code pieces into reusable and shareable components. | `Beta` |
 | Multiple Databases | Your models can use any database, including multiple, have data in many databases? Write a model around a specific database instead or just fallback to the default. |
 | Injections | Injections are done using a single `@Inject` decorator and you can inject one or many, you can inject models and providers to any service or controller as required. | `Stable` |
 | Services | Service classes and the `@Service` decorator are both implemented and services can run on a loop based on seconds. | `Stable` |
