@@ -60,7 +60,6 @@ import ExamplePlugin from './plugin/some-plugin/index';
 		console.log(context);
 	});
 
-
 	// Register classes.
 	application.register([
 		HomeController,
