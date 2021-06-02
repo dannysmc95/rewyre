@@ -32,7 +32,7 @@ export class Logger implements ILogger {
 	 * @param err An error object (optional).
 	 * @returns void.
 	 */
-	public log(level: 'info' | 'warn' | 'error' | 'verbose' | 'debug', title: string, message: string, err?: Error) {
+	public log(level: 'info' | 'warn' | 'error' | 'verbose' | 'debug', title: string, message: string, err?: Error): void {
 		if (!this.levels.includes(level)) return;
 		if (typeof this[level] === 'undefined' || !(this[level] instanceof Function)) return;
 		this[level](title, message, err);
