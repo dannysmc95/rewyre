@@ -1,6 +1,8 @@
 /**
  * Defines the structure of the database driver and how to implement it so
  * that anyone can build their own driver for the database.
+ * 
+ * @interface IDatabaseDriver
  */
 export interface IDatabaseDriver {
 	engine: string;

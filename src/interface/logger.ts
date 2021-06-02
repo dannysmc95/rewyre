@@ -1,6 +1,8 @@
 /**
  * Defines the base structure of a logger and the methods that are
  * expected by the framework and documentation.
+ * 
+ * @interface ILogger
  */
 export interface ILogger {
 	log: (level: 'info' | 'warn' | 'error' | 'verbose' | 'debug', title: string, message: string) => void;

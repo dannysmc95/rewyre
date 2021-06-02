@@ -1,4 +1,5 @@
 import { ILogger } from './logger';
+import { IPluginOptions } from './plugin';
 
 /**
  * The options interface that defines the available
@@ -30,15 +31,17 @@ export interface IOptions {
 	state_flush_period?: number,
 	state_storage_type?: 'file' | 'database',
 	state_storage_name?: string;
+	plugins?: IPluginOptions;
 }
 
 /**
  * The database item interface is used to define a database instance, as of now
- * the framework supports Redis, MongoDB and MySQL, please note with redis/mongo
- * there is no reason to create tables and structures, but MySQL will require you
- * setup the database beforehand.
+ * the framework supports MongoDB and MySQL, please note with mongo there is no
+ * reason to create tables and structures, but MySQL will require you to setup
+ * the database beforehand.
  * 
- * @param unique The unique name to give the database, only use if you are using multiple databases.
+ * @interface IDatabaseItem
+ * @param unique The unique name to give the database.
  * @param name The database name.
  * @param port The database port.
  * @param host The database host.
@@ -46,6 +49,8 @@ export interface IOptions {
  * @param pass The database password.
  * @param driver The database driver to use.
  * @param default Is the default fallback database.
+ * @param workers Relates to MySQL driver specifically for creating pools of connections.
+ * @param customDriver Whether this is a custom.
  */
 export interface IDatabaseItem {
 	unique: string;
@@ -55,7 +60,7 @@ export interface IDatabaseItem {
 	user?: string;
 	pass?: string;
 	driver: string;
-	workers?: number;
 	default?: boolean;
+	workers?: number;
 	customDriver?: boolean;
 }

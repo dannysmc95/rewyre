@@ -18,8 +18,10 @@ import { Authenticator } from './authenticator';
 import { IDatabaseDriver } from '../interface/database-driver';
 import { ILogger } from '../interface/logger';
 import { WSHelper } from '../helper/ws-helper';
-import { HookTypes } from '../type/hook';
+import { HookTypes, FrameworkModules } from '../type/general';
 import { performance } from 'perf_hooks';
+import { IPlugin } from '../interface/plugin';
+import { PluginManager } from './plugin-manager';
 
 /**
  * The framework is the core part of the rewyre package, the
@@ -46,6 +48,7 @@ export class Framework {
 	protected authenticator: Authenticator;
 	protected hooks: HookManager;
 	protected state: State;
+	protected plugin: PluginManager;
 	protected logger: ILogger;
 
 	/**
@@ -78,6 +81,7 @@ export class Framework {
 		this.ws_server = new WSServer(this.options, this.http_server, this.router, this.logger, this.hooks);
 		this.ws_helper = new WSHelper(this.options, this.ws_server, this.logger);
 		this.scheduler = new Scheduler(this.options, this.logger, this.hooks);
+		this.plugin = new PluginManager(this.options, this.logger, this);
 	}
 
 	/**
@@ -90,13 +94,23 @@ export class Framework {
 	 * @param class_list An array of the modules.
 	 * @returns void.
 	 */
-	public register(class_list: Array<AbstractController | AbstractModel | AbstractService>): void {
-		class_list.forEach((class_item: AbstractController | AbstractModel | AbstractService) => {
+	public register(class_list: Array<FrameworkModules>): void {
+		class_list.forEach((class_item: FrameworkModules) => {
 			if (!Reflect.hasMetadata('class_type', class_item)) throw new Error(ErrorMessages.NO_CLASS_TYPE);
 			const classType: string = Reflect.getMetadata('class_type', class_item);
 			this.logger.verbose('FRAMEWORK', `Registering class type: ${classType}.`);
 			this[`register${this.helper.capitalise(classType)}`](class_item);
 		});
+	}
+
+	/**
+	 * This method takes a plugin and then registers it to the framework, by registering
+	 * all given modules, hooks, option overrides and configuration.
+	 * 
+	 * @param plugin The plugin.
+	 */
+	public use(plugin: IPlugin): void {
+		this.plugin.use(plugin);
 	}
 
 	/**

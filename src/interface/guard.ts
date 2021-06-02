@@ -3,6 +3,8 @@ import { Request } from 'express';
 /**
  * Defines the guard and how to implement it, containing all expected
  * parameters and the return type.
+ * 
+ * @interface IGuard
  */
 export interface IGuard {
 	supports: (request: Request) => Promise<boolean>,

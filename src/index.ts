@@ -34,6 +34,7 @@ import { IGuard } from './interface/guard';
 import { ILogger } from './interface/logger';
 import { IOptions, IDatabaseItem } from './interface/options';
 import { IPacket, IPacketContent } from './interface/packet';
+import { IPlugin, IPluginHook, IPluginConfig, IPluginMeta } from './interface/plugin';
 import { IReturn } from './interface/return';
 import { IService } from './interface/service';
 import { IValidateResponse } from './interface/validate-response';
@@ -41,14 +42,18 @@ import { IValidateResponse } from './interface/validate-response';
 import { Authenticator } from './module/authenticator';
 import { Database } from './module/database';
 import { Framework } from './module/framework';
+import { HookManager } from './module/hook-manager';
 import { HTTPServer } from './module/http-server';
 import { Logger } from './module/logger';
+import { PluginManager } from './module/plugin-manager';
 import { Router } from './module/router';
 import { Scheduler } from './module/scheduler';
 import { State } from './module/state';
 import { WSServer } from './module/ws-server';
 
 import { CryptoProvider } from './provider/crypto';
+
+import { FrameworkModules, HookTypes } from './type/general';
 
 /* ===== Deprecations ===== */
 
@@ -111,6 +116,10 @@ export {
 	IOptions,
 	IPacket,
 	IPacketContent,
+	IPlugin,
+	IPluginHook,
+	IPluginConfig,
+	IPluginMeta,
 	IReturn,
 	IService,
 	IValidateResponse,
@@ -119,8 +128,10 @@ export {
 	Authenticator,
 	Database,
 	Framework,
+	HookManager,
 	HTTPServer,
 	Logger,
+	PluginManager,
 	Router,
 	Scheduler,
 	State,
@@ -128,6 +139,10 @@ export {
 
 	// Provider.
 	CryptoProvider,
+
+	// Types.
+	FrameworkModules,
+	HookTypes,
 
 	// External.
 	ModelRecordID,

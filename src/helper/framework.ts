@@ -39,6 +39,9 @@ export class FrameworkHelper {
 
 			// Logger Specific.
 			log_levels: ['info', 'warn', 'error'],
+
+			// Plugins.
+			plugins: {},
 		};
 
 		// Merge the options then validate them.
