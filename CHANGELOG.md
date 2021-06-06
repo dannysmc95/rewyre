@@ -5,6 +5,30 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v2.3.0](https://github.com/dannysmc95/rewyre/compare/v2.2.0...v2.3.0) - 2021-06-06
+
+### Fixed
+
+- Added some updates to the readme, fixes #4 for plugin support. [`#4`](https://github.com/dannysmc95/rewyre/issues/4)
+
+### Commits
+
+- Bumped the package versions tp the latest. [`7ac21b6`](https://github.com/dannysmc95/rewyre/commit/7ac21b67030b91046c1ddc7fb7bcbfe69f78d8e0)
+- Added plugin support using a structured export from another package, see docs for more information. [`c82fb2b`](https://github.com/dannysmc95/rewyre/commit/c82fb2b9fc3873516e18cdc3351c46bd0d75261d)
+- Added various fixes to the block comments for functions including a returns method. [`d451b27`](https://github.com/dannysmc95/rewyre/commit/d451b272c7d275d6a639a033830a2f30a675d39c)
+- Bumped dependency versions for typescript, mongodb and @types/express. [`9c40049`](https://github.com/dannysmc95/rewyre/commit/9c400491777710bbf88db5586da6906b81641213)
+- Updated dependencies and added plans for plugin development. [`c56fe59`](https://github.com/dannysmc95/rewyre/commit/c56fe5902ebe5cdbc5a7d9668754da1e8708f57d)
+- Updated test application to use the updated plugin stuff. [`c43e09d`](https://github.com/dannysmc95/rewyre/commit/c43e09dc6df62f3425aae3264ff9568a75c8bbf8)
+- Added updates to the hook system alongside updates to the docs. [`29ead67`](https://github.com/dannysmc95/rewyre/commit/29ead67929e9c2f0df81361d0c8b7d41f02effeb)
+- Updated changelog [`2fcaf78`](https://github.com/dannysmc95/rewyre/commit/2fcaf7842c3de73657e68cbd908a55a84787a547)
+- Added framework hooks for additional functionality - added in other commit. [`659d9c0`](https://github.com/dannysmc95/rewyre/commit/659d9c09968f0d90997778dfb40cdd9243d62b9a)
+- Update feature_request.md [`481b861`](https://github.com/dannysmc95/rewyre/commit/481b861d05f5a726eb7769a5de73f77bf83c5a4c)
+- Update readme.md [`302ec98`](https://github.com/dannysmc95/rewyre/commit/302ec988c09ebb401a3cf0f6b38e87314b9005ac)
+- Bumped package version [`de337bf`](https://github.com/dannysmc95/rewyre/commit/de337bf27be67ec5de730d999cb4688721fb8a38)
+- Docs updates [`caee7aa`](https://github.com/dannysmc95/rewyre/commit/caee7aab2ac00ba8bc093b62913f7569997374bc)
+- Added return type to generic log method in logger [`1d9f52c`](https://github.com/dannysmc95/rewyre/commit/1d9f52cb1f60cd902423999febe903e76ea48d1e)
+- Added return type to generic log method in logger [`873cdab`](https://github.com/dannysmc95/rewyre/commit/873cdab110e82455e42177e486a44b234b3c4e37)
+
 ## [v2.2.0](https://github.com/dannysmc95/rewyre/compare/v2.1.3...v2.2.0) - 2021-05-26
 
 ### Commits
