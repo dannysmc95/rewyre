@@ -241,6 +241,7 @@ export class Framework {
 			builtins: {
 				websocket: this.ws_helper,
 				logger: this.logger,
+				framework: this,
 			},
 		};
 
