@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v2.4.0](https://github.com/dannysmc95/rewyre/compare/v2.3.0...v2.4.0) - 2021-06-07
+
+### Commits
+
+- Added new registry module for internal state management, alongside exporting it from the framework. [`ec461aa`](https://github.com/dannysmc95/rewyre/commit/ec461aa2bf4971b8ee2192c10c4557fdd21dca2c)
+- Updated changelog. [`ca545d7`](https://github.com/dannysmc95/rewyre/commit/ca545d72ba3223d776200746e038b47f425c4782)
+- Added new framework getRegistry method for accessing the registry, alongside setting it as a built-in injectable. [`a269ed7`](https://github.com/dannysmc95/rewyre/commit/a269ed72dd87ccfb0c4af4ae86365b78e986c34b)
+- Updated the hooks manager to support multiple parameters, instead of an object. [`2e7f3e2`](https://github.com/dannysmc95/rewyre/commit/2e7f3e2b132a42072b0f3836f590cc06346fdcf8)
+- Bumped package minor version. [`817274a`](https://github.com/dannysmc95/rewyre/commit/817274ad3ee234bc8297b96279034fe812076404)
+- Added the framework as a built-in inject, as this allows plugins to use the server controls and access lower level parts of the framework. [`819f801`](https://github.com/dannysmc95/rewyre/commit/819f801e9f786a32f3b5738c8f6693d751c65b08)
+
 ## [v2.3.0](https://github.com/dannysmc95/rewyre/compare/v2.2.0...v2.3.0) - 2021-06-06
 
 ### Fixed
