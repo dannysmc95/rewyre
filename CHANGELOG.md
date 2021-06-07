@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v2.4.1](https://github.com/dannysmc95/rewyre/compare/v2.4.0...v2.4.1) - 2021-06-07
+
+### Commits
+
+- Updated all dependencies and upgraded express-ws to the latest version to remove security issue. [`93c5675`](https://github.com/dannysmc95/rewyre/commit/93c5675ab331ef41c0b38a43c3d1aad600707693)
+- Updated changelog. [`77db24b`](https://github.com/dannysmc95/rewyre/commit/77db24ba20c5d4b2f4a7bc34a76f1cb80aef57d5)
+- Added new method to the framework called getLogger to allow hooks to access logging. [`9c48f18`](https://github.com/dannysmc95/rewyre/commit/9c48f18793d0d656e9f059ae3a22740e4d600b8c)
+- Added small advisory relating to the database driver issue. [`ba86b3d`](https://github.com/dannysmc95/rewyre/commit/ba86b3dcc158475b6ccc145975543655cf2e1705)
+- Bumped package version. [`15a0be6`](https://github.com/dannysmc95/rewyre/commit/15a0be6f7e01f7bec6aa3d8eb1858ed982a2ac82)
+
 ## [v2.4.0](https://github.com/dannysmc95/rewyre/compare/v2.3.0...v2.4.0) - 2021-06-07
 
 ### Commits
