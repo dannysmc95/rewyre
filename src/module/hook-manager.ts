@@ -38,11 +38,10 @@ export class HookManager {
 	 * This method dispatches a hook event, and will call the given hooks needed.
 	 * 
 	 * @param type The type of hook event.
-	 * @param state The state of the hook.
-	 * @param context The context relating to the hook event.
+	 * @param args The args to pass to the relating to the hook event.
 	 * @returns Promise<void>.
 	 */
-	public async dispatch(type: string, context: any): Promise<void> {
+	public async dispatch(type: string, ...args: Array<any>): Promise<void> {
 
 		// Validate the type and check for items.
 		if (typeof this.hooks[type] === 'undefined' || this.hooks[type].length === 0) return;
@@ -52,7 +51,7 @@ export class HookManager {
 
 			// Loop the available hooks and map to a single promise.
 			await Promise.all(this.hooks[type].map(async (hook: any) => {
-				await hook(context, type);
+				await hook(...args);
 			}));
 
 		} catch(err) {
