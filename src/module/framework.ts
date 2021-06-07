@@ -22,6 +22,7 @@ import { HookTypes, FrameworkModules } from '../type/general';
 import { performance } from 'perf_hooks';
 import { IPlugin } from '../interface/plugin';
 import { PluginManager } from './plugin-manager';
+import { Registry } from './registry';
 
 /**
  * The framework is the core part of the rewyre package, the
@@ -49,6 +50,7 @@ export class Framework {
 	protected hooks: HookManager;
 	protected state: State;
 	protected plugin: PluginManager;
+	protected registry: Registry;
 	protected logger: ILogger;
 
 	/**
@@ -82,6 +84,7 @@ export class Framework {
 		this.ws_helper = new WSHelper(this.options, this.ws_server, this.logger);
 		this.scheduler = new Scheduler(this.options, this.logger, this.hooks);
 		this.plugin = new PluginManager(this.options, this.logger, this);
+		this.registry = new Registry(this.options, this.logger);
 	}
 
 	/**
@@ -150,6 +153,16 @@ export class Framework {
 	}
 
 	/**
+	 * This method returns the registry instance that is currently being used
+	 * by the framework and can be used to assign data.
+	 * 
+	 * @returns Registry.
+	 */
+	public getRegistry(): Registry {
+		return this.registry;
+	}
+
+	/**
 	 * This method will register a hook against the hook manager, which will be called
 	 * in turns, hook should be registered as the first thing after creating an instance
 	 * of the framework.
@@ -174,19 +187,19 @@ export class Framework {
 		// Process the registered classes.
 		const rwLaunchStart = performance.now();
 		this.logger.verbose('FRAMEWORK', 'Starting application, launching setup (process).');
-		this.hooks.dispatch('init', 'pre_init');
+		this.hooks.dispatch('init', 'pre_init', this);
 		await this.process();
 
 		// Initialise the state.
 		this.logger.verbose('FRAMEWORK', 'Starting application, launching state initialisation.');
 		await this.state.initialise();
-		this.hooks.dispatch('init', 'post_init');
+		this.hooks.dispatch('init', 'post_init', this);
 
 		// Now start the servers.
 		this.logger.verbose('FRAMEWORK', 'Starting application, launching HTTP/WS service.');
-		this.hooks.dispatch('start', 'pre_start');
+		this.hooks.dispatch('start', 'pre_start', this);
 		this.http_server.start();
-		this.hooks.dispatch('start', 'post_start');
+		this.hooks.dispatch('start', 'post_start', this);
 
 		// Log launch message.
 		this.logger.verbose('FRAMEWORK', `Application launched successfully in ${parseFloat(String(performance.now() - rwLaunchStart)).toFixed(2)}ms.`);
@@ -242,6 +255,7 @@ export class Framework {
 				websocket: this.ws_helper,
 				logger: this.logger,
 				framework: this,
+				registry: this.registry,
 			},
 		};
 
