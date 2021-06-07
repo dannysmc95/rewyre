@@ -1,6 +1,6 @@
 {
   "name": "rewyre",
-  "version": "2.4.0",
+  "version": "2.4.1",
   "description": "A fast and flexible wiring tool for developing RESTful and WebSocket APIs using TypeScript decorators.",
   "main": "lib/index.js",
   "publishConfig": {
