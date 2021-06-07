@@ -46,6 +46,7 @@ import { HookManager } from './module/hook-manager';
 import { HTTPServer } from './module/http-server';
 import { Logger } from './module/logger';
 import { PluginManager } from './module/plugin-manager';
+import { Registry } from './module/registry';
 import { Router } from './module/router';
 import { Scheduler } from './module/scheduler';
 import { State } from './module/state';
@@ -132,6 +133,7 @@ export {
 	HTTPServer,
 	Logger,
 	PluginManager,
+	Registry,
 	Router,
 	Scheduler,
 	State,
