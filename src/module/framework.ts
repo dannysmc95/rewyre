@@ -163,6 +163,15 @@ export class Framework {
 	}
 
 	/**
+	 * Returns the currently used logger instance.
+	 * 
+	 * @returns ILogger.
+	 */
+	public getLogger(): ILogger {
+		return this.logger;
+	}
+
+	/**
 	 * This method will register a hook against the hook manager, which will be called
 	 * in turns, hook should be registered as the first thing after creating an instance
 	 * of the framework.
