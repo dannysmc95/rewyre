@@ -152,12 +152,9 @@ The below lists the features and their stable state, this framework's API will n
 
 Upcoming features that are planned, some features may come out quicker due to technical requirements.
 
-* **Authentication Decorator** - To implement an authentication decorator for out-of-the-box permissions.
-* **Threaded Decorator** - To add support for controllers being run in a different thread, for long processes.
-* **Plugin Support** - There is a plan to add plugin support, but I am not sure what this will look like yet.
+* ~~**Plugin Support** - There is a plan to add plugin support, but I am not sure what this will look like yet.~~
 * ~~**Multiple Databases** - Support for using multiple databases using database drivers alongside your own.~~
-* **ORM** - To implement a clean ORM solution using the built in functionality and utilising decorators.
-* **ORM Validation** - To implement ORM validation decorators to support automatic validation and serialisation.
+* **Model Extend** - Allow developers to extend models to add more fields for validation.
 
 
 <br />
