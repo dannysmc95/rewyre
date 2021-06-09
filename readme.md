@@ -20,6 +20,15 @@ The rewyre framework is built on top of express, and express-ws and utilises Typ
 <br />
 
 
+<a target="_blank" href="https://discord.gg/PpcahJyHKq">
+	<img width="100" src="https://i.redd.it/s9biyhs4lix61.jpg" />
+	<p>Have a question or suggestion? Join the discord!</p>
+</a>
+
+
+<br />
+
+
 ## Important Changes
 
 > See the docs/migrating/v1-v2.md for more information regarding the move to V2.
