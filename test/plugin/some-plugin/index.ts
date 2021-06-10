@@ -11,6 +11,10 @@ const plugin: IPlugin = {
 	modules: [
 		PluginController,
 	],
+	config: {
+		something: 'here',
+		name: 'John Doe Plugin',
+	},
 	meta: {
 		name: 'ExamplePlugin',
 		config_name: 'example_plugin',

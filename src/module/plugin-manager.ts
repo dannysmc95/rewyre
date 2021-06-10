@@ -48,7 +48,23 @@ export class PluginManager {
 
 		// Apply any custom configuration to the main config object.
 		if (plugin.config) {
-			(this.options.plugins as IPluginOptions)[plugin.meta.config_name] = plugin.config;
+
+			// Validate the plugins object.
+			if (!this.options.plugins) {
+				this.options.plugins = {};
+			}
+
+			// Validate config setting.
+			if (!this.options.plugins[plugin.meta.config_name]) {
+				this.options.plugins[plugin.meta.config_name] = {};
+			}
+
+			// Apply the settings.
+			Object.keys(plugin.config).forEach((key: string) => {
+				if (!(this.options.plugins as any)[plugin.meta.config_name][key]) {
+					(this.options.plugins as any)[plugin.meta.config_name][key] = (plugin.config as any)[key];
+				}
+			});
 		}
 	}
 }

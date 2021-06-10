@@ -50,6 +50,12 @@ import ExamplePlugin from './plugin/some-plugin/index';
 				customDriver: true,
 			},
 		],
+		plugins: {
+			example_plugin: {
+				hello: 'world',
+				name: 'John Doe App',
+			},
+		},
 	});
 
 	// Register the plugin.
