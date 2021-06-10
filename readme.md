@@ -21,8 +21,10 @@ The rewyre framework is built on top of express, and express-ws and utilises Typ
 
 
 <a target="_blank" href="https://discord.gg/PpcahJyHKq">
-	<img width="100" src="https://i.redd.it/s9biyhs4lix61.jpg" />
-	<p>Have a question or suggestion? Join the discord!</p>
+	<p>
+		<img style="display: inline-block; position: relative; top: 5px;" width="25" src="https://i.redd.it/s9biyhs4lix61.jpg" />
+		<span style="padding-left: 10px; font-size: 20px;">Have a question or suggestion? Join the discord!</span>
+	</p>
 </a>
 
 
