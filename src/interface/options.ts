@@ -15,7 +15,7 @@ import { IPluginOptions } from './plugin';
  * @param websocket_path The path the websocket should run on, defaults to /ws.
  * @param websocket_access The access type the websocket uses for access controllers, defaults to partial.
  * @param state_flush_period The time in seconds that the state should flush changes to storage.
- * @param state_storage_type The type of storage, whether to use file or database, defaults to file.
+ * @param state_storage_type The type of storage, whether to use file or in-memory, defaults to in-memory.
  * @param state_storage_name The name of the storage engine if type is set to database, if not set and database type is set, will fallback to default.
  */
 export interface IOptions {
@@ -29,7 +29,7 @@ export interface IOptions {
 	websocket_path?: string;
 	websocket_access?: 'full' | 'partial';
 	state_flush_period?: number,
-	state_storage_type?: 'file' | 'database',
+	state_storage_type?: 'file' | 'in-memory',
 	state_storage_name?: string;
 	plugins?: IPluginOptions;
 }

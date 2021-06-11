@@ -35,7 +35,7 @@ export class FrameworkHelper {
 
 			// State Specific.
 			state_flush_period: 30,
-			state_storage_type: 'file',
+			state_storage_type: 'in-memory',
 
 			// Logger Specific.
 			log_levels: ['info', 'warn', 'error'],

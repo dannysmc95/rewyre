@@ -1,7 +1,6 @@
 import { IOptions } from '../interface/options';
 import { promises as fs } from 'fs';
 import { resolve } from 'path';
-import { Collection } from 'mongodb';
 import { ILogger } from '../interface/logger';
 
 /**
@@ -25,37 +24,29 @@ export class State {
 	 * @param collection The collection.
 	 * @returns State.
 	 */
-	public constructor(protected options: IOptions, protected logger: ILogger, protected collection?: Collection) {
+	public constructor(protected options: IOptions, protected logger: ILogger) {
 		this.createInterval();
 		this.file_path = resolve(__dirname, '../../state.json');
 	}
 
 	/**
-	 * Initialises the state object, and checks for database access,
-	 * this includes verifying a valid state, this will also check the
-	 * options as to whether to save to file or mongo depending on the
-	 * enabled options.
+	 * Initialises the state object by either loading it from file, if
+	 * it exists, or defining it as an empty object.
 	 * 
 	 * @returns Promise<void>.
 	 */
 	public async initialise(): Promise<void> {
-		try {
-			if (this.options.database && this.options.state_storage_type === 'database') {
-				this.logger.verbose('STATE', 'Loading state from database.');
-				const pstate: any = await this.collection?.findOne({name: 'rewyre-state'}) || {};
-				if (typeof pstate === 'undefined') {
-					this.state = {};
-				} else {
-					this.state = pstate;
-				}
-			} else {
+		if (this.options.state_storage_type === 'in-memory') {
+			this.state = {};
+		} else {
+			try {
 				this.logger.verbose('STATE', 'Loading state from file.');
 				const baseState: any = await fs.readFile(this.file_path, 'utf-8');
 				this.state = JSON.parse(baseState);
+			} catch(err) {
+				this.logger.error('STATE', 'Failed to load the state from any external place, defaulting to empty.', err);
+				this.state = {};
 			}
-		} catch(err) {
-			this.logger.verbose('STATE', 'Failed to load the state from any external place, defaulting to empty.');
-			this.state = {};
 		}
 	}
 
@@ -90,11 +81,7 @@ export class State {
 	 * @returns Promise<void>.
 	 */
 	protected async flush(): Promise<void> {
-		if (this.options.database && this.options.state_storage_type === 'database') {
-			await this.collection?.updateOne({name: 'rewyre-state'}, this.state, { upsert: true });
-		} else {
-			await fs.writeFile(this.file_path, JSON.stringify(this.state), 'utf-8');
-		}
+		await fs.writeFile(this.file_path, JSON.stringify(this.state), 'utf-8');
 	}
 
 	/**
@@ -105,7 +92,9 @@ export class State {
 	 */
 	protected createInterval(): void {
 		this.timer = setInterval(() => {
-			this.flush();
+			if (this.options.state_storage_type === 'file') {
+				this.flush();
+			}
 		}, this.options.state_flush_period);
 	}
 
