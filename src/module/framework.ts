@@ -23,6 +23,7 @@ import { performance } from 'perf_hooks';
 import { IPlugin } from '../interface/plugin';
 import { PluginManager } from './plugin-manager';
 import { Registry } from './registry';
+import { extname } from 'path';
 
 /**
  * The framework is the core part of the rewyre package, the
@@ -70,6 +71,10 @@ export class Framework {
 		// Validate and assign logger.
 		if (!this.options.logger) throw new Error('No valid logger given.');
 		this.logger = this.options.logger;
+
+		// Set build environment.
+		const pathExtension = extname(__filename);
+		process.env.BUILD_ENV = pathExtension === '.ts' ? 'dev' : 'prod';
 
 		// Setup the hook manager.
 		this.hooks = new HookManager(this.logger);
