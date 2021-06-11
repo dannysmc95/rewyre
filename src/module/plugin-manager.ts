@@ -1,5 +1,5 @@
 import { ILogger } from '../interface/logger';
-import { IPlugin, IPluginOptions } from '../interface/plugin';
+import { IPlugin } from '../interface/plugin';
 import { IOptions } from '../interface/options';
 import { Framework } from './framework';
 
