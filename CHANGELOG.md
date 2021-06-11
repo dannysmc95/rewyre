@@ -5,6 +5,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v2.4.3](https://github.com/dannysmc95/rewyre/compare/v2.4.2...v2.4.3) - 2021-06-11
+
+### Commits
+
+- Fixed lint errors with latest changes. [`7c28453`](https://github.com/dannysmc95/rewyre/commit/7c284539d521c6c131acdc53f6ebe508964b8993)
+- Bumped version to 2.4.3 as I missed the lint errors. [`766a7ba`](https://github.com/dannysmc95/rewyre/commit/766a7ba70868a1795832011ea0b096b5a419a7eb)
+
+## [v2.4.2](https://github.com/dannysmc95/rewyre/compare/v2.4.1...v2.4.2) - 2021-06-11
+
+### Fixed
+
+- Removed the database option from the state, as this needs to be re-looked at, instead changed the state type to 'file' or 'in-memory', fixes #8 [`#8`](https://github.com/dannysmc95/rewyre/issues/8)
+- Added change that checks the build environment (whether using .ts or .js files) if .ts then process.env.BUILD_ENV is defined as dev or prod for .js, fixes #11 [`#11`](https://github.com/dannysmc95/rewyre/issues/11)
+
+### Commits
+
+- Added fix to the plugin options, to prevent them from being overwritten by the plugin's own defined settings so that users can override them. [`898cca2`](https://github.com/dannysmc95/rewyre/commit/898cca2a2c61d49fa6f3317f751081a91f21bc6d)
+- Updated changelog. [`84f6f1d`](https://github.com/dannysmc95/rewyre/commit/84f6f1db0c66255a22e7d14485d914b531122bf1)
+- Added discord link so people can join and discuss. [`e85a957`](https://github.com/dannysmc95/rewyre/commit/e85a9570f65d6fa69c9c3407521bc303366637d3)
+- Update readme.md [`3b7c08c`](https://github.com/dannysmc95/rewyre/commit/3b7c08c5505c32309d8cd4c1f8cebe30c9ad37de)
+- Updated readme [`4b55a85`](https://github.com/dannysmc95/rewyre/commit/4b55a85d7e0c595c327437518539b43133a4e5ca)
+- Bumped patch version. [`2933f08`](https://github.com/dannysmc95/rewyre/commit/2933f084e76219688c941044ec50b6b00da8d5ae)
+
 ## [v2.4.1](https://github.com/dannysmc95/rewyre/compare/v2.4.0...v2.4.1) - 2021-06-07
 
 ### Commits
