@@ -37,8 +37,6 @@ The rewyre framework is built on top of express, and express-ws and utilises Typ
 
 > The framework's version 2 release is now licensed under MIT.
 
-> **TEMP**: Due to an [issue](https://github.com/dannysmc95/rewyre/issues/11) in the code relating to database-drivers, it may say it can't find it, you can get round this by doing `ENV=prod` before the command, example: `ENV=prod node myapplication.js`.
-
 
 <br />
 
