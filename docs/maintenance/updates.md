@@ -6,4 +6,4 @@
 * Create a new tag for this change.
 * Rerun the `changelog` command.
 * Build the project.
-* Publish the new change to 
+* Publish the new change to NPM.
