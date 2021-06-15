@@ -1,5 +1,6 @@
 import { ILogger } from './logger';
 import { IPluginOptions } from './plugin';
+import { ServerOptions } from 'ws';
 
 /**
  * The options interface that defines the available
@@ -17,6 +18,8 @@ import { IPluginOptions } from './plugin';
  * @param state_flush_period The time in seconds that the state should flush changes to storage.
  * @param state_storage_type The type of storage, whether to use file or in-memory, defaults to in-memory.
  * @param state_storage_name The name of the storage engine if type is set to database, if not set and database type is set, will fallback to default.
+ * @param plugins Any plugin specific options that are passed to the plugin at runtime.
+ * @param serverOptions Any raw server options you wish to pass to different modules.
  */
 export interface IOptions {
 	port?: number;
@@ -32,6 +35,7 @@ export interface IOptions {
 	state_storage_type?: 'file' | 'in-memory',
 	state_storage_name?: string;
 	plugins?: IPluginOptions;
+	serverOptions?: IServerOptions;
 }
 
 /**
@@ -63,4 +67,16 @@ export interface IDatabaseItem {
 	default?: boolean;
 	workers?: number;
 	customDriver?: boolean;
+}
+
+/**
+ * Sometimes you may want to customise more of the framework to do different things,
+ * using the rawServerOptions, you can pass additional settings to the express server
+ * setup, websocket server and more.
+ * 
+ * @interface IServerOptions
+ * @param websocket Settings for the raw WS instance (uses `ws` library, interface: ServerOptions).
+ */
+export interface IServerOptions {
+	websocket?: ServerOptions;
 }

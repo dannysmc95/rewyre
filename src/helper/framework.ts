@@ -42,6 +42,9 @@ export class FrameworkHelper {
 
 			// Plugins.
 			plugins: {},
+
+			// Server Options.
+			serverOptions: {},
 		};
 
 		// Merge the options then validate them.

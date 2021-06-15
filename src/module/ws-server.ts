@@ -39,7 +39,9 @@ export class WSServer {
 	public constructor(protected options: IOptions, protected http_server: HTTPServer, protected router: Router, protected logger: ILogger, protected hooks: HookManager) {
 		this.helper = new ServerHelper();
 		const server: any = this.http_server.getInstance();
-		expressWs(server);
+		expressWs(server, undefined, {
+			wsOptions: this.options.serverOptions?.websocket,
+		});
 		this.server = server;
 	}
 
