@@ -53,6 +53,18 @@ npm install --save rewyre
 <br />
 
 
+## Bootstrap Application
+
+As part of some new changes, I have added a simple bootstrap script, it doesn't do very much other than create a basic application with eslint, and all the required packages, you can use it like:
+
+```
+npx rewyre create-rewyre <foldername/appname>
+```
+
+
+<br />
+
+
 ## Getting Started
 
 Below is a simple example showing a database connection and a simple find, for a more in-depth example, have a look at the `test` folder in the source, which has a simple to-do demo.
