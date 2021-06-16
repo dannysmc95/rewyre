@@ -6,6 +6,9 @@
   "publishConfig": {
     "access": "public"
   },
+  "bin": {
+    "rewyre-create": "./script/cli.js"
+  },
   "scripts": {
     "build": "rm -rf lib/ && node_modules/.bin/tsc",
     "build:watch": "rm -rf lib/ && node_modules/.bin/tsc --watch",
