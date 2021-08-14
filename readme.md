@@ -151,7 +151,7 @@ The below lists the features and their stable state, this framework's API will n
 | Custom Drivers | Define your own database drivers to implement other databases into your framework. | `Stable` |
 | Framework Hooks | Allows you to hook functions into internal events. | `Beta` |
 | Plugin Support | See documentation but plugins are now implemented to allow you to package code pieces into reusable and shareable components. | `Beta` |
-| Multiple Databases | Your models can use any database, including multiple, have data in many databases? Write a model around a specific database instead or just fallback to the default. |
+| Multiple Databases | Your models can use any database, including multiple, have data in many databases? Write a model around a specific database instead or just fallback to the default. | `Beta` |
 | Injections | Injections are done using a single `@Inject` decorator and you can inject one or many, you can inject models and providers to any service or controller as required. | `Stable` |
 | Services | Service classes and the `@Service` decorator are both implemented and services can run on a loop based on seconds. | `Stable` |
 | Providers | Providers and the `@Provide` decorator are both implemented, the provider allows you to create built in helper classes that can be injected to controllers, and services. | `Stable` |
