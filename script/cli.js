@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-console.log(`Rewyre CLI V0.1`);
+console.log('Rewyre CLI V0.1');
 
 // Require libraries.
 const originalPackage = require('../package.json');
@@ -10,7 +10,7 @@ const { mkdirSync, writeFileSync } = require('fs');
 
 // Get the process args and package.
 const rawname = process.argv.pop();
-const name = rawname.indexOf('/usr/bin') === -1 ? rawname.replace(/[^\w\s\-]/gi, '') : 'rewyre-project';
+const name = rawname.indexOf('/usr/bin') === -1 ? rawname.replace(/[^\w\s-]/gi, '') : 'rewyre-project';
 
 // Define the file structures.
 const folderlist = ['src', 'src/controller'];
@@ -249,7 +249,7 @@ export class HomeController extends AbstractController {
 `;
 
 // Now create folders.
-console.log(`-> Creating directories...`);
+console.log('-> Creating directories...');
 const baseFolder = process.cwd();
 mkdirSync(resolve(baseFolder, `./${name}`));
 folderlist.forEach(foldername => {
@@ -257,13 +257,13 @@ folderlist.forEach(foldername => {
 });
 
 // Now loop and create files.
-console.log(`-> Creating files...`);
+console.log('-> Creating files...');
 Object.keys(filelist).forEach(path => {
 	writeFileSync(resolve(baseFolder, `./${name}`, `./${path}`), filelist[path], 'utf-8');
 });
 
 // Now run install.
-console.log(`-> Running NPM install...`);
+console.log('-> Running NPM install...');
 const npmInstall = spawn('npm', ['install'], { cwd: resolve(baseFolder, `./${name}`) });
 npmInstall.stdout.on('data', data => { console.log(data.toString('utf-8')) });
 npmInstall.stderr.on('data', data => { console.error(data.toString('utf-8')) });
