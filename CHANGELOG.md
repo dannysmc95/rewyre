@@ -5,6 +5,30 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v2.5.0](https://github.com/dannysmc95/rewyre/compare/v2.4.4...v2.5.0) - 2021-09-20
+
+### Commits
+
+- Switched to using the Yarn package manager, bumped @types/node @types/mongodb and the mongodb packages to the latest version. [`a450daa`](https://github.com/dannysmc95/rewyre/commit/a450daa6267f74e7bb286c2fcd7ac6db0e36c90e)
+- Supporting the latest version of MongoDB, and updated all packages to the latest version, manually re-exporting ObjectID as this has been deprecated in favour of ObjectId. [`4d984a9`](https://github.com/dannysmc95/rewyre/commit/4d984a93bc67f405bec88f615e5eb10a490c23d8)
+- Finalised cron support, added a demo case to trial support. [`20630db`](https://github.com/dannysmc95/rewyre/commit/20630db7fd1c6e973fddae0c075369371ee23f87)
+- Added notice about using the new CLI method. [`b824de0`](https://github.com/dannysmc95/rewyre/commit/b824de0497895a93f671869e90abd474ee9d1649)
+- Cleaned up launch script. [`385ce26`](https://github.com/dannysmc95/rewyre/commit/385ce263d2dbb8243b7faa324c0cc78bb93c1de0)
+- Added support for cron-based service scheduling. [`248d013`](https://github.com/dannysmc95/rewyre/commit/248d013eb7d27c5dbcac7a282b58780d6cd34a99)
+- Update readme.md [`dc61eba`](https://github.com/dannysmc95/rewyre/commit/dc61eba56697184e568a8629ed9274659d3e9697)
+- Update readme.md [`579a870`](https://github.com/dannysmc95/rewyre/commit/579a870923581d57dd50785e586e5ec5bb740b71)
+
+## [v2.4.4](https://github.com/dannysmc95/rewyre/compare/v2.4.3...v2.4.4) - 2021-06-16
+
+### Commits
+
+- Added new bin command for bootstrapping a rewyre project. [`a328ccb`](https://github.com/dannysmc95/rewyre/commit/a328ccbea22294353217ef652335ed3c274f6794)
+- Added new serverOptions that allows you to pass over options to the underlying websocket instance. [`e095ba8`](https://github.com/dannysmc95/rewyre/commit/e095ba80d405b9ee0cb818b0f17c00c0e0c0a596)
+- Updated changelog. [`3ea735c`](https://github.com/dannysmc95/rewyre/commit/3ea735c7859052cb6672afb66cb940c932244da8)
+- Bumped the package version. [`f35a7c1`](https://github.com/dannysmc95/rewyre/commit/f35a7c1a292bb24ca250c00b92b35dd14dca2076)
+- Updated a file, as it was half finished. [`01e015e`](https://github.com/dannysmc95/rewyre/commit/01e015e74c6a6396f1bd073210dec20754826a8f)
+- Update readme.md [`c26d887`](https://github.com/dannysmc95/rewyre/commit/c26d88788620c68100a8fe6c2e52b2141baee89f)
+
 ## [v2.4.3](https://github.com/dannysmc95/rewyre/compare/v2.4.2...v2.4.3) - 2021-06-11
 
 ### Commits
