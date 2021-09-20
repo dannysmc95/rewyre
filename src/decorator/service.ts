@@ -9,7 +9,7 @@
  * @param useCronSyntax Whether to use the cron or default milliseconds syntax.
  * @returns Function
  */
-export function Service(name: string, schedule: number, useCronSyntax = false): any {
+export function Service(name: string, schedule: number | string, useCronSyntax = false): any {
 	return (target: any) => {
 
 		// Define base class information.

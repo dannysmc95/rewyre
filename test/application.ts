@@ -5,6 +5,7 @@ import { CustomController } from './controller/custom';
 import { UserController } from './controller/user';
 import { TasksModel } from './model/tasks';
 import { TaskService } from './service/task';
+import { CronTestService } from './service/cron-test';
 import { MiscProvider } from './provider/misc';
 import { DefaultGuard } from './guard/default';
 import { UsersModel } from './model/users';
@@ -71,6 +72,7 @@ import ExamplePlugin from './plugin/some-plugin/index';
 		TasksModel,
 		UsersModel,
 		TaskService,
+		CronTestService,
 		MiscProvider,
 		LogsModel,
 		CryptoProvider,

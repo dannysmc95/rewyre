@@ -52,14 +52,16 @@ export class Scheduler {
 					service.instance.execute();
 				}, parseInt(service.schedule) * 1000);
 			} else if (service.syntax === 'cron') {
-				this.scheduledServices.push({
+				const jobItem = {
 					service: service,
 					job: new CronJob(service.schedule, () => {
 						this.logger.verbose('SCHEDULER', `Scheduled service: ${service.name} is being executed.`);
 						this.hooks.dispatch('service', service);
 						service.instance.execute();
 					}, null, true, 'Europe/London'),
-				});
+				};
+				jobItem.job.start();
+				this.scheduledServices.push(jobItem);
 			} else {
 				throw new Error('Unknown service schedule syntax.');
 			}

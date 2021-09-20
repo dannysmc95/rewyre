@@ -361,7 +361,7 @@ export class Framework {
 	 */
 	protected registerService(class_item: AbstractService): void {
 		const serviceName: string = Reflect.getMetadata('name', class_item);
-		const serviceSchedule: number = Reflect.getMetadata('schedule', class_item);
+		const serviceSchedule: number | string = Reflect.getMetadata('schedule', class_item);
 		const serviceSyntax: string = Reflect.getMetadata('syntax', class_item);
 		const serviceInjects: Array<any> = Reflect.getMetadata('injects', class_item);
 
