@@ -1,6 +1,6 @@
 {
   "name": "rewyre",
-  "version": "2.4.4",
+  "version": "2.5.0",
   "description": "A fast and flexible wiring tool for developing RESTful and WebSocket APIs using TypeScript decorators.",
   "main": "lib/index.js",
   "publishConfig": {
@@ -44,21 +44,23 @@
   "dependencies": {
     "colors": "^1.4.0",
     "cookie-parser": "^1.4.5",
+    "cron": "^1.8.2",
     "express": "^4.17.1",
     "express-ws": "^5.0.2",
     "moment-timezone": "^0.5.33",
-    "mongodb": "^3.6.6",
+    "mongodb": "^4.1.2",
     "mysql": "^2.18.1",
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.2",
+    "@types/cron": "^1.7.3",
     "@types/express": "^4.17.11",
     "@types/express-ws": "^3.0.0",
-    "@types/mongodb": "^3.6.12",
+    "@types/mongodb": "^4.0.7",
     "@types/mustache": "^4.1.1",
     "@types/mysql": "^2.15.18",
-    "@types/node": "^15.0.2",
+    "@types/node": "^16.9.4",
     "@typescript-eslint/eslint-plugin": "^4.23.0",
     "@typescript-eslint/parser": "^4.23.0",
     "eslint": "^7.26.0",
