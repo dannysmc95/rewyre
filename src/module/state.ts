@@ -44,7 +44,7 @@ export class State {
 				const baseState: any = await fs.readFile(this.file_path, 'utf-8');
 				this.state = JSON.parse(baseState);
 			} catch(err) {
-				this.logger.error('STATE', 'Failed to load the state from any external place, defaulting to empty.', err);
+				this.logger.error('STATE', 'Failed to load the state from any external place, defaulting to empty.', err as Error);
 				this.state = {};
 			}
 		}

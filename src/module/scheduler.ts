@@ -1,6 +1,7 @@
 import { ILogger } from '../interface/logger';
 import { IOptions } from '../interface/options';
 import { HookManager } from './hook-manager';
+import { CronJob } from 'cron';
 
 /**
  * The scheduler class is for managing the services defined by the user
@@ -11,6 +12,7 @@ export class Scheduler {
 
 	protected services: Array<any> = [];
 	protected _timer: any;
+	protected scheduledServices: Array<{ job: CronJob, service: any }> = [];
 
 	/**
 	 * Creates an instance of the scheduler class.
@@ -34,19 +36,33 @@ export class Scheduler {
 	}
 
 	/**
-	 * Will loop the services and setup interval timers for each service
-	 * to make sure they are called at the X amount of seconds as defined
-	 * when creating the service.
+	 * Will loop the services and if using the millisecond (default syntax)
+	 * then it will setup interval timers for each service to make sure they
+	 * are called at the X amount of seconds as defined or if using the cron
+	 * syntax then it will schedule node cron jobs when creating the service.
 	 * 
 	 * @returns void.
 	 */
 	protected setupSchedules(): void {
 		this.services.forEach((service: any) => {
-			service.timer = setInterval(() => {
-				this.logger.verbose('SHEDULER', `Scheduled service: ${service.name} is being executed.`);
-				this.hooks.dispatch('service', service);
-				service.instance.execute();
-			}, parseInt(service.schedule) * 1000);
+			if (service.syntax === 'ms') {
+				service.timer = setInterval(() => {
+					this.logger.verbose('SCHEDULER', `Scheduled service: ${service.name} is being executed.`);
+					this.hooks.dispatch('service', service);
+					service.instance.execute();
+				}, parseInt(service.schedule) * 1000);
+			} else if (service.syntax === 'cron') {
+				this.scheduledServices.push({
+					service: service,
+					job: new CronJob(service.schedule, () => {
+						this.logger.verbose('SCHEDULER', `Scheduled service: ${service.name} is being executed.`);
+						this.hooks.dispatch('service', service);
+						service.instance.execute();
+					}, null, true, 'Europe/London'),
+				});
+			} else {
+				throw new Error('Unknown service schedule syntax.');
+			}
 		});
 	}
 }

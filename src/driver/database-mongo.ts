@@ -31,14 +31,16 @@ export class DatabaseDriverMongo implements IDatabaseDriver {
 				this.database_uri = `mongodb://${this.details.host}:${this.details.port}/${this.details.name}`;
 			}
 
-			// Create the client.
-			MongoClient.connect(this.database_uri, this.mongo_options, (err: MongoError, client: MongoClient) => {
-				if (err) throw err;
-				const mongoInstance: MongoClient = client;
-				this.instance = mongoInstance.db(this.details.name);
+			// Create a new client.
+			const client = new MongoClient(this.database_uri);
+			client.connect().then(() => {
+				this.instance = client.db(this.details.name);
+			}).catch((error: MongoError) => {
+				console.error(error);
+				throw new Error(error.message);
 			});
 		} catch(err) {
-			throw new Error(err);
+			throw new Error((err as Error).message);
 		}
 	}
 
@@ -129,7 +131,7 @@ export class DatabaseDriverMongo implements IDatabaseDriver {
 	public async updateOne(collection: string, query: any, update: any, options?: any): Promise<boolean> {
 		const dbCollection: Collection = (this.instance as Db).collection(collection);
 		const result: any = await dbCollection.updateOne(query, { $set: update }, options);
-		return (result.result.ok === 1 ? true : false);
+		return (result.modifiedCount > 1 ? true : false);
 	}
 
 	/**
@@ -144,7 +146,7 @@ export class DatabaseDriverMongo implements IDatabaseDriver {
 	public async updateMany(collection: string, query: any, update: any, options?: any): Promise<boolean> {
 		const dbCollection: Collection = (this.instance as Db).collection(collection);
 		const result: any = await dbCollection.updateMany(query, { $set: update }, options);
-		return (result.result.ok === 1 ? true : false);
+		return (result.modifiedCount > 1 ? true : false);
 	}
 
 	/**
@@ -158,7 +160,7 @@ export class DatabaseDriverMongo implements IDatabaseDriver {
 	public async deleteOne(collection: string, query: any, options?: any): Promise<boolean> {
 		const dbCollection: Collection = (this.instance as Db).collection(collection);
 		const result: any = await dbCollection.deleteOne(query, options);
-		return (result.result.ok === 1 ? true : false);
+		return (result.deletedCount > 1 ? true : false);
 	}
 
 	/**
@@ -172,7 +174,7 @@ export class DatabaseDriverMongo implements IDatabaseDriver {
 	public async deleteMany(collection: string, query: any, options?: any): Promise<boolean> {
 		const dbCollection: Collection = (this.instance as Db).collection(collection);
 		const result: any = await dbCollection.deleteMany(query, options);
-		return (result.result.ok === 1 ? true : false);
+		return (result.deletedCount > 1 ? true : false);
 	}
 
 	/**

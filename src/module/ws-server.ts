@@ -204,7 +204,7 @@ export class WSServer {
 			this.router.dispatch(controller, route, context);
 
 		} catch(err) {
-			this.logger.error('WEBSOCKET', `There was an error processing the message: ${err.message}.`, err);
+			this.logger.error('WEBSOCKET', `There was an error processing the message: ${(err as Error).message}.`, err as Error);
 			socket.send(JSON.stringify({
 				command: 'error',
 				content: { status: false, message: ErrorMessages.WEBSOCKET_SERVER_ERROR },

@@ -55,7 +55,7 @@ export class HookManager {
 			}));
 
 		} catch(err) {
-			this.logger.error('HOOKS', `There was an error processing the hook of type: ${type}.`, err);
+			this.logger.error('HOOKS', `There was an error processing the hook of type: ${type}.`, err as Error);
 		}
 	}
 }

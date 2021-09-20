@@ -96,7 +96,7 @@ export class Authenticator {
 			return true;
 
 		} catch(err) {
-			this.logger.error('GUARD', 'There was an error with running the guard.', err);
+			this.logger.error('GUARD', 'There was an error with running the guard.', err as Error);
 			if (context.type === 'http') {
 				context.getRaw().response?.status(500).end();
 			} else {

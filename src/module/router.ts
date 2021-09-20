@@ -69,7 +69,7 @@ export class Router {
 			}
 
 		} catch(err) {
-			this.logger.verbose('ROUTER', 'There was an error calling the route.', err);
+			this.logger.verbose('ROUTER', 'There was an error calling the route.', err as Error);
 			if (context.type === 'http') {
 				context.getRaw().response?.status(500).end();
 			} else {

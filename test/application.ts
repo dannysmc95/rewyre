@@ -1,4 +1,4 @@
-import { Framework, CryptoProvider, Drivers, IContext } from '../src/index';
+import { Framework, CryptoProvider, Drivers } from '../src/index';
 import { HomeController } from './controller/home';
 import { ApiController } from './controller/api';
 import { CustomController } from './controller/custom';
@@ -60,11 +60,6 @@ import ExamplePlugin from './plugin/some-plugin/index';
 
 	// Register the plugin.
 	application.use(ExamplePlugin);
-
-	// Register a HTTP hook (this method will be called on every HTTP request).
-	application.registerHook('http', (context: IContext) => {
-		console.log(context);
-	});
 
 	// Register classes.
 	application.register([

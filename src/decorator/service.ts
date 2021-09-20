@@ -6,15 +6,17 @@
  * 
  * @param name The name of the service.
  * @param schedule The schedule for the service.
+ * @param useCronSyntax Whether to use the cron syntax or the default milliseconds.
  * @returns Function
  */
-export function Service(name: string, schedule: number): any {
+export function Service(name: string, schedule: number, useCronSyntax = false): any {
 	return (target: any) => {
 
 		// Define base class information.
 		Reflect.defineMetadata('class_type', 'service', target);
 		Reflect.defineMetadata('name', name, target);
 		Reflect.defineMetadata('schedule', schedule, target);
+		Reflect.defineMetadata('syntax', useCronSyntax ? 'cron' : 'ms', target);
 		if (!Reflect.hasMetadata('injects', target)) Reflect.defineMetadata('injects', [], target);
 	};
 }
