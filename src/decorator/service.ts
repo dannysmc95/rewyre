@@ -6,7 +6,7 @@
  * 
  * @param name The name of the service.
  * @param schedule The schedule for the service.
- * @param useCronSyntax Whether to use the cron syntax or the default milliseconds.
+ * @param useCronSyntax Whether to use the cron or default milliseconds syntax.
  * @returns Function
  */
 export function Service(name: string, schedule: number, useCronSyntax = false): any {
