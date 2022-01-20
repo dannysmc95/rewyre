@@ -17,8 +17,8 @@ export class FrameworkHelper {
 	 * @param options The framework options.
 	 * @returns IOptions.
 	 */
-	public mergeOptions(options?: IOptions): IOptions {
-		const defaultOptions: IOptions = {
+	public mergeOptions(options?: Partial<IOptions>): IOptions {
+		const defaultOptions: Partial<IOptions> = {
 
 			// Framework Specific.
 			port: 3000,
@@ -44,18 +44,23 @@ export class FrameworkHelper {
 			plugins: {},
 
 			// Server Options.
-			serverOptions: {},
+			server_options: {},
+
+			// Sentry.
+			sentry: false,
+			sentry_dsn: '',
+			sentry_options: {},
 		};
 
 		// Merge the options then validate them.
-		const mergedOptions: IOptions = Object.assign(defaultOptions, options);
-		this.validateOptions(mergedOptions);
+		const mergedOptions = Object.assign(defaultOptions, options);
+		this.validateOptions(mergedOptions as IOptions);
 
 		// If no logger given, define the standard one.
 		if (!mergedOptions.logger) mergedOptions.logger = new Logger(mergedOptions.log_levels);
 
 		// Return the merged options.
-		return mergedOptions;
+		return mergedOptions as IOptions;
 	}
 
 	/**

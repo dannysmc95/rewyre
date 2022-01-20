@@ -30,8 +30,8 @@ export class DatabaseDriverMysql implements IDatabaseDriver {
 			password: this.details.pass,
 			database: String(this.details.name),
 			waitForConnections: true,
-			queueLimit: 50,
-			connectionLimit: this.details.workers || 8,
+			queueLimit: this.details.queueLimit || 0,
+			connectionLimit: this.details.workers || 4,
 			multipleStatements: true,
 		});
 	}

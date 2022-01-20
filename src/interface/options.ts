@@ -19,23 +19,29 @@ import { ServerOptions } from 'ws';
  * @param state_storage_type The type of storage, whether to use file or in-memory, defaults to in-memory.
  * @param state_storage_name The name of the storage engine if type is set to database, if not set and database type is set, will fallback to default.
  * @param plugins Any plugin specific options that are passed to the plugin at runtime.
- * @param serverOptions Any raw server options you wish to pass to different modules.
+ * @param server_options Any raw server options you wish to pass to different modules.
+ * @param sentry Whether to look for and attempt to import the sentry packages.
+ * @param sentry_dsn The dsn for the sentry package.
+ * @param sentry_options An object containing any sentry specific options.
  */
 export interface IOptions {
-	port?: number;
-	host?: string;
-	logger?: ILogger;
-	log_levels?: Array<'info' | 'warn' | 'error' | 'verbose' | 'debug'>;
-	database?: boolean;
-	databases?: Array<IDatabaseItem>;
-	websocket?: boolean;
-	websocket_path?: string;
-	websocket_access?: 'full' | 'partial';
-	state_flush_period?: number,
-	state_storage_type?: 'file' | 'in-memory',
-	state_storage_name?: string;
-	plugins?: IPluginOptions;
-	serverOptions?: IServerOptions;
+	port: number;
+	host: string;
+	logger: ILogger;
+	log_levels: Array<'info' | 'warn' | 'error' | 'verbose' | 'debug'>;
+	database: boolean;
+	databases: Array<IDatabaseItem>;
+	websocket: boolean;
+	websocket_path: string;
+	websocket_access: 'full' | 'partial';
+	state_flush_period: number,
+	state_storage_type: 'file' | 'in-memory',
+	state_storage_name: string;
+	plugins: IPluginOptions;
+	server_options: IServerOptions;
+	sentry: boolean;
+	sentry_dsn: string;
+	sentry_options: any;
 }
 
 /**
@@ -66,6 +72,7 @@ export interface IDatabaseItem {
 	driver: string;
 	default?: boolean;
 	workers?: number;
+	queueLimit?: number;
 	customDriver?: boolean;
 }
 

@@ -40,7 +40,7 @@ export class WSServer {
 		this.helper = new ServerHelper();
 		const server: any = this.http_server.getInstance();
 		expressWs(server, undefined, {
-			wsOptions: this.options.serverOptions?.websocket,
+			wsOptions: this.options.server_options?.websocket,
 		});
 		this.server = server;
 	}

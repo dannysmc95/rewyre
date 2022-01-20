@@ -24,6 +24,7 @@ import { IPlugin } from '../interface/plugin';
 import { PluginManager } from './plugin-manager';
 import { Registry } from './registry';
 import { extname } from 'path';
+import { SentryHelper } from '../helper/sentry';
 
 /**
  * The framework is the core part of the rewyre package, the
@@ -53,6 +54,7 @@ export class Framework {
 	protected plugin: PluginManager;
 	protected registry: Registry;
 	protected logger: ILogger;
+	protected sentry: SentryHelper;
 
 	/**
 	 * Creates a new instance of the rewyre framework, with the
@@ -62,7 +64,7 @@ export class Framework {
 	 * @param options The framework options.
 	 * @returns Framework.
 	 */
-	public constructor(options?: IOptions) {
+	public constructor(options?: Partial<IOptions>) {
 
 		// Create helper and merge options.
 		this.helper = new FrameworkHelper();
@@ -71,6 +73,10 @@ export class Framework {
 		// Validate and assign logger.
 		if (!this.options.logger) throw new Error('No valid logger given.');
 		this.logger = this.options.logger;
+
+		// Call the init method of the sentry helper.
+		this.sentry = new SentryHelper(this.options, this.logger);
+		this.sentry.init();
 
 		// Set build environment.
 		const pathExtension = extname(__filename);
